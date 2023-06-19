@@ -3,18 +3,19 @@ package main;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
-public class Game extends JFrame implements Runnable {
+public class Game extends JFrame {
 
     private final double FPS_SET = 120.0;
     private final double UPS_SET = 60.0;
 
     private GameScreen gameScreen;
     private BufferedImage img;
-    private Thread gameThread;
 
     public Game() {
         importImage();
@@ -26,9 +27,15 @@ public class Game extends JFrame implements Runnable {
         gameScreen = new GameScreen(img);
         add(gameScreen);
         setVisible(true);
+
+        initGameLoopThread();
     }
 
-    public void run() {
+    public static void main(String[] args) {
+        new Game();
+    }
+
+    Runnable gameLoop = () -> {
 
         double timePerFrame = 1_000_000_000.0 / FPS_SET;
         double timePerUpdate = 1_000_000_000.0 / UPS_SET;
@@ -60,16 +67,17 @@ public class Game extends JFrame implements Runnable {
                 lastTimeCheck = System.currentTimeMillis();
             }
         }
-    }
+    };
 
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.start();
-    }
-
-    private void start() {
-        gameThread = new Thread(this);
-        gameThread.start();
+    private void initGameLoopThread() {
+        ExecutorService service = null;
+        try {
+            service = Executors.newSingleThreadExecutor();
+            service.execute(gameLoop);
+        } finally {
+            if (service != null)
+                service.shutdownNow();
+        }
     }
 
     private void updateGame() {
