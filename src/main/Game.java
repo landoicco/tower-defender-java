@@ -1,13 +1,12 @@
 package main;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
+
+import inputs.*;
+import scenes.*;
 
 public class Game extends JFrame {
 
@@ -15,19 +14,26 @@ public class Game extends JFrame {
     private final double UPS_SET = 60.0;
 
     private GameScreen gameScreen;
-    private BufferedImage img;
+    private MyMouseListener mouseListener;
+    private KeyboardListener keyboardListener;
+
+    // Scene classes
+    private Render render;
+    private Menu menu;
+    private Playing playing;
+    private Settings settings;
 
     public Game() {
-        importImage();
-
-        setSize(640, 640);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        gameScreen = new GameScreen(img);
+        initClasses();
+
         add(gameScreen);
+        pack();
         setVisible(true);
 
+        initInputs();
         initGameLoopThread();
     }
 
@@ -45,17 +51,21 @@ public class Game extends JFrame {
         int frames = 0;
         int updates = 0;
 
+        long now;
+
         while (true) {
+            now = System.nanoTime();
+
             // Render
-            if (System.nanoTime() - lastFrame >= timePerFrame) {
-                lastFrame = System.nanoTime();
+            if (now - lastFrame >= timePerFrame) {
+                lastFrame = now;
                 repaint();
                 frames++;
             }
 
             // Update
-            if (System.nanoTime() - lastTimeUPS >= timePerUpdate) {
-                lastTimeUPS = System.nanoTime();
+            if (now - lastTimeUPS >= timePerUpdate) {
+                lastTimeUPS = now;
                 updateGame();
                 updates++;
             }
@@ -76,20 +86,47 @@ public class Game extends JFrame {
             service.execute(gameLoop);
         } finally {
             if (service != null)
-                service.shutdownNow();
+                service.shutdown();
         }
+    }
+
+    private void initInputs() {
+        mouseListener = new MyMouseListener();
+        keyboardListener = new KeyboardListener();
+
+        addMouseListener(mouseListener);
+        addMouseMotionListener(mouseListener);
+        addKeyListener(keyboardListener);
+
+        requestFocus();
+    }
+
+    private void initClasses() {
+        render = new Render(this);
+        gameScreen = new GameScreen(this);
+        menu = new Menu(this);
+        playing = new Playing(this);
+        settings = new Settings(this);
     }
 
     private void updateGame() {
         // System.out.println("Game updated!");
     }
 
-    private void importImage() {
-        InputStream is = getClass().getResourceAsStream("../res/spriteatlas.png");
-        try {
-            img = ImageIO.read(is);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    // Getters and Setters
+    public Render getRender() {
+        return render;
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public Playing getPlaying() {
+        return playing;
+    }
+
+    public Settings getSettings() {
+        return settings;
     }
 }
