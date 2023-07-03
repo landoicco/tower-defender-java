@@ -5,7 +5,6 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
 
-import inputs.*;
 import scenes.*;
 
 public class Game extends JFrame {
@@ -14,8 +13,6 @@ public class Game extends JFrame {
     private final double UPS_SET = 60.0;
 
     private GameScreen gameScreen;
-    private MyMouseListener mouseListener;
-    private KeyboardListener keyboardListener;
 
     // Scene classes
     private Render render;
@@ -34,12 +31,11 @@ public class Game extends JFrame {
         pack();
         setVisible(true);
 
-        initInputs();
         initGameLoopThread();
     }
 
     public static void main(String[] args) {
-        new Game();
+        new Game().gameScreen.initInputs();
     }
 
     Runnable gameLoop = () -> {
@@ -89,17 +85,6 @@ public class Game extends JFrame {
             if (service != null)
                 service.shutdown();
         }
-    }
-
-    private void initInputs() {
-        mouseListener = new MyMouseListener();
-        keyboardListener = new KeyboardListener();
-
-        addMouseListener(mouseListener);
-        addMouseMotionListener(mouseListener);
-        addKeyListener(keyboardListener);
-
-        requestFocus();
     }
 
     private void initClasses() {
