@@ -21,6 +21,10 @@ public class TileManager {
         return tiles.get(id).getSprite();
     }
 
+    public Tile getTile(int id) {
+        return tiles.get(id);
+    }
+
     private void createTiles() {
         int id = 0;
         tiles.add(GRASS = new Tile(getSprite(8, 1), id++, "Grass"));

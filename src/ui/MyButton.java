@@ -58,6 +58,19 @@ public class MyButton {
         return bounds;
     }
 
+    public boolean isMouseOver() {
+        return mouseOver;
+    }
+
+    public boolean isMousePressed() {
+        return mousePressed;
+    }
+
+    public void resetBooleans() {
+        mouseOver = false;
+        mousePressed = false;
+    }
+
     private void drawBorder(Graphics g) {
         g.setColor(Color.BLACK);
         g.drawRect(x, y, width, height);
@@ -66,11 +79,6 @@ public class MyButton {
             g.drawRect(x + 1, y + 1, width - 2, height - 2);
             g.drawRect(x + 2, y + 2, width - 4, height - 4);
         }
-    }
-
-    public void resetBooleans() {
-        mouseOver = false;
-        mousePressed = false;
     }
 
     private void drawBody(Graphics g) {
