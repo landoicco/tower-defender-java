@@ -11,7 +11,7 @@ import scenes.Playing;
 
 public class BottomBar {
 
-    private MyButton bMenu;
+    private MyButton bMenu, bSave;
     private Playing playing;
     private Tile selectedTile;
     private ArrayList<MyButton> tileButtons = new ArrayList<>();
@@ -38,6 +38,8 @@ public class BottomBar {
     public void mouseClicked(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
             GameStates.setGameState(GameStates.MENU);
+        } else if (bSave.getBounds().contains(x, y)) {
+            saveLevel();
         } else {
             for (MyButton b : tileButtons) {
                 if (b.getBounds().contains(x, y)) {
@@ -51,6 +53,7 @@ public class BottomBar {
 
     public void mouseMoved(int x, int y) {
         bMenu.setMouseOver(false);
+        bSave.setMouseOver(false);
 
         // Reset all tile buttons
         for (MyButton b : tileButtons) {
@@ -59,6 +62,8 @@ public class BottomBar {
 
         if (bMenu.getBounds().contains(x, y)) {
             bMenu.setMouseOver(true);
+        } else if (bSave.getBounds().contains(x, y)) {
+            bSave.setMouseOver(true);
         } else {
             for (MyButton b : tileButtons) {
                 if (b.getBounds().contains(x, y)) {
@@ -72,6 +77,8 @@ public class BottomBar {
     public void mousePressed(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
             bMenu.setMousePressed(true);
+        } else if (bSave.getBounds().contains(x, y)) {
+            bSave.setMousePressed(true);
         } else {
             for (MyButton b : tileButtons) {
                 if (b.getBounds().contains(x, y)) {
@@ -85,6 +92,7 @@ public class BottomBar {
     public void mouseReleased(int x, int y) {
         // Reset buttons
         bMenu.resetBooleans();
+        bSave.resetBooleans();
 
         // Reset tile buttons
         for (MyButton b : tileButtons) {
@@ -93,8 +101,10 @@ public class BottomBar {
     }
 
     private void initButtons() {
-        bMenu = new MyButton("Menu", 10, 680, 100, 30);
+        bMenu = new MyButton("Menu", 10, 650, 100, 30);
+        bSave = new MyButton("Save Level", 10, 680, 100, 30);
 
+        // Tile buttons properties
         int width = 50;
         int height = 50;
         int xStart = 300;
@@ -112,6 +122,8 @@ public class BottomBar {
 
     private void drawButtons(Graphics g) {
         bMenu.draw(g);
+        bSave.draw(g);
+
         drawTileButtons(g);
         drawSelectedTile(g);
     }
@@ -146,6 +158,10 @@ public class BottomBar {
             g.drawRect(b.x + 2, b.y + 2, b.width - 4, b.height - 4);
 
         }
+    }
+
+    private void saveLevel() {
+        playing.saveLevel();
     }
 
     private BufferedImage getButtonImage(int id) {

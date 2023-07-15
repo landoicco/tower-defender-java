@@ -2,7 +2,6 @@ package scenes;
 
 import java.awt.Graphics;
 
-import helpers.LevelBuild;
 import helpers.LoadSave;
 import main.Game;
 import managers.TileManager;
@@ -22,11 +21,11 @@ public class Playing extends GameScene implements SceneMethods {
     public Playing(Game game) {
         super(game);
 
-        lvl = LevelBuild.getLevelData();
         tileManager = new TileManager();
         bottomBar = new BottomBar(0, 640, 640, 100, this);
 
         createDefaultLevel();
+        loadLevel();
     }
 
     public TileManager getTileManager() {
@@ -92,6 +91,10 @@ public class Playing extends GameScene implements SceneMethods {
         drawSelected = true;
     }
 
+    public void saveLevel() {
+        LoadSave.SaveLevel("default_level", lvl);
+    }
+
     private void drawSelectedTile(Graphics g) {
         if (selectedTile != null && drawSelected) {
             g.drawImage(selectedTile.getSprite(), mouseX, mouseY, 32, 32, null);
@@ -122,6 +125,10 @@ public class Playing extends GameScene implements SceneMethods {
             arr[i] = 0;
         }
 
-        LoadSave.CreateLevel("Default", arr);
+        LoadSave.CreateLevel("default_level", arr);
+    }
+
+    private void loadLevel() {
+        this.lvl = LoadSave.GetLevelData("default_level");
     }
 }

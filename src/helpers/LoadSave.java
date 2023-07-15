@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.imageio.ImageIO;
@@ -33,11 +34,22 @@ public class LoadSave {
         }
     }
 
+    public static void SaveLevel(String name, int[][] idArray) {
+        File levelFile = new File("res/" + name + ".txt");
+
+        if (levelFile.exists()) {
+            int[] oneDimArray = Utils.TwoDTo1DintArray(idArray);
+            WriteToFile(levelFile, oneDimArray);
+        } else {
+            System.out.println("File: " + name + ".txt does not exist!");
+            return;
+        }
+    }
+
     public static void CreateLevel(String name, int[] idArr) {
         File newLevel = new File("res/" + name + ".txt");
 
         if (newLevel.exists()) {
-            System.out.println("File: " + name + " already exists!");
             return;
         }
 
@@ -51,6 +63,18 @@ public class LoadSave {
         WriteToFile(newLevel, idArr);
     }
 
+    public static int[][] GetLevelData(String name) {
+        File lvlFile = new File("res/" + name + ".txt");
+        if (!lvlFile.exists()) {
+            System.out.println("File: " + name + " does not exists");
+            return null;
+        }
+
+        ArrayList<Integer> list = ReadFromFile(lvlFile);
+
+        return Utils.ArrayListTo2Dint(list, 20, 20);
+    }
+
     private static void WriteToFile(File file, int[] idArr) {
         try (PrintWriter pw = new PrintWriter(file)) {
             for (int i : idArr) {
@@ -61,12 +85,16 @@ public class LoadSave {
         }
     }
 
-    public static void ReadFromFile() {
-        File txtFile = new File("res/test.txt");
-        try (Scanner sc = new Scanner(txtFile)) {
-            System.out.println(sc.nextLine());
+    private static ArrayList<Integer> ReadFromFile(File file) {
+        ArrayList<Integer> list = new ArrayList<>();
+        try (Scanner sc = new Scanner(file)) {
+            while (sc.hasNextInt()) {
+                list.add(sc.nextInt());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return list;
     }
 }
