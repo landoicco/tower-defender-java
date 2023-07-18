@@ -7,24 +7,20 @@ import java.util.ArrayList;
 
 import main.GameStates;
 import objects.Tile;
-import scenes.Playing;
+import scenes.Editing;
 
-public class BottomBar {
+public class ToolBar extends Bar {
 
     private MyButton bMenu, bSave;
-    private Playing playing;
     private Tile selectedTile;
+    private Editing editing;
+
     private ArrayList<MyButton> tileButtons = new ArrayList<>();
 
-    int x, y, width, height;
+    public ToolBar(int x, int y, int width, int height, Editing editing) {
+        super(x, y, width, height);
 
-    public BottomBar(int x, int y, int width, int height, Playing playing) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.playing = playing;
-
+        this.editing = editing;
         initButtons();
     }
 
@@ -43,8 +39,8 @@ public class BottomBar {
         } else {
             for (MyButton b : tileButtons) {
                 if (b.getBounds().contains(x, y)) {
-                    selectedTile = playing.getTileManager().getTile(b.id);
-                    playing.setSelectedTile(selectedTile);
+                    selectedTile = editing.getGame().getTileManager().getTile(b.id);
+                    editing.setSelectedTile(selectedTile);
                     return;
                 }
             }
@@ -112,7 +108,7 @@ public class BottomBar {
         int xOffset = 0;
         int id = 0;
 
-        for (Tile tile : playing.getTileManager().tiles) {
+        for (Tile tile : editing.getGame().getTileManager().tiles) {
             tileButtons.add(new MyButton(tile.getName(), xStart + xOffset, yStart, width, height, id++));
 
             // Set offset and space between tile buttons
@@ -150,7 +146,7 @@ public class BottomBar {
 
             // Set border color on MousePressed
             if (b.isMousePressed()) {
-                g.setColor(Color.GREEN);
+                g.setColor(Color.RED);
             }
 
             // Draw border
@@ -161,11 +157,11 @@ public class BottomBar {
     }
 
     private void saveLevel() {
-        playing.saveLevel();
+        editing.saveLevel();
     }
 
     private BufferedImage getButtonImage(int id) {
-        return playing.getTileManager().getSprite(id);
+        return editing.getGame().getTileManager().getSprite(id);
     }
 
 }

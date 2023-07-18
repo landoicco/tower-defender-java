@@ -1,134 +1,84 @@
 package scenes;
 
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import helpers.LoadSave;
 import main.Game;
-import managers.TileManager;
-import objects.Tile;
-import ui.BottomBar;
+import ui.ActionBar;
 
 public class Playing extends GameScene implements SceneMethods {
 
     private int[][] lvl;
     private int mouseX, mouseY;
-    private int lastTileX, lastTileY, lastTileId;
-    private boolean drawSelected;
-    private TileManager tileManager;
-    private Tile selectedTile;
-    private BottomBar bottomBar;
+    private ActionBar actionBar;
 
     public Playing(Game game) {
         super(game);
 
-        tileManager = new TileManager();
-        bottomBar = new BottomBar(0, 640, 640, 100, this);
-
-        createDefaultLevel();
+        actionBar = new ActionBar(0, 640, 640, 100, this);
         loadLevel();
-    }
-
-    public TileManager getTileManager() {
-        return tileManager;
     }
 
     @Override
     public void render(Graphics g) {
-        for (int i = 0; i < lvl.length; i++) {
-            for (int j = 0; j < lvl[i].length; j++) {
-                int id = lvl[i][j];
-                g.drawImage(tileManager.getSprite(id), j * 32, i * 32, null);
-            }
-        }
-
-        bottomBar.draw(g);
-        drawSelectedTile(g);
+        drawLevel(g);
+        actionBar.draw(g);
     }
 
     @Override
     public void mouseClicked(int x, int y) {
         // Click on BottomBar
         if (y >= 640) {
-            bottomBar.mouseClicked(x, y);
-        } else {
-            changeTile(mouseX, mouseY);
+            actionBar.mouseClicked(x, y);
         }
     }
 
     @Override
     public void mouseMoved(int x, int y) {
         if (y >= 640) {
-            bottomBar.mouseMoved(x, y);
-            drawSelected = false;
+            actionBar.mouseMoved(x, y);
         } else {
             mouseX = (x / 32) * 32;
             mouseY = (y / 32) * 32;
-            drawSelected = true;
         }
     }
 
     @Override
     public void mousePressed(int x, int y) {
         if (y >= 640) {
-            bottomBar.mousePressed(x, y);
+            actionBar.mousePressed(x, y);
         }
     }
 
     @Override
     public void mouseReleased(int x, int y) {
-        bottomBar.mouseReleased(x, y);
+        actionBar.mouseReleased(x, y);
     }
 
     @Override
     public void mouseDragged(int x, int y) {
-        if (y < 640) {
-            changeTile(x, y);
-        }
     }
 
-    public void setSelectedTile(Tile tile) {
-        this.selectedTile = tile;
-        drawSelected = true;
-    }
-
-    public void saveLevel() {
-        LoadSave.SaveLevel("default_level", lvl);
-    }
-
-    private void drawSelectedTile(Graphics g) {
-        if (selectedTile != null && drawSelected) {
-            g.drawImage(selectedTile.getSprite(), mouseX, mouseY, 32, 32, null);
-        }
-    }
-
-    private void changeTile(int x, int y) {
-        if (selectedTile != null) {
-            int tileX = x / 32;
-            int tileY = y / 32;
-
-            if (lastTileX == tileX &&
-                    lastTileY == tileY &&
-                    lastTileId == selectedTile.getId())
-                return;
-
-            lastTileX = tileX;
-            lastTileY = tileY;
-            lastTileId = selectedTile.getId();
-
-            lvl[tileY][tileX] = selectedTile.getId();
-        }
-    }
-
-    private void createDefaultLevel() {
-        int[] arr = new int[400];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = 0;
-        }
-
-        LoadSave.CreateLevel("default_level", arr);
+    public void setLevel(int[][] lvl) {
+        this.lvl = lvl;
     }
 
     private void loadLevel() {
-        this.lvl = LoadSave.GetLevelData("default_level");
+        lvl = LoadSave.GetLevelData("default_level");
+    }
+
+    private void drawLevel(Graphics g) {
+        for (int i = 0; i < lvl.length; i++) {
+            for (int j = 0; j < lvl[i].length; j++) {
+                int id = lvl[i][j];
+                g.drawImage(getSprite(id), j * 32, i * 32, null);
+            }
+        }
+
+    }
+
+    private BufferedImage getSprite(int spriteId) {
+        return game.getTileManager().getSprite(spriteId);
     }
 }

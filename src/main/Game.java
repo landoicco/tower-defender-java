@@ -5,6 +5,8 @@ import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
 
+import helpers.LoadSave;
+import managers.TileManager;
 import scenes.*;
 
 public class Game extends JFrame {
@@ -13,18 +15,21 @@ public class Game extends JFrame {
     private final double UPS_SET = 60.0;
 
     private GameScreen gameScreen;
+    private TileManager tileManager;
 
     // Scene classes
     private Render render;
     private Menu menu;
     private Playing playing;
     private Settings settings;
+    private Editing editing;
 
     public Game() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
 
+        createDefaultLevel();
         initClasses();
 
         add(gameScreen);
@@ -88,18 +93,29 @@ public class Game extends JFrame {
     }
 
     private void initClasses() {
+        tileManager = new TileManager();
         render = new Render(this);
         gameScreen = new GameScreen(this);
         menu = new Menu(this);
         playing = new Playing(this);
         settings = new Settings(this);
+        editing = new Editing(this);
+    }
+
+    private void createDefaultLevel() {
+        int[] arr = new int[400];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = 0;
+        }
+
+        LoadSave.CreateLevel("default_level", arr);
     }
 
     private void updateGame() {
         // System.out.println("Game updated!");
     }
 
-    // Getters and Setters
+    // Getters
     public Render getRender() {
         return render;
     }
@@ -114,5 +130,13 @@ public class Game extends JFrame {
 
     public Settings getSettings() {
         return settings;
+    }
+
+    public Editing getEditing() {
+        return editing;
+    }
+
+    public TileManager getTileManager() {
+        return tileManager;
     }
 }

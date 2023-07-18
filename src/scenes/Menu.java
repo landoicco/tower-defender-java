@@ -7,12 +7,11 @@ import ui.MyButton;
 
 public class Menu extends GameScene implements SceneMethods {
 
-    private MyButton bPlaying, bSettings, bQuit;
+    private MyButton bPlaying, bEdit, bSettings, bQuit;
 
     public Menu(Game game) {
         super(game);
 
-        loadSprites();
         initButtons();
     }
 
@@ -26,6 +25,9 @@ public class Menu extends GameScene implements SceneMethods {
         if (bPlaying.getBounds().contains(x, y)) {
             GameStates.setGameState(GameStates.PLAYING);
         }
+        if (bEdit.getBounds().contains(x, y)) {
+            GameStates.setGameState(GameStates.EDIT);
+        }
         if (bSettings.getBounds().contains(x, y)) {
             GameStates.setGameState(GameStates.SETTINGS);
         }
@@ -37,10 +39,15 @@ public class Menu extends GameScene implements SceneMethods {
     @Override
     public void mouseMoved(int x, int y) {
         bPlaying.setMouseOver(false);
+        bEdit.setMouseOver(false);
         bSettings.setMouseOver(false);
         bQuit.setMouseOver(false);
+
         if (bPlaying.getBounds().contains(x, y)) {
             bPlaying.setMouseOver(true);
+        }
+        if (bEdit.getBounds().contains(x, y)) {
+            bEdit.setMouseOver(true);
         }
         if (bSettings.getBounds().contains(x, y)) {
             bSettings.setMouseOver(true);
@@ -55,6 +62,9 @@ public class Menu extends GameScene implements SceneMethods {
         if (bPlaying.getBounds().contains(x, y)) {
             bPlaying.setMousePressed(true);
         }
+        if (bEdit.getBounds().contains(x, y)) {
+            bEdit.setMousePressed(true);
+        }
         if (bSettings.getBounds().contains(x, y)) {
             bSettings.setMousePressed(true);
         }
@@ -67,17 +77,13 @@ public class Menu extends GameScene implements SceneMethods {
     public void mouseReleased(int x, int y) {
         // Reset buttons
         bPlaying.resetBooleans();
+        bEdit.resetBooleans();
         bSettings.resetBooleans();
         bQuit.resetBooleans();
     }
 
     @Override
     public void mouseDragged(int x, int y) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'mouseDragged'");
-    }
-
-    private void loadSprites() {
     }
 
     private void initButtons() {
@@ -90,12 +96,14 @@ public class Menu extends GameScene implements SceneMethods {
         padding = 15;
 
         bPlaying = new MyButton("Play", xPos, yPos, width, height);
-        bSettings = new MyButton("Settings", xPos, yPos + (height + padding), width, height);
-        bQuit = new MyButton("Quit", xPos, yPos + 2 * (height + padding), width, height);
+        bEdit = new MyButton("Edit", xPos, yPos + (height + padding), width, height, width);
+        bSettings = new MyButton("Settings", xPos, yPos + 2 * (height + padding), width, height);
+        bQuit = new MyButton("Quit", xPos, yPos + 3 * (height + padding), width, height);
     }
 
     private void drawButtons(Graphics g) {
         bPlaying.draw(g);
+        bEdit.draw(g);
         bSettings.draw(g);
         bQuit.draw(g);
     }
