@@ -103,7 +103,7 @@ public class ToolBar extends Bar {
         // Tile buttons properties
         int width = 50;
         int height = 50;
-        int xStart = 300;
+        int xStart = 120;
         int yStart = 650;
         int xOffset = 0;
         int id = 0;
