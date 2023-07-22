@@ -1,6 +1,7 @@
 package scenes;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import helpers.LoadSave;
@@ -63,6 +64,12 @@ public class Editing extends GameScene implements SceneMethods {
     @Override
     public void mouseReleased(int x, int y) {
         toolBar.mouseReleased(x, y);
+    }
+
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_R) {
+            toolBar.rotateSprite();
+        }
     }
 
     @Override

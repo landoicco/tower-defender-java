@@ -3,9 +3,16 @@ package inputs;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import main.Game;
 import main.GameStates;
 
 public class KeyboardListener implements KeyListener {
+
+    private Game game;
+
+    public KeyboardListener(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -13,15 +20,18 @@ public class KeyboardListener implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_A) {
-            GameStates.gameState = GameStates.MENU;
-            System.out.println("Changed to Menu Scene");
-        } else if (e.getKeyCode() == KeyEvent.VK_S) {
-            GameStates.gameState = GameStates.PLAYING;
-            System.out.println("Changed to Playing scene");
-        } else if (e.getKeyCode() == KeyEvent.VK_D) {
-            GameStates.gameState = GameStates.SETTINGS;
-            System.out.println("Changed to Settings scene");
+        switch (GameStates.gameState) {
+            case EDIT:
+                game.getEditing().keyPressed(e);
+                break;
+            case MENU:
+                break;
+            case PLAYING:
+                break;
+            case SETTINGS:
+                break;
+            default:
+                break;
         }
     }
 

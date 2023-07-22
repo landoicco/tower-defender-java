@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import main.GameStates;
 import objects.Tile;
@@ -15,7 +17,10 @@ public class ToolBar extends Bar {
     private Tile selectedTile;
     private Editing editing;
 
-    private ArrayList<MyButton> tileButtons = new ArrayList<>();
+    private Map<MyButton, ArrayList<Tile>> tilesMap = new HashMap<>();
+    private MyButton bGrass, bWater, bPlainRoads, bCornerRoads, bWaterCorners, bWaterCoasts, bWaterIslands,
+            currentButton;
+    private int currentBtnIndex;
 
     public ToolBar(int x, int y, int width, int height, Editing editing) {
         super(x, y, width, height);
@@ -36,11 +41,19 @@ public class ToolBar extends Bar {
             GameStates.setGameState(GameStates.MENU);
         } else if (bSave.getBounds().contains(x, y)) {
             saveLevel();
+        } else if (bGrass.getBounds().contains(x, y)) {
+            selectedTile = editing.getGame().getTileManager().getTile(bGrass.id);
+            editing.setSelectedTile(selectedTile);
+        } else if (bWater.getBounds().contains(x, y)) {
+            selectedTile = editing.getGame().getTileManager().getTile(bWater.id);
+            editing.setSelectedTile(selectedTile);
         } else {
-            for (MyButton b : tileButtons) {
+            for (MyButton b : tilesMap.keySet()) {
                 if (b.getBounds().contains(x, y)) {
-                    selectedTile = editing.getGame().getTileManager().getTile(b.id);
+                    selectedTile = tilesMap.get(b).get(0);
                     editing.setSelectedTile(selectedTile);
+                    currentButton = b;
+                    currentBtnIndex = 0;
                     return;
                 }
             }
@@ -51,8 +64,12 @@ public class ToolBar extends Bar {
         bMenu.setMouseOver(false);
         bSave.setMouseOver(false);
 
+        // Reset basic tile buttons
+        bGrass.setMouseOver(false);
+        bWater.setMouseOver(false);
+
         // Reset all tile buttons
-        for (MyButton b : tileButtons) {
+        for (MyButton b : tilesMap.keySet()) {
             b.setMouseOver(false);
         }
 
@@ -60,11 +77,14 @@ public class ToolBar extends Bar {
             bMenu.setMouseOver(true);
         } else if (bSave.getBounds().contains(x, y)) {
             bSave.setMouseOver(true);
+        } else if (bGrass.getBounds().contains(x, y)) {
+            bGrass.setMouseOver(true);
+        } else if (bWater.getBounds().contains(x, y)) {
+            bWater.setMouseOver(true);
         } else {
-            for (MyButton b : tileButtons) {
+            for (MyButton b : tilesMap.keySet()) {
                 if (b.getBounds().contains(x, y)) {
                     b.setMouseOver(true);
-                    return;
                 }
             }
         }
@@ -75,11 +95,14 @@ public class ToolBar extends Bar {
             bMenu.setMousePressed(true);
         } else if (bSave.getBounds().contains(x, y)) {
             bSave.setMousePressed(true);
+        } else if (bGrass.getBounds().contains(x, y)) {
+            bGrass.setMousePressed(true);
+        } else if (bWater.getBounds().contains(x, y)) {
+            bWater.setMousePressed(true);
         } else {
-            for (MyButton b : tileButtons) {
+            for (MyButton b : tilesMap.keySet()) {
                 if (b.getBounds().contains(x, y)) {
                     b.setMousePressed(true);
-                    return;
                 }
             }
         }
@@ -90,10 +113,23 @@ public class ToolBar extends Bar {
         bMenu.resetBooleans();
         bSave.resetBooleans();
 
+        // Reset basic tile buttons
+        bGrass.resetBooleans();
+        bWater.resetBooleans();
+
         // Reset tile buttons
-        for (MyButton b : tileButtons) {
+        for (MyButton b : tilesMap.keySet()) {
             b.resetBooleans();
         }
+    }
+
+    public void rotateSprite() {
+        currentBtnIndex++;
+        if (currentBtnIndex >= tilesMap.get(currentButton).size()) {
+            currentBtnIndex = 0;
+        }
+        selectedTile = tilesMap.get(currentButton).get(currentBtnIndex);
+        editing.setSelectedTile(selectedTile);
     }
 
     private void initButtons() {
@@ -105,23 +141,73 @@ public class ToolBar extends Bar {
         int height = 50;
         int xStart = 120;
         int yStart = 650;
-        int xOffset = 0;
+        int xOffset = (int) (width * 1.1f);
         int id = 0;
 
-        for (Tile tile : editing.getGame().getTileManager().tiles) {
-            tileButtons.add(new MyButton(tile.getName(), xStart + xOffset, yStart, width, height, id++));
+        // Init basic tile buttons
+        bGrass = new MyButton("Grass", xStart, yStart, width, height, id++);
+        bWater = new MyButton("Water", xStart + xOffset, yStart, width, height, id++);
 
-            // Set offset and space between tile buttons
-            xOffset += width + 5;
-        }
+        // Init tile ArrayLists
+        initMapButtons(bPlainRoads, editing.getGame().getTileManager().getPlainRoads(), xStart, yStart, xOffset, width,
+                height, id++);
+        initMapButtons(bCornerRoads, editing.getGame().getTileManager().getCornerRoads(), xStart, yStart, xOffset,
+                width, height, id++);
+        initMapButtons(bWaterCorners, editing.getGame().getTileManager().getCorners(), xStart, yStart, xOffset, width,
+                height, id++);
+        initMapButtons(bWaterCoasts, editing.getGame().getTileManager().getCoasts(), xStart, yStart, xOffset, width,
+                height, id++);
+        initMapButtons(bWaterIslands, editing.getGame().getTileManager().getIslands(), xStart, yStart, xOffset, width,
+                height, id++);
     }
 
     private void drawButtons(Graphics g) {
         bMenu.draw(g);
         bSave.draw(g);
 
-        drawTileButtons(g);
+        // Draw basic tile buttons
+        drawBasicTileButtons(g, bGrass);
+        drawBasicTileButtons(g, bWater);
+
+        // Draw Map tile buttons
+        drawMapButtons(g);
         drawSelectedTile(g);
+    }
+
+    private void drawBasicTileButtons(Graphics g, MyButton b) {
+        g.drawImage(getButtonImage(b.id), b.x, b.y, b.width, b.height, null);
+        drawButtonFeedback(g, b);
+    }
+
+    private void drawMapButtons(Graphics g) {
+
+        for (Map.Entry<MyButton, ArrayList<Tile>> entry : tilesMap.entrySet()) {
+            MyButton b = entry.getKey();
+            BufferedImage img = entry.getValue().get(0).getSprite();
+
+            g.drawImage(img, b.x, b.y, b.width, b.height, null);
+
+            drawButtonFeedback(g, b);
+        }
+    }
+
+    private void drawButtonFeedback(Graphics g, MyButton b) {
+        // Set border color on MouseOver
+        if (b.isMouseOver()) {
+            g.setColor(Color.CYAN);
+        } else {
+            g.setColor(Color.WHITE);
+        }
+
+        // Set border color on MousePressed
+        if (b.isMousePressed()) {
+            g.setColor(Color.RED);
+        }
+
+        // Draw border
+        g.drawRect(b.x + 1, b.y + 1, b.width - 2, b.height - 2);
+        g.drawRect(b.x + 2, b.y + 2, b.width - 4, b.height - 4);
+
     }
 
     private void drawSelectedTile(Graphics g) {
@@ -132,28 +218,10 @@ public class ToolBar extends Bar {
         }
     }
 
-    private void drawTileButtons(Graphics g) {
-        for (MyButton b : tileButtons) {
-            // Draw sprite
-            g.drawImage(getButtonImage(b.id), b.x, b.y, b.width, b.height, null);
-
-            // Set border color on MouseOver
-            if (b.isMouseOver()) {
-                g.setColor(Color.CYAN);
-            } else {
-                g.setColor(Color.WHITE);
-            }
-
-            // Set border color on MousePressed
-            if (b.isMousePressed()) {
-                g.setColor(Color.RED);
-            }
-
-            // Draw border
-            g.drawRect(b.x + 1, b.y + 1, b.width - 2, b.height - 2);
-            g.drawRect(b.x + 2, b.y + 2, b.width - 4, b.height - 4);
-
-        }
+    private void initMapButtons(MyButton b, ArrayList<Tile> list, int x, int y, int xOffset, int width, int height,
+            int id) {
+        b = new MyButton("", (x + xOffset * id), y, width, height, id);
+        tilesMap.put(b, list);
     }
 
     private void saveLevel() {
