@@ -141,7 +141,7 @@ public class TileManager {
         }
 
         private void loadAtlas() {
-                atlas = LoadSave.getSpriteAtlas();
+                atlas = LoadSave.GetSpriteAtlas();
         }
 
         // TODO: amount may be redundant at this point, we know that we only have 4

@@ -112,7 +112,20 @@ public class Game extends JFrame {
     }
 
     private void updateGame() {
-        // System.out.println("Game updated!");
+        switch (GameStates.gameState) {
+            case EDIT:
+                break;
+            case MENU:
+                break;
+            case PLAYING:
+                playing.update();
+                break;
+            case SETTINGS:
+                break;
+            default:
+                break;
+
+        }
     }
 
     // Getters

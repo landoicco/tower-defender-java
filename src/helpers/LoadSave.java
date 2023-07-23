@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 
 public class LoadSave {
 
-    public static BufferedImage getSpriteAtlas() {
+    public static BufferedImage GetSpriteAtlas() {
         BufferedImage img = null;
         InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("res/spriteatlas.png");
         try {
