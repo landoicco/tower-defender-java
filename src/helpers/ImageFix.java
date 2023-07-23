@@ -36,7 +36,7 @@ public class ImageFix {
         return newImg;
     }
 
-    // Rotate an image created from two images
+    // Rotate an image created from two images, second image only is rotated
     public static BufferedImage GetRotatedBuildedImage(BufferedImage[] imgs, int rotAngle, int rotAtIndex) {
         int width = imgs[0].getWidth();
         int height = imgs[0].getHeight();
@@ -56,5 +56,29 @@ public class ImageFix {
 
         g2d.dispose();
         return newImg;
+    }
+
+    // Rotate an image created from two images, second image only is rotated +
+    // animation
+    public static BufferedImage[] GetRotatedBuildedImage(BufferedImage[] imgs, BufferedImage topImg, int rotAngle,
+            int rotAtIndex) {
+        int width = imgs[0].getWidth();
+        int height = imgs[0].getHeight();
+        BufferedImage[] arr = new BufferedImage[imgs.length];
+
+        for (int i = 0; i < arr.length; i++) {
+            BufferedImage newImg = new BufferedImage(width, height, imgs[0].getType());
+            Graphics2D g2d = newImg.createGraphics();
+
+            g2d.drawImage(imgs[i], 0, 0, null);
+            g2d.rotate(Math.toRadians(rotAngle), (width / 2), (height / 2));
+            g2d.drawImage(topImg, 0, 0, null);
+
+            g2d.dispose();
+
+            arr[i] = newImg;
+        }
+
+        return arr;
     }
 }

@@ -12,8 +12,9 @@ import ui.ToolBar;
 public class Editing extends GameScene implements SceneMethods {
 
     private int[][] lvl;
-    private int mouseX, mouseY;
+    private int mouseX, mouseY, animationIndex, tick;
     private int lastTileX, lastTileY, lastTileId;
+    private int ANIMATION_SPEED = 20;
     private boolean drawSelected;
     private Tile selectedTile;
     private ToolBar toolBar;
@@ -27,6 +28,8 @@ public class Editing extends GameScene implements SceneMethods {
 
     @Override
     public void render(Graphics g) {
+        updateTick();
+
         drawLevel(g);
         toolBar.draw(g);
         drawSelectedTile(g);
@@ -110,10 +113,18 @@ public class Editing extends GameScene implements SceneMethods {
         for (int i = 0; i < lvl.length; i++) {
             for (int j = 0; j < lvl[i].length; j++) {
                 int id = lvl[i][j];
-                g.drawImage(getSprite(id), j * 32, i * 32, null);
+                if (isAnimation(id)) {
+                    g.drawImage(getSprite(id, animationIndex), j * 32, i * 32, null);
+                } else {
+                    g.drawImage(getSprite(id), j * 32, i * 32, null);
+                }
             }
         }
 
+    }
+
+    private boolean isAnimation(int id) {
+        return game.getTileManager().isAnimatedSprite(id);
     }
 
     private void drawSelectedTile(Graphics g) {
@@ -122,8 +133,24 @@ public class Editing extends GameScene implements SceneMethods {
         }
     }
 
+    // Using magic number 4 due we know we only use 4 sprites per animation
+    private void updateTick() {
+        tick++;
+        if (tick > ANIMATION_SPEED) {
+            tick = 0;
+            animationIndex++;
+            if (animationIndex >= 4) {
+                animationIndex = 0;
+            }
+        }
+    }
+
     private BufferedImage getSprite(int spriteId) {
         return game.getTileManager().getSprite(spriteId);
+    }
+
+    private BufferedImage getSprite(int spriteId, int animationIndex) {
+        return game.getTileManager().getAnimatedSprite(spriteId, animationIndex);
     }
 
     public void setSelectedTile(Tile tile) {
