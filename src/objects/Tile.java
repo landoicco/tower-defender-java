@@ -5,33 +5,32 @@ import java.awt.image.BufferedImage;
 public class Tile {
 
     private BufferedImage[] sprite;
-    private String name;
-    private int id;
+    private int id, tileType;
 
-    public Tile(BufferedImage sprite, int id, String name) {
+    public Tile(BufferedImage sprite, int id, int tileType) {
         this.sprite = new BufferedImage[1];
+        this.tileType = tileType;
         this.sprite[0] = sprite;
 
         this.id = id;
-        this.name = name;
     }
 
-    public Tile(BufferedImage[] sprite, int id, String name) {
+    public Tile(BufferedImage[] sprite, int id, int tileType) {
         this.sprite = sprite;
+        this.tileType = tileType;
         this.id = id;
-        this.name = name;
     }
 
     public int getId() {
         return id;
     }
 
-    public boolean isAnimated() {
-        return this.sprite.length > 1;
+    public int getTileType() {
+        return tileType;
     }
 
-    public String getName() {
-        return name;
+    public boolean isAnimated() {
+        return this.sprite.length > 1;
     }
 
     public BufferedImage getSprite() {

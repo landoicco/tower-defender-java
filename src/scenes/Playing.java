@@ -1,7 +1,6 @@
 package scenes;
 
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 import helpers.LoadSave;
 import main.Game;
@@ -24,7 +23,24 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     public void update() {
+        updateTick();
         enemyManager.update();
+    }
+
+    public int getTileType(int x, int y) {
+
+        int xCord = x / 32;
+        int yCord = y / 32;
+
+        if (xCord < 0 || xCord > 19) {
+            return 0;
+        }
+        if (yCord < 0 || yCord > 19) {
+            return 0;
+        }
+
+        int id = lvl[y / 32][x / 32];
+        return game.getTileManager().getTile(id).getTileType();
     }
 
     @Override
@@ -82,13 +98,13 @@ public class Playing extends GameScene implements SceneMethods {
         for (int i = 0; i < lvl.length; i++) {
             for (int j = 0; j < lvl[i].length; j++) {
                 int id = lvl[i][j];
-                g.drawImage(getSprite(id), j * 32, i * 32, null);
+                if (isAnimation(id)) {
+                    g.drawImage(getSprite(id, animationIndex), j * 32, i * 32, null);
+                } else {
+                    g.drawImage(getSprite(id), j * 32, i * 32, null);
+                }
             }
         }
 
-    }
-
-    private BufferedImage getSprite(int spriteId) {
-        return game.getTileManager().getSprite(spriteId);
     }
 }

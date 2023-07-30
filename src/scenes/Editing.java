@@ -2,7 +2,6 @@ package scenes;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
 
 import helpers.LoadSave;
 import main.Game;
@@ -12,9 +11,8 @@ import ui.ToolBar;
 public class Editing extends GameScene implements SceneMethods {
 
     private int[][] lvl;
-    private int mouseX, mouseY, animationIndex, tick;
+    private int mouseX, mouseY;
     private int lastTileX, lastTileY, lastTileId;
-    private int ANIMATION_SPEED = 20;
     private boolean drawSelected;
     private Tile selectedTile;
     private ToolBar toolBar;
@@ -26,10 +24,12 @@ public class Editing extends GameScene implements SceneMethods {
         toolBar = new ToolBar(0, 640, 640, 100, this);
     }
 
+    public void update() {
+        updateTick();
+    }
+
     @Override
     public void render(Graphics g) {
-        updateTick();
-
         drawLevel(g);
         toolBar.draw(g);
         drawSelectedTile(g);
@@ -123,34 +123,10 @@ public class Editing extends GameScene implements SceneMethods {
 
     }
 
-    private boolean isAnimation(int id) {
-        return game.getTileManager().isAnimatedSprite(id);
-    }
-
     private void drawSelectedTile(Graphics g) {
         if (selectedTile != null && drawSelected) {
             g.drawImage(selectedTile.getSprite(), mouseX, mouseY, 32, 32, null);
         }
-    }
-
-    // Using magic number 4 due we know we only use 4 sprites per animation
-    private void updateTick() {
-        tick++;
-        if (tick > ANIMATION_SPEED) {
-            tick = 0;
-            animationIndex++;
-            if (animationIndex >= 4) {
-                animationIndex = 0;
-            }
-        }
-    }
-
-    private BufferedImage getSprite(int spriteId) {
-        return game.getTileManager().getSprite(spriteId);
-    }
-
-    private BufferedImage getSprite(int spriteId, int animationIndex) {
-        return game.getTileManager().getAnimatedSprite(spriteId, animationIndex);
     }
 
     public void setSelectedTile(Tile tile) {

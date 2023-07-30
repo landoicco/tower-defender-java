@@ -7,6 +7,8 @@ import helpers.ImageFix;
 import helpers.LoadSave;
 import objects.Tile;
 
+import static helpers.Constants.*;
+
 public class TileManager {
 
         public Tile GRASS, WATER, BL_WATER_CORNER, TL_WATER_CORNER, TR_WATER_CORNER, BR_WATER_CORNER, TL_ISLAND,
@@ -68,69 +70,69 @@ public class TileManager {
                 int id = 0;
 
                 // Basics
-                tiles.add(GRASS = new Tile(getSprite(9, 0), id++, "Grass"));
-                tiles.add(WATER = new Tile(getAnimatedSprite(0, 0, 4), id++, "Water"));
+                tiles.add(GRASS = new Tile(getSprite(9, 0), id++, Tiles.GRASS));
+                tiles.add(WATER = new Tile(getAnimatedSprite(0, 0, 4), id++, Tiles.WATER));
 
                 // Plain roads
                 plainRoads.add(ROAD_L_TO_R = new Tile(ImageFix.GetRotatedImage(getSprite(8, 0),
-                                0), id++, "Left_To_Right_Road"));
+                                0), id++, Tiles.ROAD));
                 plainRoads.add(ROAD_B_TO_T = new Tile(ImageFix.GetRotatedImage(getSprite(8, 0),
-                                90), id++, "Bottom_To_Top_Road"));
+                                90), id++, Tiles.ROAD));
 
                 // Corner roads
                 cornerRoads.add(BR_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(7, 0), 0),
-                                id++, "Bottom_To_Right_Road"));
+                                id++, Tiles.ROAD));
                 cornerRoads.add(LB_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(7, 0), 90),
-                                id++, "Left_To_Bottom_Road"));
+                                id++, Tiles.ROAD));
                 cornerRoads.add(TL_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(7, 0), 180),
-                                id++, "Top_To_Left_Road"));
+                                id++, Tiles.ROAD));
                 cornerRoads.add(RT_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(7, 0), 270),
-                                id++, "Right_To_Top_Road"));
+                                id++, Tiles.ROAD));
 
                 // Water corners
                 corners.add(BL_WATER_CORNER = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(5, 0), 0, 0),
-                                id++, "BL_Water_Corner"));
+                                id++, Tiles.WATER));
                 corners.add(TL_WATER_CORNER = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(5, 0), 90, 0),
                                 id++,
-                                "TL_Water_Corner"));
+                                Tiles.WATER));
                 corners.add(TR_WATER_CORNER = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(5, 0), 180, 0),
                                 id++,
-                                "TR_Water_Corner"));
+                                Tiles.WATER));
                 corners.add(BR_WATER_CORNER = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(5, 0), 270, 0),
                                 id++,
-                                "BR_Water_Corner"));
+                                Tiles.WATER));
 
                 // Coasts
                 coasts.add(T_WATER = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(6, 0), 0, 0),
-                                id++, "Top_Water"));
+                                id++, Tiles.WATER));
                 coasts.add(R_WATER = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(6, 0), 90, 0),
-                                id++, "Right_Water"));
+                                id++, Tiles.WATER));
                 coasts.add(B_WATER = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(6, 0), 180, 0),
-                                id++, "Bottom_Water"));
+                                id++, Tiles.WATER));
                 coasts.add(L_WATER = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(6, 0), 270, 0),
-                                id++, "Left_Water"));
+                                id++, Tiles.WATER));
 
                 // Island corners
                 islands.add(TL_ISLAND = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(4, 0), 0, 0),
-                                id++, "TL_Island"));
+                                id++, Tiles.WATER));
                 islands.add(TR_ISLAND = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(4, 0), 90, 0),
-                                id++, "TR_Island"));
+                                id++, Tiles.WATER));
                 islands.add(BR_ISLAND = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(4, 0), 180, 0),
-                                id++, "BR_Island"));
+                                id++, Tiles.WATER));
                 islands.add(BL_ISLAND = new Tile(
                                 ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(4, 0), 270, 0),
-                                id++, "BL_Island"));
+                                id++, Tiles.WATER));
 
                 // Add all tiles to original ArrayList
                 tiles.addAll(plainRoads);
