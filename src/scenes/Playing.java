@@ -57,7 +57,7 @@ public class Playing extends GameScene implements SceneMethods {
             actionBar.mouseClicked(x, y);
             return;
         }
-        enemyManager.addEnemy(x, y);
+        // enemyManager.addEnemy(x, y);
     }
 
     @Override

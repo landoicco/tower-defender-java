@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import enemies.Enemy;
+import enemies.*;
 import helpers.LoadSave;
 import scenes.Playing;
 import static helpers.Constants.*;
@@ -20,15 +21,18 @@ public class EnemyManager {
     public EnemyManager(Playing playing) {
         this.playing = playing;
         this.enemyImgs = new BufferedImage[4];
-        addEnemy(0 * 32, 10 * 32);
+
+        addEnemy(0 * 32, 10 * 32, Enemies.ORC);
+        addEnemy(2 * 32, 10 * 32, Enemies.WOLF);
+        addEnemy(8 * 32, 11 * 32, Enemies.KNIGHT);
+        addEnemy(10 * 32, 11 * 32, Enemies.BAT);
+
         loadEnemyImgs();
     }
 
     public void update() {
         for (Enemy e : enemies) {
-            // Is next tile road?
-            if (isNextTileRoad(e)) {
-            }
+            updateEnemyMove(e);
         }
     }
 
@@ -38,24 +42,42 @@ public class EnemyManager {
         }
     }
 
-    public void addEnemy(int x, int y) {
-        enemies.add(new Enemy(x, y, 0, 0));
+    public void addEnemy(int x, int y, int enemyType) {
+        switch (enemyType) {
+            case Enemies.ORC:
+                enemies.add(new Orc(x, y, 0));
+                break;
+            case Enemies.BAT:
+                enemies.add(new Bat(x, y, 0));
+                break;
+            case Enemies.KNIGHT:
+                enemies.add(new Knight(x, y, 0));
+                break;
+            case Enemies.WOLF:
+                enemies.add(new Wolf(x, y, 0));
+                break;
+
+        }
     }
 
     private void drawEnemy(Enemy e, Graphics g) {
-        g.drawImage(enemyImgs[1], (int) e.getX(), (int) e.getY(), null);
+        g.drawImage(enemyImgs[e.getEnemyType()], (int) e.getX(), (int) e.getY(), null);
     }
 
     // We use 4 because we know we only have 4 enemy sprites at this point
     private void loadEnemyImgs() {
         BufferedImage atlas = LoadSave.GetSpriteAtlas();
-        enemyImgs[0] = atlas.getSubimage(32 * 0, 32, 32, 32);
-        enemyImgs[1] = atlas.getSubimage(32 * 1, 32, 32, 32);
-        enemyImgs[2] = atlas.getSubimage(32 * 2, 32, 32, 32);
-        enemyImgs[3] = atlas.getSubimage(32 * 3, 32, 32, 32);
+
+        for (int i = 0; i < 4; i++) {
+            enemyImgs[i] = atlas.getSubimage(i * 32, 32, 32, 32);
+        }
     }
 
-    private boolean isNextTileRoad(Enemy e) {
+    private void updateEnemyMove(Enemy e) {
+        if (e.getLastDirection() == -1) {
+            setNewDirectionAndMove(e);
+        }
+
         int newX = (int) (e.getX() + getSpeedAndWidth(e.getLastDirection()));
         int newY = (int) (e.getY() + getSpeedAndHeight(e.getLastDirection()));
         if (getTileType(newX, newY) == Tiles.ROAD) {
@@ -67,7 +89,6 @@ public class EnemyManager {
             // Find other direction
             setNewDirectionAndMove(e);
         }
-        return false;
     }
 
     private void setNewDirectionAndMove(Enemy e) {
@@ -97,16 +118,6 @@ public class EnemyManager {
 
     private void fixEnemyOffsetTile(Enemy e, int direction, int xCord, int yCord) {
         switch (direction) {
-            // case Direction.LEFT:
-            // if (xCord > 0) {
-            // xCord--;
-            // }
-            // break;
-            // case Direction.UP:
-            // if (yCord > 0) {
-            // yCord--;
-            // }
-            // break;
             case Direction.RIGHT:
                 if (xCord < 19) {
                     xCord++;

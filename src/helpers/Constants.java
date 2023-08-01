@@ -15,4 +15,11 @@ public class Constants {
         public static final int ROAD = 2;
     }
 
+    public static class Enemies {
+        public static final int ORC = 0;
+        public static final int BAT = 1;
+        public static final int KNIGHT = 2;
+        public static final int WOLF = 3;
+    }
+
 }

@@ -21,7 +21,7 @@ public class Editing extends GameScene implements SceneMethods {
         super(game);
 
         loadLevel();
-        toolBar = new ToolBar(0, 640, 640, 100, this);
+        toolBar = new ToolBar(0, 640, 640, 160, this);
     }
 
     public void update() {

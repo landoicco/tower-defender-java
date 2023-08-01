@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import helpers.LoadSave;
 import main.GameStates;
 import objects.Tile;
 import scenes.Editing;
@@ -14,6 +15,8 @@ import scenes.Editing;
 public class ToolBar extends Bar {
 
     private MyButton bMenu, bSave;
+    private MyButton bPathStart, bPathEnd;
+    private BufferedImage pathStart, pathEnd;
     private Tile selectedTile;
     private Editing editing;
 
@@ -26,6 +29,8 @@ public class ToolBar extends Bar {
         super(x, y, width, height);
 
         this.editing = editing;
+
+        initPathImages();
         initButtons();
     }
 
@@ -47,6 +52,12 @@ public class ToolBar extends Bar {
         } else if (bWater.getBounds().contains(x, y)) {
             selectedTile = editing.getGame().getTileManager().getTile(bWater.id);
             editing.setSelectedTile(selectedTile);
+        } else if (bPathStart.getBounds().contains(x, y)) {
+            selectedTile = new Tile(pathStart, -1, -1);
+            editing.setSelectedTile(selectedTile);
+        } else if (bPathEnd.getBounds().contains(x, y)) {
+            selectedTile = new Tile(pathEnd, -2, -2);
+            editing.setSelectedTile(selectedTile);
         } else {
             for (MyButton b : tilesMap.keySet()) {
                 if (b.getBounds().contains(x, y)) {
@@ -64,9 +75,11 @@ public class ToolBar extends Bar {
         bMenu.setMouseOver(false);
         bSave.setMouseOver(false);
 
-        // Reset basic tile buttons
+        // Reset basic tile/path definer buttons
         bGrass.setMouseOver(false);
         bWater.setMouseOver(false);
+        bPathStart.setMouseOver(false);
+        bPathEnd.setMouseOver(false);
 
         // Reset all tile buttons
         for (MyButton b : tilesMap.keySet()) {
@@ -81,6 +94,10 @@ public class ToolBar extends Bar {
             bGrass.setMouseOver(true);
         } else if (bWater.getBounds().contains(x, y)) {
             bWater.setMouseOver(true);
+        } else if (bPathStart.getBounds().contains(x, y)) {
+            bPathStart.setMouseOver(true);
+        } else if (bPathEnd.getBounds().contains(x, y)) {
+            bPathEnd.setMouseOver(true);
         } else {
             for (MyButton b : tilesMap.keySet()) {
                 if (b.getBounds().contains(x, y)) {
@@ -99,6 +116,10 @@ public class ToolBar extends Bar {
             bGrass.setMousePressed(true);
         } else if (bWater.getBounds().contains(x, y)) {
             bWater.setMousePressed(true);
+        } else if (bPathStart.getBounds().contains(x, y)) {
+            bPathStart.setMousePressed(true);
+        } else if (bPathEnd.getBounds().contains(x, y)) {
+            bPathEnd.setMousePressed(true);
         } else {
             for (MyButton b : tilesMap.keySet()) {
                 if (b.getBounds().contains(x, y)) {
@@ -113,9 +134,11 @@ public class ToolBar extends Bar {
         bMenu.resetBooleans();
         bSave.resetBooleans();
 
-        // Reset basic tile buttons
+        // Reset basic tile/path definer buttons
         bGrass.resetBooleans();
         bWater.resetBooleans();
+        bPathStart.resetBooleans();
+        bPathEnd.resetBooleans();
 
         // Reset tile buttons
         for (MyButton b : tilesMap.keySet()) {
@@ -159,6 +182,15 @@ public class ToolBar extends Bar {
                 height, id++);
         initMapButtons(bWaterIslands, editing.getGame().getTileManager().getIslands(), xStart, yStart, xOffset, width,
                 height, id++);
+
+        // Init path definer buttons
+        bPathStart = new MyButton("Start", xStart, yStart + xOffset, width, height, id++);
+        bPathEnd = new MyButton("End", xStart + xOffset, yStart + xOffset, width, height, id++);
+    }
+
+    private void initPathImages() {
+        pathStart = LoadSave.GetSpriteAtlas().getSubimage(7 * 32, 2 * 32, 32, 32);
+        pathEnd = LoadSave.GetSpriteAtlas().getSubimage(8 * 32, 2 * 32, 32, 32);
     }
 
     private void drawButtons(Graphics g) {
@@ -172,6 +204,15 @@ public class ToolBar extends Bar {
         // Draw Map tile buttons
         drawMapButtons(g);
         drawSelectedTile(g);
+
+        // Draw path definer buttons
+        drawPathButton(g, bPathStart, pathStart);
+        drawPathButton(g, bPathEnd, pathEnd);
+    }
+
+    private void drawPathButton(Graphics g, MyButton b, BufferedImage img) {
+        g.drawImage(img, b.x, b.y, b.width, b.height, null);
+        drawButtonFeedback(g, b);
     }
 
     private void drawBasicTileButtons(Graphics g, MyButton b) {

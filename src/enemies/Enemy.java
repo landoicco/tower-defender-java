@@ -3,7 +3,7 @@ package enemies;
 import java.awt.Rectangle;
 import static helpers.Constants.*;
 
-public class Enemy {
+public abstract class Enemy {
 
     private float x, y;
     private Rectangle bounds;
@@ -17,7 +17,7 @@ public class Enemy {
         this.enemyType = enemyType;
 
         bounds = new Rectangle((int) x, (int) y, 32, 32);
-        lastDirection = Direction.RIGHT;
+        lastDirection = -1;
     }
 
     public void move(float speed, int direction) {
