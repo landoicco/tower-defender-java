@@ -41,6 +41,14 @@ public class ToolBar extends Bar {
         drawButtons(g);
     }
 
+    public BufferedImage getStartPathImg() {
+        return pathStart;
+    }
+
+    public BufferedImage getEndPathImg() {
+        return pathEnd;
+    }
+
     public void mouseClicked(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
             GameStates.setGameState(GameStates.MENU);

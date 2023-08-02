@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import enemies.Enemy;
 import enemies.*;
 import helpers.LoadSave;
+import objects.PathPoint;
 import scenes.Playing;
 import static helpers.Constants.*;
 
@@ -14,18 +15,21 @@ public class EnemyManager {
 
     private Playing playing;
     private BufferedImage[] enemyImgs;
+    private PathPoint start, end;
     private float speed = 0.5f;
 
     private ArrayList<Enemy> enemies = new ArrayList<>();
 
-    public EnemyManager(Playing playing) {
+    public EnemyManager(Playing playing, PathPoint start, PathPoint end) {
         this.playing = playing;
+        this.start = start;
+        this.end = end;
         this.enemyImgs = new BufferedImage[4];
 
-        addEnemy(0 * 32, 10 * 32, Enemies.ORC);
-        addEnemy(2 * 32, 10 * 32, Enemies.WOLF);
-        addEnemy(8 * 32, 11 * 32, Enemies.KNIGHT);
-        addEnemy(10 * 32, 11 * 32, Enemies.BAT);
+        // addEnemy(Enemies.ORC);
+        // addEnemy(Enemies.WOLF);
+        // addEnemy(Enemies.KNIGHT);
+        addEnemy(Enemies.BAT);
 
         loadEnemyImgs();
     }
@@ -42,7 +46,9 @@ public class EnemyManager {
         }
     }
 
-    public void addEnemy(int x, int y, int enemyType) {
+    public void addEnemy(int enemyType) {
+        int x = start.getxCord() * 32;
+        int y = start.getyCord() * 32;
         switch (enemyType) {
             case Enemies.ORC:
                 enemies.add(new Orc(x, y, 0));
@@ -80,11 +86,12 @@ public class EnemyManager {
 
         int newX = (int) (e.getX() + getSpeedAndWidth(e.getLastDirection()));
         int newY = (int) (e.getY() + getSpeedAndHeight(e.getLastDirection()));
-        if (getTileType(newX, newY) == Tiles.ROAD) {
+        if (getTileType(newX, newY) == Tiles.ROAD && !isAtEnd(e)) {
             // Continue on the same direction
             e.move(speed, e.getLastDirection());
-        } else if (isAtEnd()) {
+        } else if (isAtEnd(e)) {
             // End of road reached
+            System.out.println("End of path reached!");
         } else {
             // Find other direction
             setNewDirectionAndMove(e);
@@ -98,6 +105,10 @@ public class EnemyManager {
         int xCord = (int) (e.getX() / 32);
         int yCord = (int) (e.getY() / 32);
         fixEnemyOffsetTile(e, direction, xCord, yCord);
+
+        if (isAtEnd(e)) {
+            return;
+        }
 
         if (direction == Direction.LEFT || direction == Direction.RIGHT) {
             int newY = (int) (e.getY() + getSpeedAndHeight(Direction.UP));
@@ -132,8 +143,9 @@ public class EnemyManager {
         e.setPosition(xCord * 32, yCord * 32);
     }
 
-    private boolean isAtEnd() {
-        return false;
+    private boolean isAtEnd(Enemy e) {
+        return (e.getX() == (end.getxCord() * 32)) &&
+                (e.getY() == (end.getyCord() * 32));
     }
 
     private int getTileType(int x, int y) {

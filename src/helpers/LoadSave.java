@@ -11,6 +11,8 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
+import objects.PathPoint;
+
 public class LoadSave {
 
     public static BufferedImage GetSpriteAtlas() {
@@ -34,12 +36,12 @@ public class LoadSave {
         }
     }
 
-    public static void SaveLevel(String name, int[][] idArray) {
+    public static void SaveLevel(String name, int[][] idArray, PathPoint start, PathPoint end) {
         File levelFile = new File("res/" + name + ".txt");
 
         if (levelFile.exists()) {
             int[] oneDimArray = Utils.TwoDTo1DintArray(idArray);
-            WriteToFile(levelFile, oneDimArray);
+            WriteToFile(levelFile, oneDimArray, start, end);
         } else {
             System.out.println("File: " + name + ".txt does not exist!");
             return;
@@ -60,7 +62,7 @@ public class LoadSave {
             e.printStackTrace();
         }
 
-        WriteToFile(newLevel, idArr);
+        WriteToFile(newLevel, idArr, new PathPoint(0, 0), new PathPoint(0, 0));
     }
 
     public static int[][] GetLevelData(String name) {
@@ -75,11 +77,31 @@ public class LoadSave {
         return Utils.ArrayListTo2Dint(list, 20, 20);
     }
 
-    private static void WriteToFile(File file, int[] idArr) {
+    public static ArrayList<PathPoint> GetLevelPathPoints(String name) {
+        File lvlFile = new File("res/" + name + ".txt");
+        if (!lvlFile.exists()) {
+            System.out.println("File: " + name + " does not exists");
+            return null;
+        }
+
+        ArrayList<Integer> list = ReadFromFile(lvlFile);
+        ArrayList<PathPoint> points = new ArrayList<>();
+        points.add(new PathPoint(list.get(400), list.get(401)));
+        points.add(new PathPoint(list.get(402), list.get(403)));
+
+        return points;
+
+    }
+
+    private static void WriteToFile(File file, int[] idArr, PathPoint start, PathPoint end) {
         try (PrintWriter pw = new PrintWriter(file)) {
             for (int i : idArr) {
                 pw.println(i);
             }
+            pw.println(start.getxCord());
+            pw.println(start.getyCord());
+            pw.println(end.getxCord());
+            pw.println(end.getyCord());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
