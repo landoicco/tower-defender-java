@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import helpers.LoadSave;
 import main.Game;
 import managers.EnemyManager;
+import managers.TowerManager;
 import objects.PathPoint;
 import ui.ActionBar;
 
@@ -15,6 +16,7 @@ public class Playing extends GameScene implements SceneMethods {
     private int mouseX, mouseY;
     private ActionBar actionBar;
     private EnemyManager enemyManager;
+    private TowerManager towerManager;
     private PathPoint start, end;
 
     public Playing(Game game) {
@@ -23,11 +25,13 @@ public class Playing extends GameScene implements SceneMethods {
         actionBar = new ActionBar(0, 640, 640, 160, this);
         loadLevel();
         enemyManager = new EnemyManager(this, start, end);
+        towerManager = new TowerManager(this);
     }
 
     public void update() {
         updateTick();
         enemyManager.update();
+        towerManager.update();
     }
 
     public int getTileType(int x, int y) {
@@ -51,6 +55,7 @@ public class Playing extends GameScene implements SceneMethods {
         drawLevel(g);
         actionBar.draw(g);
         enemyManager.draw(g);
+        towerManager.draw(g);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package enemies;
 
 import java.awt.Rectangle;
-import static helpers.Constants.*;
+import helpers.Constants.Direction;
 
 public abstract class Enemy {
 
@@ -43,6 +43,8 @@ public abstract class Enemy {
         this.x = x;
         this.y = y;
     }
+
+    public abstract float getEnemySpeed();
 
     // Getters
 

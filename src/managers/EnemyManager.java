@@ -16,7 +16,6 @@ public class EnemyManager {
     private Playing playing;
     private BufferedImage[] enemyImgs;
     private PathPoint start, end;
-    private float speed = 0.5f;
 
     private ArrayList<Enemy> enemies = new ArrayList<>();
 
@@ -26,9 +25,9 @@ public class EnemyManager {
         this.end = end;
         this.enemyImgs = new BufferedImage[4];
 
-        // addEnemy(Enemies.ORC);
-        // addEnemy(Enemies.WOLF);
-        // addEnemy(Enemies.KNIGHT);
+        addEnemy(Enemies.ORC);
+        addEnemy(Enemies.WOLF);
+        addEnemy(Enemies.KNIGHT);
         addEnemy(Enemies.BAT);
 
         loadEnemyImgs();
@@ -84,11 +83,11 @@ public class EnemyManager {
             setNewDirectionAndMove(e);
         }
 
-        int newX = (int) (e.getX() + getSpeedAndWidth(e.getLastDirection()));
-        int newY = (int) (e.getY() + getSpeedAndHeight(e.getLastDirection()));
+        int newX = (int) (e.getX() + getSpeedAndWidth(e.getLastDirection(), e.getEnemySpeed()));
+        int newY = (int) (e.getY() + getSpeedAndHeight(e.getLastDirection(), e.getEnemySpeed()));
         if (getTileType(newX, newY) == Tiles.ROAD && !isAtEnd(e)) {
             // Continue on the same direction
-            e.move(speed, e.getLastDirection());
+            e.move(e.getEnemySpeed(), e.getLastDirection());
         } else if (isAtEnd(e)) {
             // End of road reached
             System.out.println("End of path reached!");
@@ -111,18 +110,18 @@ public class EnemyManager {
         }
 
         if (direction == Direction.LEFT || direction == Direction.RIGHT) {
-            int newY = (int) (e.getY() + getSpeedAndHeight(Direction.UP));
+            int newY = (int) (e.getY() + getSpeedAndHeight(Direction.UP, e.getEnemySpeed()));
             if (getTileType((int) e.getX(), newY) == Tiles.ROAD) {
-                e.move(speed, Direction.UP);
+                e.move(e.getEnemySpeed(), Direction.UP);
             } else {
-                e.move(speed, Direction.DOWN);
+                e.move(e.getEnemySpeed(), Direction.DOWN);
             }
         } else {
-            int newX = (int) (e.getX() + getSpeedAndWidth(Direction.RIGHT));
+            int newX = (int) (e.getX() + getSpeedAndWidth(Direction.RIGHT, e.getEnemySpeed()));
             if (getTileType(newX, (int) e.getY()) == Tiles.ROAD) {
-                e.move(speed, Direction.RIGHT);
+                e.move(e.getEnemySpeed(), Direction.RIGHT);
             } else {
-                e.move(speed, Direction.LEFT);
+                e.move(e.getEnemySpeed(), Direction.LEFT);
             }
         }
     }
@@ -152,7 +151,7 @@ public class EnemyManager {
         return playing.getTileType(x, y);
     }
 
-    private float getSpeedAndWidth(int direction) {
+    private float getSpeedAndWidth(int direction, float speed) {
         if (direction == Direction.LEFT) {
             return -speed;
         } else if (direction == Direction.RIGHT) {
@@ -161,7 +160,7 @@ public class EnemyManager {
         return 0;
     }
 
-    private float getSpeedAndHeight(int direction) {
+    private float getSpeedAndHeight(int direction, float speed) {
         if (direction == Direction.UP) {
             return -speed;
         } else if (direction == Direction.DOWN) {

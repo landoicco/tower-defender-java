@@ -22,4 +22,10 @@ public class Constants {
         public static final int WOLF = 3;
     }
 
+    public static class Towers {
+        public static final int CANNON = 0;
+        public static final int ARCHER = 1;
+        public static final int WIZARD = 2;
+    }
+
 }
