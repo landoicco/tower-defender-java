@@ -4,21 +4,21 @@ import scenes.Playing;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import helpers.LoadSave;
-import helpers.Constants.Towers;
 import objects.Tower;
 
 public class TowerManager {
 
     private Playing playing;
     private BufferedImage[] towerImgs;
-    private Tower tower;
+    private int towerCount = 0;
+    private ArrayList<Tower> towers = new ArrayList<>();
 
     public TowerManager(Playing playing) {
         this.playing = playing;
         loadTowerImages();
-        initTowers();
     }
 
     public void update() {
@@ -26,7 +26,17 @@ public class TowerManager {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(towerImgs[Towers.ARCHER], tower.getX(), tower.getY(), null);
+        for (Tower t : towers) {
+            g.drawImage(towerImgs[t.getTowerType()], t.getX(), t.getY(), null);
+        }
+    }
+
+    public BufferedImage[] getTowerImgs() {
+        return towerImgs;
+    }
+
+    public void addTower(Tower selectedTower, int xPos, int yPos) {
+        towers.add(new Tower(xPos, yPos, towerCount++, selectedTower.getTowerType()));
     }
 
     private void loadTowerImages() {
@@ -36,9 +46,4 @@ public class TowerManager {
             towerImgs[i] = atlas.getSubimage((4 + i) * 32, 32, 32, 32);
         }
     }
-
-    private void initTowers() {
-        tower = new Tower(3 * 32, 6 * 32, 0, Towers.ARCHER);
-    }
-
 }
