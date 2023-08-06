@@ -73,11 +73,17 @@ public class Playing extends GameScene implements SceneMethods {
             actionBar.mouseClicked(x, y);
             return;
         } else {
-            if (selectedTower == null || !isTileGrass(mouseX, mouseY)) {
-                return;
+            if (selectedTower != null) {
+                if (isTileGrass(mouseX, mouseY) &&
+                        getTowerAt(mouseX, mouseY) == null) {
+                    towerManager.addTower(selectedTower, mouseX, mouseY);
+                    selectedTower = null;
+                    return;
+                }
+            } else {
+                Tower t = getTowerAt(mouseX, mouseY);
+                actionBar.displayTower(t);
             }
-            towerManager.addTower(selectedTower, mouseX, mouseY);
-            selectedTower = null;
         }
     }
 
@@ -135,6 +141,10 @@ public class Playing extends GameScene implements SceneMethods {
         int id = lvl[y / 32][x / 32];
         int tyleType = game.getTileManager().getTile(id).getTileType();
         return tyleType == Tiles.GRASS;
+    }
+
+    private Tower getTowerAt(int x, int y) {
+        return towerManager.getTowerAt(x, y);
     }
 
     private void drawLevel(Graphics g) {

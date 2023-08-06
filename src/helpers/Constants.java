@@ -26,6 +26,19 @@ public class Constants {
         public static final int CANNON = 0;
         public static final int ARCHER = 1;
         public static final int WIZARD = 2;
+
+        // TODO: Move this to separate "Towers" classes
+        public static String GetName(int towerType) {
+            switch (towerType) {
+                case CANNON:
+                    return "Cannon";
+                case ARCHER:
+                    return "Archer";
+                case WIZARD:
+                    return "Wizard";
+            }
+            return "";
+        }
     }
 
 }
