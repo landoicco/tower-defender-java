@@ -7,7 +7,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import helpers.LoadSave;
-import objects.Tower;
+import helpers.Constants.Towers;
+import towers.*;
 
 public class TowerManager {
 
@@ -45,7 +46,20 @@ public class TowerManager {
     }
 
     public void addTower(Tower selectedTower, int xPos, int yPos) {
-        towers.add(new Tower(xPos, yPos, towerCount++, selectedTower.getTowerType()));
+        towers.add(getSelectedTower(selectedTower, xPos, yPos));
+    }
+
+    public Tower getSelectedTower(Tower selectedTower, int xPos, int yPos) {
+        switch (selectedTower.getTowerType()) {
+            case Towers.ARCHER:
+                return new Archer(xPos, yPos, towerCount++, selectedTower.getTowerType());
+            case Towers.CANNON:
+                return new Cannon(xPos, yPos, towerCount++, selectedTower.getTowerType());
+            case Towers.WIZARD:
+                return new Wizard(xPos, yPos, towerCount++, selectedTower.getTowerType());
+            default:
+                return null;
+        }
     }
 
     private void loadTowerImages() {

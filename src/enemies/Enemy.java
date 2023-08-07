@@ -9,6 +9,7 @@ public abstract class Enemy {
     private Rectangle bounds;
     private int health, id, enemyType;
     private int lastDirection;
+    private float speed;
 
     public Enemy(float x, float y, int id, int enemyType) {
         this.x = x;
@@ -18,6 +19,16 @@ public abstract class Enemy {
 
         bounds = new Rectangle((int) x, (int) y, 32, 32);
         lastDirection = -1;
+    }
+
+    public Enemy(float x, float y, int id, int enemyType, int initialHealth) {
+        this(x, y, id, enemyType);
+        this.health = initialHealth;
+    }
+
+    public Enemy(float x, float y, int id, int enemyType, int initialHealth, float speed) {
+        this(x, y, id, enemyType, initialHealth);
+        this.speed = speed;
     }
 
     public void move(float speed, int direction) {
@@ -44,7 +55,9 @@ public abstract class Enemy {
         this.y = y;
     }
 
-    public abstract float getEnemySpeed();
+    public float getEnemySpeed() {
+        return speed;
+    }
 
     // Getters
 

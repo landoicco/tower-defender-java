@@ -6,7 +6,7 @@ import java.awt.Graphics;
 
 import helpers.Constants.Towers;
 import main.GameStates;
-import objects.Tower;
+import towers.Tower;
 import scenes.Playing;
 
 public class ActionBar extends Bar {
@@ -123,6 +123,15 @@ public class ActionBar extends Bar {
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         g.drawString(Towers.GetName(displayedTower.getTowerType()), 470, 695);
         g.drawString("ID: " + displayedTower.getId(), 470, 710);
+        g.drawString("Default Damage: " + displayedTower.getDefaultDamage(), 470, 730);
+        g.drawString("Default Range: " + displayedTower.getDefaulRange(), 470, 750);
+
+        drawDisplayedTowerBorder(g);
+    }
+
+    private void drawDisplayedTowerBorder(Graphics g) {
+        g.setColor(Color.CYAN);
+        g.drawRect(displayedTower.getX(), displayedTower.getY(), 32, 32);
     }
 
     private void drawButtons(Graphics g) {

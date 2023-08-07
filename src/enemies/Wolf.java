@@ -1,18 +1,13 @@
 package enemies;
 
-import static helpers.Constants.*;
+import helpers.Constants.Enemies;
 
 public class Wolf extends Enemy {
 
-    private float speed = 0.75f;
+    private static final float speed = 0.75f;
+    private static final int health = 100;
 
     public Wolf(float x, float y, int id) {
-        super(x, y, id, Enemies.WOLF);
+        super(x, y, id, Enemies.WOLF, health, speed);
     }
-
-    @Override
-    public float getEnemySpeed() {
-        return speed;
-    }
-
 }

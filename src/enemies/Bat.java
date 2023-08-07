@@ -1,18 +1,13 @@
 package enemies;
 
-import static helpers.Constants.*;
+import helpers.Constants.Enemies;
 
 public class Bat extends Enemy {
 
-    private float speed = 0.65f;
+    private static final float speed = 0.65f;
+    private static final int health = 30;
 
     public Bat(float x, float y, int id) {
-        super(x, y, id, Enemies.BAT);
+        super(x, y, id, Enemies.BAT, health, speed);
     }
-
-    @Override
-    public float getEnemySpeed() {
-        return speed;
-    }
-
 }

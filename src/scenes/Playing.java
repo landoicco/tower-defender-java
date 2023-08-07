@@ -1,6 +1,8 @@
 package scenes;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import helpers.LoadSave;
@@ -9,7 +11,7 @@ import main.Game;
 import managers.EnemyManager;
 import managers.TowerManager;
 import objects.PathPoint;
-import objects.Tower;
+import towers.Tower;
 import ui.ActionBar;
 
 public class Playing extends GameScene implements SceneMethods {
@@ -64,6 +66,7 @@ public class Playing extends GameScene implements SceneMethods {
         enemyManager.draw(g);
         towerManager.draw(g);
         drawSelectedTower(g);
+        drawHighLight(g);
     }
 
     @Override
@@ -113,6 +116,12 @@ public class Playing extends GameScene implements SceneMethods {
     public void mouseDragged(int x, int y) {
     }
 
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            selectedTower = null;
+        }
+    }
+
     public void setSelectedTower(Tower selectedTower) {
         this.selectedTower = selectedTower;
     }
@@ -145,6 +154,14 @@ public class Playing extends GameScene implements SceneMethods {
 
     private Tower getTowerAt(int x, int y) {
         return towerManager.getTowerAt(x, y);
+    }
+
+    private void drawHighLight(Graphics g) {
+        if (selectedTower == null) {
+            return;
+        }
+        g.setColor(Color.WHITE);
+        g.drawRect(mouseX, mouseY, 32, 32);
     }
 
     private void drawLevel(Graphics g) {
