@@ -7,7 +7,7 @@ public abstract class Enemy {
 
     private float x, y;
     private Rectangle bounds;
-    private int health, id, enemyType;
+    private int health, maxHealth, id, enemyType;
     private int lastDirection;
     private float speed;
 
@@ -23,12 +23,13 @@ public abstract class Enemy {
 
     public Enemy(float x, float y, int id, int enemyType, int initialHealth) {
         this(x, y, id, enemyType);
-        this.health = initialHealth;
+        this.health = this.maxHealth = initialHealth;
     }
 
     public Enemy(float x, float y, int id, int enemyType, int initialHealth, float speed) {
         this(x, y, id, enemyType, initialHealth);
         this.speed = speed;
+        this.maxHealth = initialHealth;
     }
 
     public void move(float speed, int direction) {
@@ -75,6 +76,10 @@ public abstract class Enemy {
 
     public int getHealth() {
         return health;
+    }
+
+    public float getHealthBarFloat() {
+        return health / maxHealth;
     }
 
     public int getEnemyType() {

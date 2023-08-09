@@ -123,10 +123,19 @@ public class ActionBar extends Bar {
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         g.drawString(Towers.GetName(displayedTower.getTowerType()), 470, 695);
         g.drawString("ID: " + displayedTower.getId(), 470, 710);
-        g.drawString("Default Damage: " + displayedTower.getDefaultDamage(), 470, 730);
-        g.drawString("Default Range: " + displayedTower.getDefaulRange(), 470, 750);
+        g.drawString("Default Damage: " + displayedTower.getDamage(), 470, 730);
+        g.drawString("Default Range: " + displayedTower.getRange(), 470, 750);
 
         drawDisplayedTowerBorder(g);
+        drawDisplayedTowerRange(g);
+    }
+
+    private void drawDisplayedTowerRange(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.drawOval(displayedTower.getX() + 16 - (int) (displayedTower.getRange() / 2),
+                displayedTower.getY() + 16 - (int) (displayedTower.getRange() / 2),
+                (int) displayedTower.getRange(),
+                (int) displayedTower.getRange());
     }
 
     private void drawDisplayedTowerBorder(Graphics g) {

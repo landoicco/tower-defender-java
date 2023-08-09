@@ -39,15 +39,15 @@ public class Tower {
         return id;
     }
 
-    public float getDefaultCooldown() {
+    public float getCooldown() {
         return defaultCooldown;
     }
 
-    public float getDefaulRange() {
+    public float getRange() {
         return defaultRange;
     }
 
-    public float getDefaultDamage() {
+    public float getDamage() {
         return defaultDamage;
     }
 

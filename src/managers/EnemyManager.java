@@ -1,5 +1,6 @@
 package managers;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class EnemyManager {
     private Playing playing;
     private BufferedImage[] enemyImgs;
     private PathPoint start, end;
+    private final int initialHealthBarWidth = 20;
 
     private ArrayList<Enemy> enemies = new ArrayList<>();
 
@@ -42,6 +44,7 @@ public class EnemyManager {
     public void draw(Graphics g) {
         for (Enemy e : enemies) {
             drawEnemy(e, g);
+            drawHealthBar(e, g);
         }
     }
 
@@ -67,6 +70,17 @@ public class EnemyManager {
 
     private void drawEnemy(Enemy e, Graphics g) {
         g.drawImage(enemyImgs[e.getEnemyType()], (int) e.getX(), (int) e.getY(), null);
+    }
+
+    private void drawHealthBar(Enemy e, Graphics g) {
+        g.setColor(Color.RED);
+        g.fillRect((int) e.getX() + 16 - (getHealthBarWidth(e) / 2),
+                ((int) e.getY() - 5),
+                getHealthBarWidth(e), 3);
+    }
+
+    private int getHealthBarWidth(Enemy e) {
+        return (int) (initialHealthBarWidth * e.getHealthBarFloat());
     }
 
     // We use 4 because we know we only have 4 enemy sprites at this point
