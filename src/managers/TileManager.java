@@ -70,23 +70,23 @@ public class TileManager {
                 int id = 0;
 
                 // Basics
-                tiles.add(GRASS = new Tile(getSprite(9, 0), id++, Tiles.GRASS));
-                tiles.add(WATER = new Tile(getAnimatedSprite(0, 0, 4), id++, Tiles.WATER));
+                tiles.add(GRASS = new Tile(getSprite(0, 2), id++, Tiles.GRASS));
+                tiles.add(WATER = new Tile(getSprite(0, 3), id++, Tiles.WATER));
 
                 // Plain roads
-                plainRoads.add(ROAD_L_TO_R = new Tile(ImageFix.GetRotatedImage(getSprite(8, 0),
+                plainRoads.add(ROAD_L_TO_R = new Tile(ImageFix.GetRotatedImage(getSprite(0, 1),
                                 0), id++, Tiles.ROAD));
-                plainRoads.add(ROAD_B_TO_T = new Tile(ImageFix.GetRotatedImage(getSprite(8, 0),
+                plainRoads.add(ROAD_B_TO_T = new Tile(ImageFix.GetRotatedImage(getSprite(0, 1),
                                 90), id++, Tiles.ROAD));
 
                 // Corner roads
-                cornerRoads.add(BR_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(7, 0), 0),
+                cornerRoads.add(BR_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(5, 0), 0),
                                 id++, Tiles.ROAD));
-                cornerRoads.add(LB_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(7, 0), 90),
+                cornerRoads.add(LB_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(5, 0), 90),
                                 id++, Tiles.ROAD));
-                cornerRoads.add(TL_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(7, 0), 180),
+                cornerRoads.add(TL_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(5, 0), 180),
                                 id++, Tiles.ROAD));
-                cornerRoads.add(RT_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(7, 0), 270),
+                cornerRoads.add(RT_ROAD = new Tile(ImageFix.GetRotatedImage(getSprite(5, 0), 270),
                                 id++, Tiles.ROAD));
 
                 // Water corners
