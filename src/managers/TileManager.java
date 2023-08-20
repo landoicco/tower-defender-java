@@ -91,47 +91,44 @@ public class TileManager {
 
                 // Water corners
                 corners.add(BL_WATER_CORNER = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(5, 0), 0, 0),
+                                ImageFix.GetRotatedImage(getSprite(5, 5), 0),
                                 id++, Tiles.WATER));
                 corners.add(TL_WATER_CORNER = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(5, 0), 90, 0),
-                                id++,
-                                Tiles.WATER));
+                                ImageFix.GetRotatedImage(getSprite(5, 5), 90),
+                                id++, Tiles.WATER));
                 corners.add(TR_WATER_CORNER = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(5, 0), 180, 0),
-                                id++,
-                                Tiles.WATER));
+                                ImageFix.GetRotatedImage(getSprite(5, 5), 180),
+                                id++, Tiles.WATER));
                 corners.add(BR_WATER_CORNER = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(5, 0), 270, 0),
-                                id++,
-                                Tiles.WATER));
+                                ImageFix.GetRotatedImage(getSprite(5, 5), 270),
+                                id++, Tiles.WATER));
 
                 // Coasts
                 coasts.add(T_WATER = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(6, 0), 0, 0),
+                                ImageFix.GetRotatedImage(getSprite(2, 7), 0),
                                 id++, Tiles.WATER));
                 coasts.add(R_WATER = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(6, 0), 90, 0),
+                                ImageFix.GetRotatedImage(getSprite(2, 7), 90),
                                 id++, Tiles.WATER));
                 coasts.add(B_WATER = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(6, 0), 180, 0),
+                                ImageFix.GetRotatedImage(getSprite(2, 7), 180),
                                 id++, Tiles.WATER));
                 coasts.add(L_WATER = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(6, 0), 270, 0),
+                                ImageFix.GetRotatedImage(getSprite(2, 7), 270),
                                 id++, Tiles.WATER));
 
                 // Island corners
                 islands.add(TL_ISLAND = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(4, 0), 0, 0),
+                                ImageFix.GetRotatedImage(getSprite(9, 7), 0),
                                 id++, Tiles.WATER));
                 islands.add(TR_ISLAND = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(4, 0), 90, 0),
+                                ImageFix.GetRotatedImage(getSprite(9, 7), 90),
                                 id++, Tiles.WATER));
                 islands.add(BR_ISLAND = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(4, 0), 180, 0),
+                                ImageFix.GetRotatedImage(getSprite(9, 7), 180),
                                 id++, Tiles.WATER));
                 islands.add(BL_ISLAND = new Tile(
-                                ImageFix.GetRotatedBuildedImage(getAnimatedSprite(0, 0, 4), getSprite(4, 0), 270, 0),
+                                ImageFix.GetRotatedImage(getSprite(9, 7), 270),
                                 id++, Tiles.WATER));
 
                 // Add all tiles to original ArrayList
