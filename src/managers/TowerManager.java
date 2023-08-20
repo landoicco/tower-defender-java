@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import helpers.ImageFix;
 import helpers.LoadSave;
 import objects.Tower;
 
@@ -52,7 +53,9 @@ public class TowerManager {
         BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
         towerImgs = new BufferedImage[3];
         for (int i = 0; i < 3; i++) {
-            towerImgs[i] = atlas.getSubimage((20 + i) * 32, (8) * 32, 32, 32);
+            BufferedImage topImg = atlas.getSubimage((20 + i) * 32, (8) * 32, 32, 32);
+            BufferedImage backgroundImg = atlas.getSubimage((20 + i) * 32, (7) * 32, 32, 32);
+            towerImgs[i] = ImageFix.BuildImage(new BufferedImage[] { backgroundImg, topImg });
         }
     }
 }
