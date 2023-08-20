@@ -197,8 +197,8 @@ public class ToolBar extends Bar {
     }
 
     private void initPathImages() {
-        pathStart = LoadSave.GetSpriteAtlas().getSubimage(7 * 32, 2 * 32, 32, 32);
-        pathEnd = LoadSave.GetSpriteAtlas().getSubimage(8 * 32, 2 * 32, 32, 32);
+        pathStart = LoadSave.GetSpriteAtlas("spriteatlas_legacy").getSubimage(7 * 32, 2 * 32, 32, 32);
+        pathEnd = LoadSave.GetSpriteAtlas("spriteatlas_legacy").getSubimage(8 * 32, 2 * 32, 32, 32);
     }
 
     private void drawButtons(Graphics g) {
