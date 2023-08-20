@@ -49,10 +49,10 @@ public class TowerManager {
     }
 
     private void loadTowerImages() {
-        BufferedImage atlas = LoadSave.GetSpriteAtlas();
+        BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
         towerImgs = new BufferedImage[3];
         for (int i = 0; i < 3; i++) {
-            towerImgs[i] = atlas.getSubimage((4 + i) * 32, 32, 32, 32);
+            towerImgs[i] = atlas.getSubimage((20 + i) * 32, (8) * 32, 32, 32);
         }
     }
 }
