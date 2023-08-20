@@ -143,8 +143,7 @@ public class TileManager {
                 atlas = LoadSave.GetSpriteAtlas();
         }
 
-        // TODO: amount may be redundant at this point, we know that we only have 4
-        // sprites per animation
+        // We don't have animated tiles here
         private BufferedImage[] getAnimatedSprite(int xCord, int yCord, int amount) {
                 BufferedImage[] arr = new BufferedImage[amount];
                 for (int i = 0; i < amount; i++) {

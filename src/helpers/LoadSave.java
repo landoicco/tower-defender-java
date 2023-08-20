@@ -17,7 +17,19 @@ public class LoadSave {
 
     public static BufferedImage GetSpriteAtlas() {
         BufferedImage img = null;
-        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("res/spriteatlas.png");
+        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("res/spriteatlas_roads.png");
+        try {
+            img = ImageIO.read(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return img;
+    }
+
+    public static BufferedImage GetSpriteAtlas(String atlasName) {
+        BufferedImage img = null;
+        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("res/" + atlasName + ".png");
         try {
             img = ImageIO.read(is);
         } catch (IOException e) {

@@ -71,10 +71,11 @@ public class EnemyManager {
 
     // We use 4 because we know we only have 4 enemy sprites at this point
     private void loadEnemyImgs() {
-        BufferedImage atlas = LoadSave.GetSpriteAtlas();
+        BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
 
         for (int i = 0; i < 4; i++) {
-            enemyImgs[i] = atlas.getSubimage(i * 32, 32, 32, 32);
+            // For position of enemies in spritesheet_actors
+            enemyImgs[i] = atlas.getSubimage((i * 32) + (15 * 32), (10 * 32), 32, 32);
         }
     }
 
