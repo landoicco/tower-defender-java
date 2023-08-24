@@ -1,13 +1,15 @@
 package scenes;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import main.Game;
 import main.GameStates;
-import ui.MyButton;
+import ui.TextButton;
 
 public class Menu extends GameScene implements SceneMethods {
 
-    private MyButton bPlaying, bEdit, bSettings, bQuit;
+    private TextButton bPlaying, bEdit, bSettings, bQuit;
 
     public Menu(Game game) {
         super(game);
@@ -17,7 +19,15 @@ public class Menu extends GameScene implements SceneMethods {
 
     @Override
     public void render(Graphics g) {
+        // Draw background
+        g.setColor(new Color(195, 204, 128));
+        g.fillRect(0, 0, 640, 800);
+
         drawButtons(g);
+
+        // Draw version
+        g.setFont(new Font("Arial", Font.PLAIN, 15));
+        g.drawString("v0.0.1", 590, 795);
     }
 
     @Override
@@ -89,16 +99,16 @@ public class Menu extends GameScene implements SceneMethods {
     private void initButtons() {
 
         int height, width, xPos, yPos, padding;
-        height = 30;
-        width = 100;
+        height = 50;
+        width = 120;
         xPos = 270;
-        yPos = 250;
-        padding = 15;
+        yPos = 200;
+        padding = 20;
 
-        bPlaying = new MyButton("Play", xPos, yPos, width, height);
-        bEdit = new MyButton("Edit", xPos, yPos + (height + padding), width, height, width);
-        bSettings = new MyButton("Settings", xPos, yPos + 2 * (height + padding), width, height);
-        bQuit = new MyButton("Quit", xPos, yPos + 3 * (height + padding), width, height);
+        bPlaying = new TextButton("Play", xPos, yPos, width, height);
+        bEdit = new TextButton("Edit", xPos, yPos + (height + padding), width, height);
+        bSettings = new TextButton("Settings", xPos, yPos + 2 * (height + padding), width, height);
+        bQuit = new TextButton("Quit", xPos, yPos + 3 * (height + padding), width, height);
     }
 
     private void drawButtons(Graphics g) {
