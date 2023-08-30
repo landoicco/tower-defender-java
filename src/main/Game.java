@@ -21,7 +21,7 @@ public class Game extends JFrame {
     private Render render;
     private Menu menu;
     private Playing playing;
-    private Settings settings;
+    private Credits credits;
     private Editing editing;
 
     public Game() {
@@ -99,7 +99,7 @@ public class Game extends JFrame {
         gameScreen = new GameScreen(this);
         menu = new Menu(this);
         playing = new Playing(this);
-        settings = new Settings(this);
+        credits = new Credits(this);
         editing = new Editing(this);
     }
 
@@ -143,8 +143,8 @@ public class Game extends JFrame {
         return playing;
     }
 
-    public Settings getSettings() {
-        return settings;
+    public Credits getCredits() {
+        return credits;
     }
 
     public Editing getEditing() {

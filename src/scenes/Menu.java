@@ -26,6 +26,7 @@ public class Menu extends GameScene implements SceneMethods {
         drawButtons(g);
 
         // Draw version
+        g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         g.drawString("v0.0.1", 590, 795);
     }
@@ -107,7 +108,7 @@ public class Menu extends GameScene implements SceneMethods {
 
         bPlaying = new TextButton("Play", xPos, yPos, width, height);
         bEdit = new TextButton("Edit", xPos, yPos + (height + padding), width, height);
-        bSettings = new TextButton("Settings", xPos, yPos + 2 * (height + padding), width, height);
+        bSettings = new TextButton("Credits", xPos, yPos + 2 * (height + padding), width, height);
         bQuit = new TextButton("Quit", xPos, yPos + 3 * (height + padding), width, height);
     }
 
