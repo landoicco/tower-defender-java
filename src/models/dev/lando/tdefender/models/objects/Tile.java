@@ -1,4 +1,4 @@
-package objects;
+package models.dev.lando.tdefender.models.objects;
 
 import java.awt.image.BufferedImage;
 

@@ -1,4 +1,4 @@
-package objects;
+package models.dev.lando.tdefender.models.objects;
 
 public class PathPoint {
     private int xCord, yCord;
