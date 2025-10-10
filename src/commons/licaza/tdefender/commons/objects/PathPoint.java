@@ -1,4 +1,4 @@
-package licaza.tdefender.models.objects;
+package licaza.tdefender.commons.objects;
 
 public class PathPoint {
     private int xCord, yCord;

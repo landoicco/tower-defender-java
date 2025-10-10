@@ -11,8 +11,8 @@ mkdir src/mods
 
 # Create models module
 javac \
-    --module-path mods -d src/models/target \
-    src/models/licaza/tdefender/models/objects/**.java \
-    src/models/module-info.java \
+    --module-path mods -d src/commons/target \
+    src/commons/licaza/tdefender/commons/objects/**.java \
+    src/commons/module-info.java \
 
-jar -cvf src/mods/models.jar -C src/models/target .
+jar -cvf src/mods/licaza.tdefender.commons.jar -C src/commons/target .
