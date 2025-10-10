@@ -1,27 +1,6 @@
 #!/bin/bash
 
-##################################################
-# Utility methods for formating outputs strings
-##################################################
-
-# Make text bold
-text_bold() {
-echo -en "\e[1m$1\e[0m"   
-}
-# Make text yellow
-text_yellow() {
-    echo -e "\e[33m$1\e[0m"
-}
-
-# Make text bold and green
-text_bgreen() {
-    echo -e "\e[1;32m$1\e[0m"
-}
-
-# Make text bold and yellow
-text_byellow() {
-    echo -e "\e[1;33m$1\e[0m"
-}
+source utils.sh
 
 ##################################################
 # Methods for each listed option in the script
@@ -79,6 +58,7 @@ build_and_pack() {
 
 # Start game
 play() {
+
     text_byellow "=== Running Java ==="
 
     java \
@@ -126,58 +106,9 @@ deps() {
 
     text_byellow "=== Dependency graph ==="
 
-    text_bold "Modules found: "
+    text_bold "Modules found:\n\t"
     ls src/mods
 
     echo
     jdeps -s src/mods/*
 }
-
-##################################################
-# Logic that show options when running script
-##################################################
-
-text_bgreen \
-"
-================================
-======== Builder Script ========
-================================
-"
-
-text_bold "Quick options: "
-text_yellow "clean, build, play, bplay, install"
-echo -n "For more options, type "
-text_yellow "help"
-echo
-
-read -p "Enter your selection: " action
-
-case "$action" in
-    "clean")
-        clean
-        ;;
-    "build")
-        clean
-        build_and_pack
-        ;;
-    "play")
-        play
-        ;;
-    "bplay")
-        clean
-        build_and_pack
-        play
-        ;;
-    "install")
-        echo "Installing..."
-        ;;
-    "help")
-        help
-        ;;
-    "deps")
-        deps
-        ;;
-    *)
-        echo "ERROR: Unknown selection."
-        ;;
-esac
