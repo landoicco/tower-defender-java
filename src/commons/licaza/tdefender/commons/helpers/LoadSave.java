@@ -1,4 +1,4 @@
-package helpers;
+package licaza.tdefender.commons.helpers;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-import objects.PathPoint;
+import licaza.tdefender.commons.objects.PathPoint;
 
 public class LoadSave {
 
