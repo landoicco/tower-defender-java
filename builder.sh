@@ -1,8 +1,35 @@
 #!/bin/bash
 
+##################################################
+# Utility methods for formating outputs strings
+##################################################
+
+# Make text bold
+text_bold() {
+echo -en "\e[1m$1\e[0m"   
+}
+# Make text yellow
+text_yellow() {
+    echo -e "\e[33m$1\e[0m"
+}
+
+# Make text bold and green
+text_bgreen() {
+    echo -e "\e[1;32m$1\e[0m"
+}
+
+# Make text bold and yellow
+text_byellow() {
+    echo -e "\e[1;33m$1\e[0m"
+}
+
+##################################################
+# Methods for each listed option in the script
+##################################################
+
 clean() {
 
-    echo "=== Cleaning Java ==="
+    text_byellow "=== Cleaning Java ==="
 
     # Destroy all .class files
     rm -rf src/**/target
@@ -17,7 +44,7 @@ clean() {
 # Compiles and packages all Java code into modules
 build_and_pack() {
 
-    echo "=== Building Java ==="
+    text_byellow "=== Building Java ==="
 
     # Create commons module
     javac \
@@ -52,20 +79,30 @@ build_and_pack() {
 
 # Start game
 play() {
-    echo "=== Running Java ==="
+    text_byellow "=== Running Java ==="
 
     java \
         --module-path src/mods \
         --module licaza.tdefender.core/licaza.tdefender.core.main.Game  
 }
 
-echo -e \
+##################################################
+# Logic that show options when running script
+##################################################
+
+text_bgreen \
 "
 ================================
 ======== Builder Script ========
 ================================
 "
-echo "Available options: clean, build, play, bplay (build & play), install"
+
+text_bold "Quick options: "
+text_yellow "clean, build, play, bplay, install"
+echo -n "For more options, type "
+text_yellow "help"
+echo
+
 read -p "Enter your selection: " action
 
 case "$action" in
@@ -86,6 +123,9 @@ case "$action" in
         ;;
     "install")
         echo "Installing..."
+        ;;
+    "help")
+        text_byellow "All commands"
         ;;
     *)
         echo "ERROR: Unknown selection."
