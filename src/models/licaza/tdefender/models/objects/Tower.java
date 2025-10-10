@@ -1,4 +1,4 @@
-package models.dev.lando.tdefender.models.objects;
+package licaza.tdefender.models.objects;
 
 public class Tower {
 

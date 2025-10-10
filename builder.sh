@@ -12,7 +12,7 @@ mkdir src/mods
 # Create models module
 javac \
     --module-path mods -d src/models/target \
-    src/models/dev/lando/tdefender/models/objects/**.java \
+    src/models/licaza/tdefender/models/objects/**.java \
     src/models/module-info.java \
 
 jar -cvf src/mods/models.jar -C src/models/target .
