@@ -17,7 +17,7 @@ public class LoadSave {
 
     public static BufferedImage GetSpriteAtlas() {
         BufferedImage img = null;
-        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("res/spriteatlas_roads.png");
+        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("spriteatlas_roads.png");
         try {
             img = ImageIO.read(is);
         } catch (IOException e) {
@@ -29,7 +29,7 @@ public class LoadSave {
 
     public static BufferedImage GetSpriteAtlas(String atlasName) {
         BufferedImage img = null;
-        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream("res/" + atlasName + ".png");
+        InputStream is = LoadSave.class.getClassLoader().getResourceAsStream(atlasName + ".png");
         try {
             img = ImageIO.read(is);
         } catch (IOException e) {
@@ -40,7 +40,7 @@ public class LoadSave {
     }
 
     public static void CreateFile() {
-        File file = new File("res/test.txt");
+        File file = new File("test.txt");
         try {
             file.createNewFile();
         } catch (IOException e) {
@@ -49,7 +49,7 @@ public class LoadSave {
     }
 
     public static void SaveLevel(String name, int[][] idArray, PathPoint start, PathPoint end) {
-        File levelFile = new File("res/" + name + ".txt");
+        File levelFile = new File(name + ".txt");
 
         if (levelFile.exists()) {
             int[] oneDimArray = Utils.TwoDTo1DintArray(idArray);
@@ -61,7 +61,7 @@ public class LoadSave {
     }
 
     public static void CreateLevel(String name, int[] idArr) {
-        File newLevel = new File("res/" + name + ".txt");
+        File newLevel = new File(name + ".txt");
 
         if (newLevel.exists()) {
             return;
@@ -78,7 +78,7 @@ public class LoadSave {
     }
 
     public static int[][] GetLevelData(String name) {
-        File lvlFile = new File("res/" + name + ".txt");
+        File lvlFile = new File(name + ".txt");
         if (!lvlFile.exists()) {
             System.out.println("File: " + name + " does not exists");
             return null;
@@ -90,7 +90,7 @@ public class LoadSave {
     }
 
     public static ArrayList<PathPoint> GetLevelPathPoints(String name) {
-        File lvlFile = new File("res/" + name + ".txt");
+        File lvlFile = new File(name + ".txt");
         if (!lvlFile.exists()) {
             System.out.println("File: " + name + " does not exists");
             return null;

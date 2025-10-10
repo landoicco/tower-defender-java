@@ -4,6 +4,9 @@ clean() {
 
     echo "=== Cleaning Java ==="
 
+    # Destroy all .class files
+    rm -rf src/**/target
+
     # Clean prev builds
     rm -rf src/mods
 
@@ -18,10 +21,13 @@ build_and_pack() {
 
     # Create commons module
     javac \
-        --module-path src/mods -d src/commons/target \
+        --module-path src/mods \
+        -d src/commons/target \
         src/commons/licaza/tdefender/commons/objects/**.java \
         src/commons/licaza/tdefender/commons/helpers/**.java \
         src/commons/module-info.java \
+
+    cp -r src/res/** src/commons/target/
 
     jar -cvf src/mods/licaza.tdefender.commons.jar -C src/commons/target .
 
