@@ -37,3 +37,8 @@ text_bgreen() {
 text_byellow() {
     echo -e "\e[1;33m$1\e[0m"
 }
+
+# Make text bold and red
+text_bred() {
+    echo -e "\033[1;31m$1\033[0m"
+}

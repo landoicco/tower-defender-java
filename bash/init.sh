@@ -52,6 +52,6 @@ case "$action" in
         deps
         ;;
     *)
-        echo "ERROR: Unknown selection."
+        text_bred "ERROR: Unknown selection."
         ;;
 esac
