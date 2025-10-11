@@ -25,6 +25,7 @@ public class Game extends JFrame {
     private Editing editing;
 
     public Game() {
+        super("Zombie Defenders");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);

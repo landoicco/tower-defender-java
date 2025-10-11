@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+@Deprecated
 public class MyButton {
     public final int x, y, width, height, id;
 
