@@ -1,5 +1,17 @@
 #!/bin/bash
 
+# # As design principle, the formal name of the module to be build
+# # needs to be defined on a variable
+
+readonly COMMONS_MODULE=licaza.tdefender.commons
+readonly CORE_MODULE=licaza.tdefender.core
+
+# # same with paths...
+
+readonly COMMONS_PATH=src/commons/licaza/tdefender/commons
+readonly CORE_PATH=src/core/licaza/tdefender/core
+
+
 ######################################################
 # All Java-related commands (Compiling and packaging)
 ######################################################
@@ -11,30 +23,30 @@ build_commons() {
     javac \
         --module-path src/mods \
         -d src/commons/target \
-        src/commons/licaza/tdefender/commons/objects/**.java \
-        src/commons/licaza/tdefender/commons/helpers/**.java \
+        ${COMMONS_PATH}/objects/**.java \
+        ${COMMONS_PATH}/helpers/**.java \
         src/commons/module-info.java \
 
     cp -r src/res/** src/commons/target/
 
-    jar -cvf src/mods/licaza.tdefender.commons.jar -C src/commons/target .
+    jar -cvf src/mods/${COMMONS_MODULE}.jar -C src/commons/target .
 }
 
 # licaza.tdefender.core
 build_core() {
     javac \
         --module-path src/mods -d src/core/target \
-        src/core/licaza/tdefender/core/enemies/**.java \
-        src/core/licaza/tdefender/core/scenes/**.java \
-        src/core/licaza/tdefender/core/ui/**.java \
-        src/core/licaza/tdefender/core/managers/**.java \
-        src/core/licaza/tdefender/core/inputs/**.java \
-        src/core/licaza/tdefender/core/main/**.java \
+        ${CORE_PATH}/enemies/**.java \
+        ${CORE_PATH}/scenes/**.java \
+        ${CORE_PATH}/ui/**.java \
+        ${CORE_PATH}/managers/**.java \
+        ${CORE_PATH}/inputs/**.java \
+        ${CORE_PATH}/main/**.java \
         src/core/module-info.java \
 
     jar \
-        -cvfe src/mods/licaza.tdefender.core.jar \
-        licaza.tdefender.core.main.Game \
+        -cvfe src/mods/${CORE_MODULE}.jar \
+        ${CORE_MODULE}.main.Game \
         -C src/core/target .
 }
     
