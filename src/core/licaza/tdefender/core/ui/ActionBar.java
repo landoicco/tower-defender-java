@@ -125,6 +125,7 @@ public class ActionBar extends Bar {
         g.drawString("ID: " + displayedTower.getId(), 470, 710);
 
         drawDisplayedTowerBorder(g);
+        drawDisplayedTowerRange(g);
     }
 
     private void drawButtons(Graphics g) {
@@ -141,6 +142,14 @@ public class ActionBar extends Bar {
     private void drawDisplayedTowerBorder(Graphics g) {
         g.setColor(Color.GREEN);
         g.drawRect(displayedTower.getX(), displayedTower.getY(), 32, 32);
+    }
+
+    private void drawDisplayedTowerRange(Graphics g) {
+        g.setColor(Color.RED);
+        // Logic to centre the tower range
+        g.drawOval(displayedTower.getX() + 16 - (int) displayedTower.getRange() / 2,
+                displayedTower.getY() + 16 - (int) displayedTower.getRange() / 2, (int) displayedTower.getRange(),
+                (int) displayedTower.getRange());
     }
 
 }

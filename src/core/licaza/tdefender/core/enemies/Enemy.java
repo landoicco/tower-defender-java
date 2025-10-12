@@ -2,13 +2,13 @@ package licaza.tdefender.core.enemies;
 
 import java.awt.Rectangle;
 
-import licaza.tdefender.commons.helpers.Constants.Direction;
+import licaza.tdefender.commons.helpers.Constants.*;
 
 public abstract class Enemy {
 
     private float x, y;
     private Rectangle bounds;
-    private int health, id, enemyType;
+    private int health, maxHealth, id, enemyType;
     private int lastDirection;
 
     public Enemy(float x, float y, int id, int enemyType) {
@@ -19,6 +19,11 @@ public abstract class Enemy {
 
         bounds = new Rectangle((int) x, (int) y, 32, 32);
         lastDirection = -1;
+    }
+
+    public Enemy(float x, float y, int id, int enemyType, int startHealth) {
+        this(x, y, id, enemyType);
+        this.maxHealth = this.health = startHealth;
     }
 
     public void move(float speed, int direction) {
@@ -75,6 +80,10 @@ public abstract class Enemy {
 
     public Rectangle getRectangle() {
         return bounds;
+    }
+
+    public float getHealthBarFloat() {
+        return health / (float) maxHealth;
     }
 
 }
