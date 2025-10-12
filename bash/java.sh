@@ -3,13 +3,11 @@
 # # As design principle, the formal name of the module to be build
 # # needs to be defined on a variable
 
-readonly COMMONS_MODULE=licaza.tdefender.commons
-readonly CORE_MODULE=licaza.tdefender.core
-
-# # same with paths...
-
-readonly COMMONS_PATH=src/commons/licaza/tdefender/commons
-readonly CORE_PATH=src/core/licaza/tdefender/core
+COMMONS_MODULE=licaza.tdefender.commons
+CORE_MODULE=licaza.tdefen
+ 
+COMMONS_PATH=src/commons/licaza/tdefender/commons
+CORE_PATH=src/core/licaza/tdefender/core
 
 
 ######################################################

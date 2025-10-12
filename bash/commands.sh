@@ -46,35 +46,7 @@ play() {
 # Show to the user all available commands 
 help() {
     text_byellow "=== ALL COMMANDS ==="
-
-    # deps
-    echo -ne "\tList modules and show dependency graphs - "
-    text_yellow "deps"
-
-    # clean
-    echo -ne "\tClean all previous builds - "
-    text_yellow "clean"
-
-    # build
-    echo -ne "\tCompile code and pack modules - "
-    text_yellow "build"
-
-    # bplay
-    echo -ne "\tBuild source code and play game - "
-    text_yellow "bplay"
-
-    # install
-    echo -ne "\tCreate executable of this game - "
-    text_yellow "install"
-
-    # help
-    echo -ne "\tList all available commands - "
-    text_yellow "help"
-
-    # play
-    echo -ne "\tPlay game - "
-    text_yellow "play"
-
+    show_long_menu
 }
 
 deps() {

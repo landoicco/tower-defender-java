@@ -10,22 +10,22 @@ cd ..
 # Logic that show options when running script
 ##################################################
 
-text_bgreen \
-"
-================================
-======== Builder Script ========
-================================
-"
+# # Check if an 'action' was given as argument when running init.sh
 
-text_bold "Quick options: "
-text_yellow "clean, build, play, bplay, install"
-echo -n "For more options, type "
-text_yellow "help"
-echo
+# If no parameters were given...
+if [ $# -eq 0 ]; then
+    # Presentation of the script
+    show_headline
+    show_quick_menu
 
-read -p "Enter your selection: " action
+    read -p "Enter your selection: " action
+    
+# If parameters are given
+else
+    action=$1
+fi   
 
-# Logic for choosing the desired command
+# # Logic for choosing the desired command
 case "$action" in
     "clean")
         clean
