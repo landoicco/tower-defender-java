@@ -1,5 +1,6 @@
 package licaza.tdefender.core.managers;
 
+import licaza.tdefender.core.enemies.Enemy;
 import licaza.tdefender.core.scenes.Playing;
 
 import java.awt.Graphics;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 import licaza.tdefender.commons.helpers.ImageFix;
 import licaza.tdefender.commons.helpers.LoadSave;
+import licaza.tdefender.commons.helpers.Utils;
 import licaza.tdefender.commons.objects.Tower;
 
 public class TowerManager {
@@ -23,7 +25,7 @@ public class TowerManager {
     }
 
     public void update() {
-
+        attackEnemyIfClose();
     }
 
     public void draw(Graphics g) {
@@ -57,5 +59,27 @@ public class TowerManager {
             BufferedImage backgroundImg = atlas.getSubimage((20 + i) * 32, (7) * 32, 32, 32);
             towerImgs[i] = ImageFix.BuildImage(new BufferedImage[] { backgroundImg, topImg });
         }
+    }
+
+    private void attackEnemyIfClose() {
+        for (Tower t : towers) {
+            for (Enemy e : playing.getEnemyManager().getEnemies()) {
+                // If enemy is already dead, do nothing
+                if(!e.isAlive()) {
+                    return;
+                }
+                if (isEnemyInRange(t, e)) {
+                    // Shoot enemy
+                    e.hurt(1);
+                } else {
+                    // Do nothing
+                }
+            }
+        }
+    }
+
+    private boolean isEnemyInRange(Tower t, Enemy e) {
+        int range = Utils.GetHypotenuseDistance(t.getX(), t.getY(), e.getX(), e.getY());
+        return range < t.getRange();
     }
 }

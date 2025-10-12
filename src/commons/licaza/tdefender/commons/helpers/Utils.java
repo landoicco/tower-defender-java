@@ -32,4 +32,12 @@ public class Utils {
         return oneDimArray;
     }
 
+    // TODO: Is just 'getHypotenuse' better? Distance of what?
+    public static int GetHypotenuseDistance(float x1, float y1, float x2, float y2) {
+        float xDiff = Math.abs(x2 - x1);
+        float yDiff = Math.abs(y2 - y1);
+
+        return (int) Math.hypot(xDiff, yDiff);
+    }
+
 }

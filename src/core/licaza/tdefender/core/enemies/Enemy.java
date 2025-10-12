@@ -8,6 +8,7 @@ public abstract class Enemy {
 
     private float x, y;
     private Rectangle bounds;
+    private boolean alive = true;
     private int health, maxHealth, id, enemyType;
     private int lastDirection;
 
@@ -84,6 +85,17 @@ public abstract class Enemy {
 
     public float getHealthBarFloat() {
         return health / (float) maxHealth;
+    }
+
+    public void hurt(int damage) {
+        this.health -= damage;
+        if (health <= 0) {
+            alive = false;
+        }
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
 }

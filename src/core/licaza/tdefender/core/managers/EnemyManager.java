@@ -37,12 +37,19 @@ public class EnemyManager {
 
     public void update() {
         for (Enemy e : enemies) {
+            if (!e.isAlive()) {
+                return;
+            }
             updateEnemyMove(e);
         }
     }
 
     public void draw(Graphics g) {
         for (Enemy e : enemies) {
+            // If enemy is not alive, do not draw it!
+            if (!e.isAlive()) {
+                return;
+            }
             drawEnemy(e, g);
             drawHealthBar(e, g);
         }
@@ -66,6 +73,10 @@ public class EnemyManager {
                 break;
 
         }
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
     }
 
     private void drawEnemy(Enemy e, Graphics g) {
@@ -177,7 +188,8 @@ public class EnemyManager {
         g.setColor(Color.RED);
 
         // Logic to ensure health bar shows at the center of the enemy sprite
-        g.fillRect((int) e.getX() + 16 - (getNewBarWidth(e) / 2), (int) e.getY() - 10, getNewBarWidth(e), healthBarHeight);
+        g.fillRect((int) e.getX() + 16 - (getNewBarWidth(e) / 2), (int) e.getY() - 10, getNewBarWidth(e),
+                healthBarHeight);
     }
 
     private int getNewBarWidth(Enemy e) {
