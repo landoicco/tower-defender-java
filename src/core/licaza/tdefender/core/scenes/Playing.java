@@ -1,6 +1,8 @@
 package licaza.tdefender.core.scenes;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import licaza.tdefender.commons.helpers.LoadSave;
@@ -64,6 +66,7 @@ public class Playing extends GameScene implements SceneMethods {
         enemyManager.draw(g);
         towerManager.draw(g);
         drawSelectedTower(g);
+        drawHighlight(g);
     }
 
     @Override
@@ -113,6 +116,12 @@ public class Playing extends GameScene implements SceneMethods {
     public void mouseDragged(int x, int y) {
     }
 
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            selectedTower = null;
+        }
+    }
+
     public void setSelectedTower(Tower selectedTower) {
         this.selectedTower = selectedTower;
     }
@@ -135,6 +144,11 @@ public class Playing extends GameScene implements SceneMethods {
         }
         g.drawImage(towerManager.getTowerImgs()[selectedTower.getTowerType()],
                 mouseX, mouseY, null);
+    }
+
+    private void drawHighlight(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.drawRect(mouseX, mouseY, 32, 32);
     }
 
     private boolean isTileGrass(int x, int y) {

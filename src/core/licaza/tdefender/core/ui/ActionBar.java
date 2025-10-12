@@ -123,6 +123,8 @@ public class ActionBar extends Bar {
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         g.drawString(Towers.GetName(displayedTower.getTowerType()), 470, 695);
         g.drawString("ID: " + displayedTower.getId(), 470, 710);
+
+        drawDisplayedTowerBorder(g);
     }
 
     private void drawButtons(Graphics g) {
@@ -135,4 +137,10 @@ public class ActionBar extends Bar {
             drawButtonFeedback(g, b);
         }
     }
+
+    private void drawDisplayedTowerBorder(Graphics g) {
+        g.setColor(Color.GREEN);
+        g.drawRect(displayedTower.getX(), displayedTower.getY(), 32, 32);
+    }
+
 }

@@ -27,6 +27,7 @@ public class KeyboardListener implements KeyListener {
             case MENU:
                 break;
             case PLAYING:
+                game.getPlaying().keyPressed(e);
                 break;
             case SETTINGS:
                 break;

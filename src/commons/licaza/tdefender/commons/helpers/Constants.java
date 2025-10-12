@@ -22,12 +22,12 @@ public class Constants {
         public static final int WOLF = 3;
     }
 
+    // TODO: Move this to separate "Towers" classes
     public static class Towers {
         public static final int CANNON = 0;
         public static final int ARCHER = 1;
         public static final int WIZARD = 2;
 
-        // TODO: Move this to separate "Towers" classes
         public static String GetName(int towerType) {
             switch (towerType) {
                 case CANNON:
@@ -38,6 +38,42 @@ public class Constants {
                     return "Wizard";
             }
             return "";
+        }
+
+        public static float GetDefaultDamage(int towerType) {
+            switch (towerType) {
+                case CANNON:
+                    return 25;
+                case ARCHER:
+                    return 15;
+                case WIZARD:
+                    return 10;
+            }
+            return 0;
+        }
+
+        public static float GetDefaultRange(int towerType) {
+            switch (towerType) {
+                case CANNON:
+                    return 100;
+                case ARCHER:
+                    return 150;
+                case WIZARD:
+                    return 100;
+            }
+            return 0;
+        }
+
+        public static float GetDefaultCooldown(int towerType) {
+            switch (towerType) {
+                case CANNON:
+                    return 10;
+                case ARCHER:
+                    return 10;
+                case WIZARD:
+                    return 10;
+            }
+            return 0;
         }
     }
 
