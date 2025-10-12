@@ -4,7 +4,7 @@
 # # needs to be defined on a variable
 
 COMMONS_MODULE=licaza.tdefender.commons
-CORE_MODULE=licaza.tdefen
+CORE_MODULE=licaza.tdefender.core
  
 COMMONS_PATH=src/commons/licaza/tdefender/commons
 CORE_PATH=src/core/licaza/tdefender/core
