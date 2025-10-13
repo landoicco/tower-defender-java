@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source utils.sh
+source commands/general.sh
 
 #########################
 # Methods for debugging

@@ -1,12 +1,10 @@
 #!/bin/bash
 
-source utils.sh
-
-source commands/debug.sh
-source commands/general.sh
-
 source selections/debug.sh
 source selections/general.sh
+
+source utils/menus.sh
+source utils/outputs.sh
 
 ############################
 # Bash utility entry point

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source utils.sh
+source commands/java.sh
 
 ###############################
 # Most frequently used methods
@@ -27,6 +27,7 @@ build_and_pack() {
 
     text_byellow "=== Building Java ==="
 
+    # Compile and jar all Java code
     build_all_java
 
     text_green "Java modules compiled and packaged!"

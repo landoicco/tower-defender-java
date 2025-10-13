@@ -14,7 +14,7 @@ CORE_PATH=src/core/licaza/tdefender/core
 # All Java-related commands (Compiling and packaging)
 ######################################################
 
-# # As a design principle, we define a method for each module
+# # For design compliance, we define a method for each module
 
 # licaza.tdefender.commons
 build_commons() {
@@ -48,3 +48,9 @@ build_core() {
         -C src/core/target .
 }
     
+
+# # Method for properly list the involved java modules to be build
+build_all_java() {
+    build_commons
+    build_core
+}

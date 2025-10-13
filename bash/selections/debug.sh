@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source commands/debug.sh
+
 set_debug_selection() {
     case $1 in
     "logbuild")

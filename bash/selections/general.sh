@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source commands/general.sh
+
 set_general_selection() {
     case $1 in
     "clean")
@@ -25,6 +27,9 @@ set_general_selection() {
         ;;
     "deps")
         deps
+        ;;
+    *)
+        text_bred "ERROR: Unknown selection."
         ;;
     esac   
 }
