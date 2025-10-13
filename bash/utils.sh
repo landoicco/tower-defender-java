@@ -102,3 +102,7 @@ text_byellow() {
 text_bred() {
     echo -e "\033[1;31m$1\033[0m"
 }
+
+text_borange() {
+    echo -e "\033[1;38;5;214m$1\033[0m"   
+}

@@ -1,76 +1,46 @@
 #!/bin/bash
 
 source utils.sh
-source commands.sh
 
-# Exit from "bash" directory
+source commands/debug.sh
+source commands/general.sh
+
+source selections/debug.sh
+source selections/general.sh
+
+############################
+# Bash utility entry point
+############################
+
+
+# # Exit from "bash" directory
 cd ..
 
-##################################################
-# Logic that show options when running script
-##################################################
 
-# # Check if an 'action' was given as argument when running init.sh
+# # Check if an 'action' was given as argument when executing init.sh
 
 # If no parameters were given...
 if [ $# -eq 0 ]; then
-    # Presentation of the script
+    # "Script cosmetics"
     show_headline
     show_quick_menu
 
+    # Capture input from user
     read -p "Enter your selection: " action
-    
+
 # If parameters are given
 else
     action=$1
 fi   
 
-# # Logic for choosing the desired command
-case "$action" in
-    "clean")
-        clean
-        ;;
-    "build")
-        clean
-        build_and_pack
-        ;;
-    "play")
-        play
-        ;;
-    "bplay")
-        clean
-        build_and_pack
-        play
-        ;;
-    "install")
-        echo "Installing..."
-        ;;
-    "help")
-        help
-        ;;
-    "deps")
-        deps
-        ;;
-    ################
-    # Debug options
-    ################
-    "logbuild")
-        clean
-        build_while_log
-        ;;
-    "logbplay")
-        clean
-        build_and_play_while_log
-        ;;
-    "logplay")
-        play_while_log
-        ;;
-    # Clear 'logs' directory
-    "clogs")
-        rm -rf logs/
-        text_orange "Logs cleared!"
-        ;;
-    *)
-        text_bred "ERROR: Unknown selection."
-        ;;
-esac
+
+# # Check if the user wants 'general' or 'debug/log' tools
+
+# If the commands starts with 'log'
+if [[ "$action" == "log"* ]]; then
+    text_borange ":::LOG TOOLS:::"
+    set_debug_selection $action
+else
+    text_bgreen ":::GENERAL TOOLS:::"
+    set_general_selection $action
+fi   
