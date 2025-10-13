@@ -36,9 +36,9 @@ fi
 
 # If the commands starts with 'log'
 if [[ "$action" == "log"* ]]; then
-    text_borange ":::LOG TOOLS:::"
+    echo_text_borange ":::LOG TOOLS:::"
     set_debug_selection $action
 else
-    text_bgreen ":::GENERAL TOOLS:::"
+    echo_text_bgreen ":::GENERAL TOOLS:::"
     set_general_selection $action
 fi   

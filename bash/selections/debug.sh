@@ -18,10 +18,10 @@ set_debug_selection() {
     # Clear 'logs' directory
     "logclear")
         rm -rf logs/
-        text_orange "Logs cleared!"
+        echo_text_orange "Logs cleared!"
         ;;
     *)
-        text_bred "ERROR: Unknown selection."
+        echo_text_bred "ERROR: Unknown selection."
         ;;
     esac  
 }

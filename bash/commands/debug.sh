@@ -12,7 +12,7 @@ generate_log_file() {
     # Create directory if not present
     mkdir logs
 
-    text_orange "Generating log file..."
+    echo_text_orange "Generating log file..."
 
     # Take argument and assign to variable for clarity
     FILE_PREFIX=$1

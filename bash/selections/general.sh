@@ -29,7 +29,7 @@ set_general_selection() {
         deps
         ;;
     *)
-        text_bred "ERROR: Unknown selection."
+        echo_text_bred "ERROR: Unknown selection."
         ;;
     esac   
 }
