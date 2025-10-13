@@ -51,6 +51,25 @@ case "$action" in
     "deps")
         deps
         ;;
+    ################
+    # Debug options
+    ################
+    "logbuild")
+        clean
+        build_while_log
+        ;;
+    "logbplay")
+        clean
+        build_and_play_while_log
+        ;;
+    "logplay")
+        play_while_log
+        ;;
+    # Clear 'logs' directory
+    "clogs")
+        rm -rf logs/
+        text_orange "Logs cleared!"
+        ;;
     *)
         text_bred "ERROR: Unknown selection."
         ;;
