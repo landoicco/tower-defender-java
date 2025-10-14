@@ -28,7 +28,7 @@ build_and_pack() {
     echo_text_byellow "=== Building Java ==="
 
     # Compile and jar all Java code
-    build_all_java
+    build_all_java_modules
 
     echo_text_green "Java modules compiled and packaged!"
 
@@ -41,7 +41,7 @@ play() {
 
     java \
         --module-path src/mods \
-        --module licaza.tdefender.core/licaza.tdefender.core.main.Game  
+        --module licaza.tdefender.demo/licaza.tdefender.demo.main.Game  
 }
 
 # Show to the user all available commands 

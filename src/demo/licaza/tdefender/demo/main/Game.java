@@ -1,13 +1,13 @@
-package licaza.tdefender.core.main;
+package licaza.tdefender.demo.main;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import javax.swing.JFrame;
 
-import licaza.tdefender.commons.helpers.LoadSave;
-import licaza.tdefender.core.managers.TileManager;
-import licaza.tdefender.core.scenes.*;
+import licaza.tdefender.engine.tools.helpers.LoadSave;
+import licaza.tdefender.demo.managers.TileManager;
+import licaza.tdefender.demo.scenes.*;
 
 public class Game extends JFrame {
 
@@ -25,7 +25,7 @@ public class Game extends JFrame {
     private Editing editing;
 
     public Game() {
-        super("Zombie Defenders");
+        super("Tower Defender Game(...in Java!!!)");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);

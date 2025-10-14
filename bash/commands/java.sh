@@ -28,9 +28,19 @@ build_demo() {
         ${DEMO_PATH}/configs/**.java \
         ${DEMO_PATH}/actors/enemies/**.java \
         ${DEMO_PATH}/actors/towers/**.java \
+        ${DEMO_PATH}/main/**.java \
+        ${DEMO_PATH}/scenes/**.java \
+        ${DEMO_PATH}/ui/**.java \
+        ${DEMO_PATH}/inputs/**.java \
+        ${DEMO_PATH}/managers/**.java \
         src/demo/module-info.java 
 
-    jar -cvf src/mods/${DEMO_MODULE}.jar -C src/demo/target .
+    cp -r src/res/** src/demo/target/
+
+    jar \
+    -cvfe src/mods/${DEMO_MODULE}.jar \
+    ${DEMO_MODULE}.main.Game \
+    -C src/demo/target .
 }
 
 # licaza.tdefender.engine.awt
@@ -71,10 +81,12 @@ build_engine_tools() {
 
 # # Method for properly list the involved java modules to be build
 
-# TODO: Rename to build_all_java_modules
-build_all_java() {
-    build_demo
+build_all_java_modules() {
+    # # Engine modules...
     build_engine_awt
     build_engine_commons
     build_engine_tools
+
+    # # Demo game module...
+    build_demo
 }

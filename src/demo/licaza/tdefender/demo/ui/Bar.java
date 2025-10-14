@@ -1,11 +1,13 @@
-package licaza.tdefender.engine.awt.ui;
+package licaza.tdefender.demo.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
+import licaza.tdefender.engine.awt.ui.MyButton;
+
 public abstract class Bar {
 
-    int x, y, width, height;
+    public int x, y, width, height;
 
     public Bar(int x, int y, int width, int height) {
         this.x = x;
@@ -33,5 +35,4 @@ public abstract class Bar {
         g.drawRect(b.x + 2, b.y + 2, b.width - 4, b.height - 4);
 
     }
-
 }

@@ -1,12 +1,14 @@
-package licaza.tdefender.core.scenes;
+package licaza.tdefender.demo.scenes;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import licaza.tdefender.core.main.Game;
-import licaza.tdefender.core.main.GameStates;
-import licaza.tdefender.core.ui.TextButton;
+import licaza.tdefender.demo.main.Game;
+import licaza.tdefender.demo.main.GameStates;
+
+import licaza.tdefender.engine.awt.ui.TextButton;
+import licaza.tdefender.engine.commons.api.SceneMethods;
 
 public class Menu extends GameScene implements SceneMethods {
 

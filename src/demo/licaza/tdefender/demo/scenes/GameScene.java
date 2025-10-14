@@ -1,8 +1,9 @@
-package licaza.tdefender.core.scenes;
+package licaza.tdefender.demo.scenes;
 
 import java.awt.image.BufferedImage;
 
-import licaza.tdefender.core.main.Game;
+
+import licaza.tdefender.demo.main.Game;
 
 public abstract class GameScene {
 

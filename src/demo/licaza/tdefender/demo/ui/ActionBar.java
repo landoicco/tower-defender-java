@@ -1,13 +1,16 @@
-package licaza.tdefender.core.ui;
+package licaza.tdefender.demo.ui;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import licaza.tdefender.commons.helpers.Constants.Towers;
-import licaza.tdefender.core.main.GameStates;
-import licaza.tdefender.commons.objects.Tower;
-import licaza.tdefender.core.scenes.Playing;
+import licaza.tdefender.demo.configs.Constants.Towers;
+
+import licaza.tdefender.engine.awt.ui.MyButton;
+
+import licaza.tdefender.demo.main.GameStates;
+import licaza.tdefender.demo.actors.towers.Tower;
+import licaza.tdefender.demo.scenes.Playing;
 
 public class ActionBar extends Bar {
 

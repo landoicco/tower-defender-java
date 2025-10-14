@@ -1,13 +1,16 @@
-package licaza.tdefender.core.scenes;
+package licaza.tdefender.demo.scenes;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
-// import licaza.tdefender.commons.helpers.LoadSave;
-import licaza.tdefender.core.main.Game;
-import licaza.tdefender.core.ui.MyButton;
+import licaza.tdefender.engine.tools.helpers.LoadSave;
+import licaza.tdefender.engine.commons.api.SceneMethods;
+
+import licaza.tdefender.demo.main.Game;
+
+import licaza.tdefender.engine.awt.ui.MyButton;
 
 public class Credits extends GameScene implements SceneMethods {
 

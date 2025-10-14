@@ -1,16 +1,19 @@
-package licaza.tdefender.core.scenes;
+package licaza.tdefender.demo.scenes;
 
-import static licaza.tdefender.commons.helpers.Constants.*;
+import static licaza.tdefender.demo.configs.Constants.*;
 
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import licaza.tdefender.commons.helpers.LoadSave;
-import licaza.tdefender.core.main.Game;
-import licaza.tdefender.commons.objects.PathPoint;
-import licaza.tdefender.commons.objects.Tile;
-import licaza.tdefender.core.ui.ToolBar;
+import licaza.tdefender.engine.tools.helpers.LoadSave;
+import licaza.tdefender.engine.commons.api.SceneMethods;
+
+import licaza.tdefender.demo.main.Game;
+
+import licaza.tdefender.engine.commons.objects.PathPoint;
+import licaza.tdefender.engine.commons.objects.Tile;
+import licaza.tdefender.demo.ui.ToolBar;
 
 public class Editing extends GameScene implements SceneMethods {
 

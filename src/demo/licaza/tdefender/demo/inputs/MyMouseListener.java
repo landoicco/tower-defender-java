@@ -1,11 +1,11 @@
-package licaza.tdefender.core.inputs;
+package licaza.tdefender.demo.inputs;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import licaza.tdefender.core.main.Game;
-import licaza.tdefender.core.main.GameStates;
+import licaza.tdefender.demo.main.Game;
+import licaza.tdefender.demo.main.GameStates;
 
 public class MyMouseListener implements MouseListener, MouseMotionListener {
 

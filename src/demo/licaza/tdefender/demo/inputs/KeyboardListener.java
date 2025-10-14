@@ -1,10 +1,12 @@
-package licaza.tdefender.core.inputs;
+package licaza.tdefender.demo.inputs;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import licaza.tdefender.core.main.Game;
-import licaza.tdefender.core.main.GameStates;
+// import licaza.tdefender.engine.core.*;
+
+import licaza.tdefender.demo.main.Game;
+import licaza.tdefender.demo.main.GameStates;
 
 public class KeyboardListener implements KeyListener {
 

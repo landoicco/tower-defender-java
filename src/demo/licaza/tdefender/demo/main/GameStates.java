@@ -1,4 +1,4 @@
-package licaza.tdefender.core.main;
+package licaza.tdefender.demo.main;
 
 public enum GameStates {
     PLAYING, MENU, SETTINGS, EDIT;

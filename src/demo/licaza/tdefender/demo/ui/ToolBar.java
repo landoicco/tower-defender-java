@@ -1,4 +1,4 @@
-package licaza.tdefender.core.ui;
+package licaza.tdefender.demo.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import licaza.tdefender.commons.helpers.LoadSave;
-import licaza.tdefender.core.main.GameStates;
-import licaza.tdefender.commons.objects.Tile;
-import licaza.tdefender.core.scenes.Editing;
+import licaza.tdefender.engine.tools.helpers.LoadSave;
+import licaza.tdefender.engine.commons.objects.Tile;
+import licaza.tdefender.engine.awt.ui.MyButton;
+
+import licaza.tdefender.demo.main.GameStates;
+import licaza.tdefender.demo.scenes.Editing;
 
 public class ToolBar extends Bar {
 
@@ -36,7 +38,7 @@ public class ToolBar extends Bar {
 
     public void draw(Graphics g) {
         g.setColor(new Color(63, 117, 6));
-        g.fillRect(x, y, width, height);
+        // g.fillRect(x, y, width, height);
 
         drawButtons(g);
     }

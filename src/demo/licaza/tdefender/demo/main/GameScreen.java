@@ -1,9 +1,8 @@
-package licaza.tdefender.core.main;
+package licaza.tdefender.demo.main;
 
 import javax.swing.JPanel;
 
-import licaza.tdefender.core.inputs.KeyboardListener;
-import licaza.tdefender.core.inputs.MyMouseListener;
+import licaza.tdefender.demo.inputs.*;
 
 import java.awt.Dimension;
 import java.awt.Graphics;

@@ -1,4 +1,4 @@
-package licaza.tdefender.core.main;
+package licaza.tdefender.demo.main;
 
 import java.awt.Graphics;
 

@@ -1,18 +1,22 @@
-package licaza.tdefender.core.scenes;
+package licaza.tdefender.demo.scenes;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import licaza.tdefender.commons.helpers.LoadSave;
-import licaza.tdefender.commons.helpers.Constants.Tiles;
-import licaza.tdefender.core.main.Game;
-import licaza.tdefender.core.managers.EnemyManager;
-import licaza.tdefender.core.managers.TowerManager;
-import licaza.tdefender.commons.objects.PathPoint;
-import licaza.tdefender.commons.objects.Tower;
-import licaza.tdefender.core.ui.ActionBar;
+import licaza.tdefender.engine.tools.helpers.LoadSave;
+
+import static licaza.tdefender.demo.configs.Constants.Tiles;
+
+import licaza.tdefender.demo.main.Game;
+import licaza.tdefender.demo.managers.EnemyManager;
+import licaza.tdefender.demo.managers.TowerManager;
+import licaza.tdefender.demo.actors.towers.Tower;
+import licaza.tdefender.demo.ui.ActionBar;
+
+import licaza.tdefender.engine.commons.objects.PathPoint;
+import licaza.tdefender.engine.commons.api.SceneMethods;
 
 public class Playing extends GameScene implements SceneMethods {
 

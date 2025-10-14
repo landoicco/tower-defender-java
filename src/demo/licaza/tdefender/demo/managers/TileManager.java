@@ -1,13 +1,13 @@
-package licaza.tdefender.core.managers;
+package licaza.tdefender.demo.managers;
 
-import static licaza.tdefender.commons.helpers.Constants.*;
+import static licaza.tdefender.demo.configs.Constants.*;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import licaza.tdefender.commons.helpers.ImageFix;
-import licaza.tdefender.commons.helpers.LoadSave;
-import licaza.tdefender.commons.objects.Tile;
+import licaza.tdefender.engine.tools.helpers.ImageFix;
+import licaza.tdefender.engine.tools.helpers.LoadSave;
+import licaza.tdefender.engine.commons.objects.Tile;
 
 public class TileManager {
 

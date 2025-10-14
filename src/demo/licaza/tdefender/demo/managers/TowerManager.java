@@ -1,16 +1,17 @@
-package licaza.tdefender.core.managers;
+package licaza.tdefender.demo.managers;
 
-import licaza.tdefender.core.enemies.Enemy;
-import licaza.tdefender.core.scenes.Playing;
+import licaza.tdefender.demo.actors.enemies.Enemy;
+import licaza.tdefender.demo.scenes.Playing;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import licaza.tdefender.commons.helpers.ImageFix;
-import licaza.tdefender.commons.helpers.LoadSave;
-import licaza.tdefender.commons.helpers.Utils;
-import licaza.tdefender.commons.objects.Tower;
+import licaza.tdefender.engine.tools.helpers.ImageFix;
+import licaza.tdefender.engine.tools.helpers.LoadSave;
+import licaza.tdefender.engine.tools.math.Utils;
+
+import licaza.tdefender.demo.actors.towers.Tower;
 
 public class TowerManager {
 
