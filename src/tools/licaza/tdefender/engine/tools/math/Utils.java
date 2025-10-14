@@ -1,4 +1,4 @@
-package licaza.tdefender.commons.helpers;
+package licaza.tdefender.engine.tools.math;
 
 import java.util.ArrayList;
 

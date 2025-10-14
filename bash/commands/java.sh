@@ -1,13 +1,13 @@
 #!/bin/bash
 
-# # As design principle, the formal name of the module to be build
+# # For design compliance, the full name of the module to be build
 # # needs to be defined on a variable
 
-COMMONS_MODULE=licaza.tdefender.commons
-CORE_MODULE=licaza.tdefender.core
- 
-COMMONS_PATH=src/commons/licaza/tdefender/commons
-CORE_PATH=src/core/licaza/tdefender/core
+COMMONS_PATH=src/commons/licaza/tdefender/engine/commons
+TOOLS_PATH=src/tools/licaza/tdefender/engine/tools
+
+COMMONS_MODULE=licaza.tdefender.engine.commons
+TOOLS_MODULE=licaza.tdefender.engine.tools
 
 
 ######################################################
@@ -16,41 +16,34 @@ CORE_PATH=src/core/licaza/tdefender/core
 
 # # For design compliance, we define a method for each module
 
-# licaza.tdefender.commons
-build_commons() {
+# licaza.tdefender.engine.commons
+build_engine_commons() {
     javac \
         --module-path src/mods \
         -d src/commons/target \
         ${COMMONS_PATH}/objects/**.java \
-        ${COMMONS_PATH}/helpers/**.java \
-        src/commons/module-info.java \
-
-    cp -r src/res/** src/commons/target/
+        src/commons/module-info.java 
 
     jar -cvf src/mods/${COMMONS_MODULE}.jar -C src/commons/target .
 }
 
-# licaza.tdefender.core
-build_core() {
+# licaza.tdefender.engine.tools
+build_engine_tools() {
     javac \
-        --module-path src/mods -d src/core/target \
-        ${CORE_PATH}/enemies/**.java \
-        ${CORE_PATH}/scenes/**.java \
-        ${CORE_PATH}/ui/**.java \
-        ${CORE_PATH}/managers/**.java \
-        ${CORE_PATH}/inputs/**.java \
-        ${CORE_PATH}/main/**.java \
-        src/core/module-info.java \
+        --module-path src/mods \
+        -d src/tools/target \
+        ${TOOLS_PATH}/math/**.java \
+        ${TOOLS_PATH}/helpers/**.java \
+        src/tools/module-info.java 
 
-    jar \
-        -cvfe src/mods/${CORE_MODULE}.jar \
-        ${CORE_MODULE}.main.Game \
-        -C src/core/target .
+    jar -cvf src/mods/${TOOLS_MODULE}.jar -C src/tools/target .
 }
     
 
 # # Method for properly list the involved java modules to be build
+
+# TODO: Rename to build_all_java_modules
 build_all_java() {
-    build_commons
-    build_core
+    build_engine_commons
+    build_engine_tools
 }
