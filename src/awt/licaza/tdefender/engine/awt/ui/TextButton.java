@@ -1,4 +1,4 @@
-package licaza.tdefender.core.ui;
+package licaza.tdefender.engine.awt.ui;
 
 import java.awt.Color;
 import java.awt.Font;

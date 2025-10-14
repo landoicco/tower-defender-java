@@ -4,10 +4,12 @@
 # # needs to be defined on a variable
 
 DEMO_PATH=src/demo/licaza/tdefender/demo
+AWT_PATH=src/awt/licaza/tdefender/engine/awt
 COMMONS_PATH=src/commons/licaza/tdefender/engine/commons
 TOOLS_PATH=src/tools/licaza/tdefender/engine/tools
 
 DEMO_MODULE=licaza.tdefender.demo
+AWT_MODULE=licaza.tdefender.engine.awt
 COMMONS_MODULE=licaza.tdefender.engine.commons
 TOOLS_MODULE=licaza.tdefender.engine.tools
 
@@ -31,6 +33,16 @@ build_demo() {
     jar -cvf src/mods/${DEMO_MODULE}.jar -C src/demo/target .
 }
 
+# licaza.tdefender.engine.awt
+build_engine_awt() {
+    javac \
+        --module-path src/mods \
+        -d src/awt/target \
+        ${AWT_PATH}/ui/**.java \
+        src/awt/module-info.java 
+
+    jar -cvf src/mods/${AWT_MODULE}.jar -C src/awt/target .
+}
 
 # licaza.tdefender.engine.commons
 build_engine_commons() {
@@ -61,6 +73,7 @@ build_engine_tools() {
 # TODO: Rename to build_all_java_modules
 build_all_java() {
     build_demo
+    build_engine_awt
     build_engine_commons
     build_engine_tools
 }
