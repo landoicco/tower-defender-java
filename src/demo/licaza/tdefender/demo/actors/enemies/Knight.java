@@ -1,6 +1,6 @@
-package licaza.tdefender.core.enemies;
+package licaza.tdefender.demo.actors.enemies;
 
-import licaza.tdefender.commons.helpers.Constants.Enemies;
+import static licaza.tdefender.demo.configs.Constants.*;
 
 public class Knight extends Enemy {
 

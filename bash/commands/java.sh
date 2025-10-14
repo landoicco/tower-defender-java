@@ -3,9 +3,11 @@
 # # For design compliance, the full name of the module to be build
 # # needs to be defined on a variable
 
+DEMO_PATH=src/demo/licaza/tdefender/demo
 COMMONS_PATH=src/commons/licaza/tdefender/engine/commons
 TOOLS_PATH=src/tools/licaza/tdefender/engine/tools
 
+DEMO_MODULE=licaza.tdefender.demo
 COMMONS_MODULE=licaza.tdefender.engine.commons
 TOOLS_MODULE=licaza.tdefender.engine.tools
 
@@ -15,6 +17,20 @@ TOOLS_MODULE=licaza.tdefender.engine.tools
 ######################################################
 
 # # For design compliance, we define a method for each module
+
+# licaza.tdefender.demo
+build_demo() {
+    javac \
+        --module-path src/mods \
+        -d src/demo/target \
+        ${DEMO_PATH}/configs/**.java \
+        ${DEMO_PATH}/actors/enemies/**.java \
+        ${DEMO_PATH}/actors/towers/**.java \
+        src/demo/module-info.java 
+
+    jar -cvf src/mods/${DEMO_MODULE}.jar -C src/demo/target .
+}
+
 
 # licaza.tdefender.engine.commons
 build_engine_commons() {
@@ -44,6 +60,7 @@ build_engine_tools() {
 
 # TODO: Rename to build_all_java_modules
 build_all_java() {
+    build_demo
     build_engine_commons
     build_engine_tools
 }

@@ -1,4 +1,4 @@
-package licaza.tdefender.commons.helpers;
+package licaza.tdefender.demo.configs;
 
 public class Constants {
 

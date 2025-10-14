@@ -1,6 +1,6 @@
-package licaza.tdefender.core.enemies;
+package licaza.tdefender.demo.actors.enemies;
 
-import static licaza.tdefender.commons.helpers.Constants.*;
+import static licaza.tdefender.demo.configs.Constants.*;
 
 public class Bat extends Enemy {
 

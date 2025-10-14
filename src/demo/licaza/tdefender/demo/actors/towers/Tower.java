@@ -1,6 +1,6 @@
-package licaza.tdefender.commons.objects;
+package licaza.tdefender.demo.actors.towers;
 
-import static licaza.tdefender.commons.helpers.Constants.Towers.*;
+import static licaza.tdefender.demo.configs.Constants.Towers.*;
 
 public class Tower {
 

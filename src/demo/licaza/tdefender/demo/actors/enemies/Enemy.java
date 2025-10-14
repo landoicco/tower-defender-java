@@ -1,8 +1,8 @@
-package licaza.tdefender.core.enemies;
+package licaza.tdefender.demo.actors.enemies;
 
 import java.awt.Rectangle;
 
-import licaza.tdefender.commons.helpers.Constants.*;
+import static licaza.tdefender.demo.configs.Constants.*;
 
 public abstract class Enemy {
 
