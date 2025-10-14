@@ -49,6 +49,7 @@ build_engine_commons() {
     javac \
         --module-path src/mods \
         -d src/commons/target \
+        ${COMMONS_PATH}/api/**.java \
         ${COMMONS_PATH}/objects/**.java \
         src/commons/module-info.java 
 

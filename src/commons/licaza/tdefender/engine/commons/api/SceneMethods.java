@@ -1,4 +1,4 @@
-package licaza.tdefender.core.scenes;
+package licaza.tdefender.engine.commons.api;
 
 import java.awt.Graphics;
 
