@@ -22,7 +22,7 @@ TOOLS_MODULE=licaza.tdefender.engine.tools
 
 # licaza.tdefender.demo
 build_demo() {
-    javac \
+        javac \
         --module-path src/mods \
         -d src/demo/target \
         ${DEMO_PATH}/configs/**.java \
@@ -45,7 +45,7 @@ build_demo() {
 
 # licaza.tdefender.engine.awt
 build_engine_awt() {
-    javac \
+        javac \
         --module-path src/mods \
         -d src/awt/target \
         ${AWT_PATH}/ui/**.java \
@@ -56,7 +56,7 @@ build_engine_awt() {
 
 # licaza.tdefender.engine.commons
 build_engine_commons() {
-    javac \
+        javac \
         --module-path src/mods \
         -d src/commons/target \
         ${COMMONS_PATH}/api/**.java \
@@ -68,7 +68,7 @@ build_engine_commons() {
 
 # licaza.tdefender.engine.tools
 build_engine_tools() {
-    javac \
+        javac \
         --module-path src/mods \
         -d src/tools/target \
         ${TOOLS_PATH}/math/**.java \
@@ -81,11 +81,15 @@ build_engine_tools() {
 
 # # Method for properly list the involved java modules to be build
 
-build_all_java_modules() {
-    # # Engine modules...
+build_full_engine() {
     build_engine_awt
     build_engine_commons
     build_engine_tools
+}
+
+build_all_java_modules() {
+    # # Engine modules...
+    build_full_engine
 
     # # Demo game module...
     build_demo

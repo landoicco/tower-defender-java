@@ -1,27 +1,29 @@
 #!/bin/bash
 
-source commands/debug.sh
+source commands/log.sh
 
 set_debug_selection() {
+    echo_text_borange "::: LOG TOOLS :::"
+
     case $1 in
-    "logbuild")
+    "build")
         clean
         build_while_log
         ;;
-    "logbplay")
+    "bplay")
         clean
         build_and_play_while_log
         ;;
-    "logplay")
+    "play")
         play_while_log
         ;;
     # Clear 'logs' directory
-    "logclear")
+    "clear")
         rm -rf logs/
         echo_text_orange "Logs cleared!"
         ;;
     *)
-        echo_text_bred "ERROR: Unknown selection."
+        echo_text_bred "ERROR: Unknown log command."
         ;;
     esac  
 }

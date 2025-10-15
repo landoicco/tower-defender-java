@@ -21,6 +21,11 @@ echo_text_orange() {
     echo -e "\033[38;5;214m$1\033[0m"   
 }
 
+echo_text_bright_pink() {
+    echo -e "\e[95m$1\e[0m"
+}
+
+
 # Make text bold and green
 echo_text_bgreen() {
     echo -e "\e[1;32m$1\e[0m"
