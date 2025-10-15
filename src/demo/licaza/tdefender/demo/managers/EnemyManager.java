@@ -2,12 +2,16 @@ package licaza.tdefender.demo.managers;
 
 import static licaza.tdefender.demo.configs.Constants.*;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.demo.actors.enemies.*;
+import licaza.tdefender.demo.configs.Constants.Direction;
+import licaza.tdefender.demo.configs.Constants.Enemies;
+import licaza.tdefender.demo.configs.Constants.Tiles;
 import licaza.tdefender.engine.commons.objects.PathPoint;
 import licaza.tdefender.demo.scenes.Playing;
 
@@ -16,6 +20,7 @@ public class EnemyManager {
     private Playing playing;
     private BufferedImage[] enemyImgs;
     private PathPoint start, end;
+    private int HPbarWidth = 20;
 
     private ArrayList<Enemy> enemies = new ArrayList<>();
 
@@ -41,7 +46,10 @@ public class EnemyManager {
 
     public void draw(Graphics g) {
         for (Enemy e : enemies) {
+            if(!e.isAlive()) return;
+            
             drawEnemy(e, g);
+            drawHealthBar(e, g);
         }
     }
 
@@ -173,5 +181,16 @@ public class EnemyManager {
         }
         return 0;
     }
+
+    private void drawHealthBar(Enemy e, Graphics g) {
+        g.setColor(Color.red);
+        g.fillRect((int) e.getX() + 16 - (getNewBarWidth(e) / 2), (int) e.getY() - 10, getNewBarWidth(e), 3);
+
+    }
+
+    private int getNewBarWidth(Enemy e) {
+		return (int) (HPbarWidth * e.getHealthBarFloat());
+	}
+
 
 }
