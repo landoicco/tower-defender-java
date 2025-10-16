@@ -1,6 +1,7 @@
 package licaza.tdefender.demo.managers;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -41,10 +42,17 @@ public class ProjectileManager {
     }
 
     public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+
         for (Projectile p : projectiles) {
             if (p.isActive()) {
-                g.drawImage(projectileImgs[p.getProjectileType()],
-                        (int) p.getPosition().x, (int) p.getPosition().y, null);
+                g2d.translate(p.getPosition().x, p.getPosition().y);
+                g2d.rotate(Math.toRadians(p.getRotation()));
+
+                g2d.drawImage(projectileImgs[p.getProjectileType()], -16, -16, null);
+
+                g2d.rotate(-Math.toRadians(p.getRotation()));
+                g2d.translate(-p.getPosition().x, -p.getPosition().y);
             }
         }
     }
@@ -52,13 +60,13 @@ public class ProjectileManager {
     public void newProjectile(Tower t, Enemy e) {
         int type = getProjectileType(t);
 
-        int xDistance = (int) Math.abs(t.getX() - e.getX());
-        int yDistance = (int) Math.abs(t.getY() - e.getY());
+        int xDistance = (int) (t.getX() - e.getX());
+        int yDistance = (int) (t.getY() - e.getY());
 
-        int totalDistance = xDistance + yDistance;
+        int totalDistance = Math.abs(xDistance) + Math.abs(yDistance);
 
         // Percentage? Take a deeper look
-        float xPer = (float) xDistance / totalDistance;
+        float xPer = (float) Math.abs(xDistance) / totalDistance;
 
         float xSpeed = xPer * Projectiles.GetSpeed(type);
         float ySpeed = Projectiles.GetSpeed(type) - xSpeed;
@@ -68,8 +76,17 @@ public class ProjectileManager {
         if (t.getY() > e.getY())
             ySpeed *= -1;
 
+        float arcValue = (float) Math.atan(yDistance / (float) xDistance);
+        float rotate = (float) Math.toDegrees(arcValue);
+
+        if (xDistance < 0) {
+            rotate += 90;
+        } else {
+            rotate += 270;
+        }
+
         projectiles.add(new Projectile(t.getX() + 16, t.getY() + 16, xSpeed,
-                ySpeed, t.getDamage(), projectileID++, type));
+                ySpeed, t.getDamage(), rotate, projectileID++, type));
     }
 
     private boolean isProjectileHittingEnemy(Projectile p) {

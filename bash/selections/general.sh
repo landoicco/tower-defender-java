@@ -7,6 +7,9 @@ set_general_selection() {
     echo_text_bgreen ":::GENERAL TOOLS:::"
 
     case $1 in
+    "clean")
+        clean
+        ;;
     "play")
         play
         ;;
