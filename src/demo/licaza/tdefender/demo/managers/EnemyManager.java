@@ -17,6 +17,7 @@ public class EnemyManager {
 
     private Playing playing;
     private BufferedImage[] enemyImgs;
+    private BufferedImage slowEffect;
     private PathPoint start, end;
     private int HPbarWidth = 20;
 
@@ -27,6 +28,8 @@ public class EnemyManager {
         this.start = start;
         this.end = end;
         this.enemyImgs = new BufferedImage[4];
+
+        loadEffectImages();
 
         addEnemy(Enemies.ORC);
         addEnemy(Enemies.WOLF);
@@ -47,6 +50,7 @@ public class EnemyManager {
             if (e.isAlive()) {
                 drawEnemy(e, g);
                 drawHealthBar(e, g);
+                drawEffects(e, g);
             }
         }
     }
@@ -77,6 +81,17 @@ public class EnemyManager {
 
     private void drawEnemy(Enemy e, Graphics g) {
         g.drawImage(enemyImgs[e.getEnemyType()], (int) e.getX(), (int) e.getY(), null);
+    }
+
+    private void drawEffects(Enemy e, Graphics g) {
+        if (e.isSlowed()) {
+            g.drawImage(slowEffect, (int) e.getX(), (int) e.getY(), null);
+        }
+    }
+
+    private void loadEffectImages() {
+        slowEffect = LoadSave.GetSpriteAtlas("spriteatlas_legacy")
+                .getSubimage(32 * 9, 32 * 2, 32, 32);
     }
 
     // We use 4 because we know we only have 4 enemy sprites at this point

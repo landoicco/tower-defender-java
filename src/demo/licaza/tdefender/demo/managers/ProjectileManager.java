@@ -118,6 +118,15 @@ public class ProjectileManager {
             if (e.isAlive()) {
                 if (e.getRectangle().contains(p.getPosition())) {
                     e.hurt(p.getDamage());
+
+                    /**
+                     * While developing, we are assuming the 'CHAINS' makes the
+                     * enemy to move slower
+                     */
+                    if (p.getProjectileType() == CHAINS) {
+                        e.slow();
+                    }
+
                     return true;
                 }
             }
