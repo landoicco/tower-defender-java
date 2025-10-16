@@ -52,8 +52,8 @@ public class EnemyManager {
     }
 
     public void addEnemy(int enemyType) {
-        int x = start.getxCord() * 32;
-        int y = start.getyCord() * 32;
+        int x = start.xCord() * 32;
+        int y = start.yCord() * 32;
         switch (enemyType) {
             case Enemies.ORC:
                 enemies.add(new Orc(x, y, 0));
@@ -154,8 +154,8 @@ public class EnemyManager {
     }
 
     private boolean isAtEnd(Enemy e) {
-        return (e.getX() == (end.getxCord() * 32)) &&
-                (e.getY() == (end.getyCord() * 32));
+        return (e.getX() == (end.xCord() * 32)) &&
+                (e.getY() == (end.yCord() * 32));
     }
 
     private int getTileType(int x, int y) {

@@ -112,10 +112,10 @@ public class LoadSave {
             for (int i : idArr) {
                 pw.println(i);
             }
-            pw.println(start.getxCord());
-            pw.println(start.getyCord());
-            pw.println(end.getxCord());
-            pw.println(end.getyCord());
+            pw.println(start.xCord());
+            pw.println(start.yCord());
+            pw.println(end.xCord());
+            pw.println(end.yCord());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

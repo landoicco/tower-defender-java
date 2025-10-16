@@ -164,10 +164,10 @@ public class Editing extends GameScene implements SceneMethods {
 
     private void drawPathPoints(Graphics g) {
         if (start != null) {
-            g.drawImage(toolBar.getStartPathImg(), start.getxCord() * 32, start.getyCord() * 32, null);
+            g.drawImage(toolBar.getStartPathImg(), start.xCord() * 32, start.yCord() * 32, null);
         }
         if (end != null) {
-            g.drawImage(toolBar.getEndPathImg(), end.getxCord() * 32, end.getyCord() * 32, null);
+            g.drawImage(toolBar.getEndPathImg(), end.xCord() * 32, end.yCord() * 32, null);
         }
     }
 
