@@ -43,6 +43,8 @@ public abstract class Enemy {
                 this.y += speed;
                 break;
         }
+
+        updateHitbox();
     }
 
     // For position fix
@@ -98,4 +100,8 @@ public abstract class Enemy {
         return alive;
     }
 
+    private void updateHitbox() {
+        bounds.x = (int) x;
+        bounds.y = (int) y;
+    }
 }

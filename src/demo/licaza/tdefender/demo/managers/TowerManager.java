@@ -26,7 +26,11 @@ public class TowerManager {
     }
 
     public void update() {
-        attackEnemyIfClose();
+        for (Tower t : towers) {
+            t.update();
+            attackEnemyIfClose(t);
+        }
+
     }
 
     public void draw(Graphics g) {
@@ -62,16 +66,14 @@ public class TowerManager {
         }
     }
 
-    private void attackEnemyIfClose() {
-        for (Tower t : towers) {
-            for (Enemy e : playing.getEnemyManager().getEnemies()) {
-                // If enemy is already dead, do nothing
-                if(!e.isAlive()) {
-                    return;
-                }
+    private void attackEnemyIfClose(Tower t) {
+        for (Enemy e : playing.getEnemyManager().getEnemies()) {
+            if (e.isAlive()) {
                 if (isEnemyInRange(t, e)) {
-                    // Shoot enemy
-                    e.hurt(1);
+                    if (t.isCooldownOver()) {
+                        playing.shootEnemy(t, e);
+                        t.resetCooldown();
+                    }
                 } else {
                     // Do nothing
                 }

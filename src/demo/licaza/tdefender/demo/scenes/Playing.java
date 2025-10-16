@@ -11,7 +11,9 @@ import static licaza.tdefender.demo.configs.Constants.Tiles;
 
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.managers.EnemyManager;
+import licaza.tdefender.demo.managers.ProjectileManager;
 import licaza.tdefender.demo.managers.TowerManager;
+import licaza.tdefender.demo.actors.enemies.Enemy;
 import licaza.tdefender.demo.actors.towers.Tower;
 import licaza.tdefender.demo.ui.ActionBar;
 
@@ -25,6 +27,7 @@ public class Playing extends GameScene implements SceneMethods {
     private ActionBar actionBar;
     private EnemyManager enemyManager;
     private TowerManager towerManager;
+    private ProjectileManager projectileManager;
     private Tower selectedTower;
     private PathPoint start, end;
 
@@ -33,14 +36,17 @@ public class Playing extends GameScene implements SceneMethods {
 
         actionBar = new ActionBar(0, 640, 640, 160, this);
         loadLevel();
+
         enemyManager = new EnemyManager(this, start, end);
         towerManager = new TowerManager(this);
+        projectileManager = new ProjectileManager(this);
     }
 
     public void update() {
         updateTick();
         enemyManager.update();
         towerManager.update();
+        projectileManager.update();
     }
 
     public int getTileType(int x, int y) {
@@ -59,6 +65,10 @@ public class Playing extends GameScene implements SceneMethods {
         return game.getTileManager().getTile(id).getTileType();
     }
 
+    public void shootEnemy(Tower t, Enemy e) {
+        projectileManager.newProjectile(t, e);
+    }
+
     public TowerManager getTowerManager() {
         return towerManager;
     }
@@ -70,9 +80,12 @@ public class Playing extends GameScene implements SceneMethods {
     @Override
     public void render(Graphics g) {
         drawLevel(g);
+
         actionBar.draw(g);
         enemyManager.draw(g);
         towerManager.draw(g);
+        projectileManager.draw(g);
+
         drawSelectedTower(g);
         drawHighlight(g);
     }

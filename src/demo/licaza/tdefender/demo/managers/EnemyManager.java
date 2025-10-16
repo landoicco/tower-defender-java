@@ -1,7 +1,5 @@
 package licaza.tdefender.demo.managers;
 
-import static licaza.tdefender.demo.configs.Constants.*;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -46,10 +44,10 @@ public class EnemyManager {
 
     public void draw(Graphics g) {
         for (Enemy e : enemies) {
-            if(!e.isAlive()) return;
-            
-            drawEnemy(e, g);
-            drawHealthBar(e, g);
+            if (e.isAlive()) {
+                drawEnemy(e, g);
+                drawHealthBar(e, g);
+            }
         }
     }
 
@@ -189,8 +187,7 @@ public class EnemyManager {
     }
 
     private int getNewBarWidth(Enemy e) {
-		return (int) (HPbarWidth * e.getHealthBarFloat());
-	}
-
+        return (int) (HPbarWidth * e.getHealthBarFloat());
+    }
 
 }

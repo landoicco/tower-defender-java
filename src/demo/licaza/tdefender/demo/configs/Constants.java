@@ -58,14 +58,14 @@ public class Constants {
             return "";
         }
 
-        public static float GetDefaultDamage(int towerType) {
+        public static int GetDefaultDamage(int towerType) {
             switch (towerType) {
                 case CANNON:
-                    return 25;
+                    return 1;
                 case ARCHER:
-                    return 15;
+                    return 1;
                 case WIZARD:
-                    return 10;
+                    return 1;
             }
             return 0;
         }

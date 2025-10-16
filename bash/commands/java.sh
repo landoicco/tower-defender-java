@@ -22,7 +22,12 @@ TOOLS_MODULE=licaza.tdefender.engine.tools
 
 # licaza.tdefender.demo
 build_demo() {
-        javac \
+
+    # Safety clean...
+    rm -rf src/demo/target
+    rm src/mods/${DEMO_MODULE}.jar
+
+    javac \
         --module-path src/mods \
         -d src/demo/target \
         ${DEMO_PATH}/configs/**.java \
@@ -38,14 +43,19 @@ build_demo() {
     cp -r src/res/** src/demo/target/
 
     jar \
-    -cvfe src/mods/${DEMO_MODULE}.jar \
-    ${DEMO_MODULE}.main.Game \
-    -C src/demo/target .
+        -cvfe src/mods/${DEMO_MODULE}.jar \
+        ${DEMO_MODULE}.main.Game \
+        -C src/demo/target .
 }
 
 # licaza.tdefender.engine.awt
 build_engine_awt() {
-        javac \
+
+    # Safety clean...
+    rm -rf src/awt/target
+    rm src/mods/${AWT_MODULE}.jar
+
+    javac \
         --module-path src/mods \
         -d src/awt/target \
         ${AWT_PATH}/ui/**.java \
@@ -56,7 +66,12 @@ build_engine_awt() {
 
 # licaza.tdefender.engine.commons
 build_engine_commons() {
-        javac \
+
+    # Safety clean...
+    rm -rf src/commons/target
+    rm src/mods/${COMMONS_MODULE}.jar
+
+    javac \
         --module-path src/mods \
         -d src/commons/target \
         ${COMMONS_PATH}/api/**.java \
@@ -68,7 +83,12 @@ build_engine_commons() {
 
 # licaza.tdefender.engine.tools
 build_engine_tools() {
-        javac \
+
+    # Safety clean...
+    rm -rf src/tools/target
+    rm src/mods/${TOOLS_MODULE}.jar
+
+    javac \
         --module-path src/mods \
         -d src/tools/target \
         ${TOOLS_PATH}/math/**.java \
