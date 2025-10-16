@@ -1,16 +1,12 @@
 #!/bin/bash
 
 source commands/general.sh
+source utils/outputs.sh
 
 set_general_selection() {
+    echo_text_bgreen ":::GENERAL TOOLS:::"
+
     case $1 in
-    "clean")
-        clean
-        ;;
-    "build")
-        clean
-        build_and_pack
-        ;;
     "play")
         play
         ;;
@@ -18,9 +14,6 @@ set_general_selection() {
         clean
         build_and_pack
         play
-        ;;
-    "install")
-        echo "Installing..."
         ;;
     "help")
         help
