@@ -30,16 +30,16 @@ public class EnemyManager {
         this.enemyImgs = new BufferedImage[4];
 
         loadEffectImages();
-
-        addEnemy(Enemies.ORC);
-        addEnemy(Enemies.WOLF);
-        addEnemy(Enemies.KNIGHT);
-        addEnemy(Enemies.BAT);
-
-        loadEnemyImgs();
+        loadEnemyImages();
     }
 
     public void update() {
+
+        updateWaveManager();
+
+        if (shouldSpawnNewEnemy()) {
+            spawnEnemy();
+        }
         for (Enemy e : enemies) {
             updateEnemyMove(e);
         }
@@ -95,7 +95,7 @@ public class EnemyManager {
     }
 
     // We use 4 because we know we only have 4 enemy sprites at this point
-    private void loadEnemyImgs() {
+    private void loadEnemyImages() {
         BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
 
         for (int i = 0; i < 4; i++) {
@@ -121,6 +121,10 @@ public class EnemyManager {
             // Find other direction
             setNewDirectionAndMove(e);
         }
+    }
+
+    private void updateWaveManager() {
+        playing.getWaveManager().update();
     }
 
     private void setNewDirectionAndMove(Enemy e) {
@@ -173,6 +177,18 @@ public class EnemyManager {
                 (e.getY() == (end.yCord() * 32));
     }
 
+    /**
+     * On the tutorial, this name is called 'isTimeForNewEnemy'
+     */
+    private boolean shouldSpawnNewEnemy() {
+        if (playing.getWaveManager().shouldSpawnNewEnemy()) {
+            if (playing.getWaveManager().isThereEnemiesLeft()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private int getTileType(int x, int y) {
         return playing.getTileType(x, y);
     }
@@ -193,6 +209,10 @@ public class EnemyManager {
             return speed + 32;
         }
         return 0;
+    }
+
+    private void spawnEnemy() {
+        addEnemy(playing.getWaveManager().getNextEnemy());
     }
 
     private void drawHealthBar(Enemy e, Graphics g) {

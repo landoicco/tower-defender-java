@@ -13,6 +13,7 @@ import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.managers.EnemyManager;
 import licaza.tdefender.demo.managers.ProjectileManager;
 import licaza.tdefender.demo.managers.TowerManager;
+import licaza.tdefender.demo.managers.WaveManager;
 import licaza.tdefender.demo.actors.enemies.Enemy;
 import licaza.tdefender.demo.actors.towers.Tower;
 import licaza.tdefender.demo.ui.ActionBar;
@@ -26,6 +27,7 @@ public class Playing extends GameScene implements SceneMethods {
     private int mouseX, mouseY;
     private ActionBar actionBar;
     private EnemyManager enemyManager;
+    private WaveManager waveManager;
     private TowerManager towerManager;
     private ProjectileManager projectileManager;
     private Tower selectedTower;
@@ -40,6 +42,7 @@ public class Playing extends GameScene implements SceneMethods {
         enemyManager = new EnemyManager(this, start, end);
         towerManager = new TowerManager(this);
         projectileManager = new ProjectileManager(this);
+        waveManager = new WaveManager(this);
     }
 
     public void update() {
@@ -75,6 +78,10 @@ public class Playing extends GameScene implements SceneMethods {
 
     public EnemyManager getEnemyManager() {
         return enemyManager;
+    }
+
+    public WaveManager getWaveManager() {
+        return waveManager;
     }
 
     @Override
