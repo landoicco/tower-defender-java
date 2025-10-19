@@ -4,7 +4,7 @@ import static licaza.tdefender.demo.configs.Constants.Towers.*;
 
 public class Tower {
 
-    private int x, y, id, towerType, cdTick, damage;
+    private int x, y, id, towerType, cdTick, damage, tier;
     private float range, cooldown;
 
     public Tower(int x, int y, int id, int towerType) {
@@ -12,6 +12,7 @@ public class Tower {
         this.y = y;
         this.id = id;
         this.towerType = towerType;
+        this.tier = 1;
 
         /*
          * TODO: Define specific Tower classes for this, do similar as the Enemy
@@ -26,6 +27,27 @@ public class Tower {
         cdTick++;
     }
 
+    public void upgradeTower() {
+        tier++;
+
+        switch (towerType) {
+            case ARCHER:
+                damage += 2;
+                range += 20;
+                cooldown -= 5;
+                break;
+            case CANNON:
+                damage += 5;
+                range += 20;
+                cooldown -= 15;
+                break;
+            case WIZARD:
+                range += 20;
+                cooldown -= 10;
+                break;
+        }
+    }
+
     public int getX() {
         return x;
     }
@@ -36,6 +58,10 @@ public class Tower {
 
     public int getId() {
         return id;
+    }
+
+    public int getTier() {
+        return tier;
     }
 
     public int getTowerType() {

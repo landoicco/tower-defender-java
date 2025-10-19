@@ -20,6 +20,7 @@ public class ActionBar extends Bar {
     private Playing playing;
     private Tower selectedTower, displayedTower;
     private MyButton[] towerButtons;
+    private MyButton sellTower, upgradeTower;
     private DecimalFormat formatter;
 
     /**
@@ -55,6 +56,19 @@ public class ActionBar extends Bar {
         if (bMenu.getBounds().contains(x, y)) {
             GameStates.setGameState(GameStates.MENU);
         } else {
+
+            if (displayedTower != null) {
+                if (sellTower.getBounds().contains(x, y)) {
+                    sellTowerClicked();
+                    return;
+                } else if (upgradeTower.getBounds().contains(x, y) &&
+                        (displayedTower.getTier() < 3) &&
+                        hasEnoughGoldToBuy(displayedTower)) {
+                    upgradeTowerClicked();
+                    return;
+                }
+            }
+
             for (MyButton b : towerButtons) {
                 if (b.getBounds().contains(x, y)) {
                     if (!isGoldEnoughForTower(b.getId()))
@@ -70,6 +84,9 @@ public class ActionBar extends Bar {
 
     public void mouseMoved(int x, int y) {
         bMenu.setMouseOver(false);
+        sellTower.setMouseOver(false);
+        upgradeTower.setMouseOver(false);
+
         showTowerCost = false;
         for (MyButton b : towerButtons) {
             b.setMouseOver(false);
@@ -78,6 +95,17 @@ public class ActionBar extends Bar {
         if (bMenu.getBounds().contains(x, y)) {
             bMenu.setMouseOver(true);
         } else {
+            // Tower buttons...
+            if (displayedTower != null) {
+                if (sellTower.getBounds().contains(x, y)) {
+                    sellTower.setMouseOver(true);
+                    return;
+                } else if (upgradeTower.getBounds().contains(x, y) && displayedTower.getTier() < 3) {
+                    upgradeTower.setMouseOver(true);
+                    return;
+                }
+            }
+
             for (MyButton b : towerButtons) {
                 if (b.getBounds().contains(x, y)) {
                     b.setMouseOver(true);
@@ -92,6 +120,17 @@ public class ActionBar extends Bar {
         if (bMenu.getBounds().contains(x, y)) {
             bMenu.setMousePressed(true);
         } else {
+            // Tower buttons...
+            if (displayedTower != null) {
+                if (sellTower.getBounds().contains(x, y)) {
+                    sellTower.setMousePressed(true);
+                    return;
+                } else if (upgradeTower.getBounds().contains(x, y) && displayedTower.getTier() < 3) {
+                    upgradeTower.setMousePressed(true);
+                    return;
+                }
+            }
+
             for (MyButton b : towerButtons) {
                 if (b.getBounds().contains(x, y)) {
                     b.setMousePressed(true);
@@ -103,6 +142,9 @@ public class ActionBar extends Bar {
     public void mouseReleased(int x, int y) {
         // Reset buttons
         bMenu.resetBooleans();
+        sellTower.resetBooleans();
+        upgradeTower.resetBooleans();
+
         for (MyButton b : towerButtons) {
             b.resetBooleans();
         }
@@ -133,6 +175,9 @@ public class ActionBar extends Bar {
         for (int i = 0; i < towerButtons.length; i++) {
             towerButtons[i] = new MyButton("", xStart + (xOffset * i), yStart, width, height, i);
         }
+
+        sellTower = new MyButton("Sell", 490, 750, 50, 30);
+        upgradeTower = new MyButton("Upgrade", 550, 750, 80, 30);
     }
 
     private void drawDisplayedTower(Graphics g) {
@@ -157,9 +202,26 @@ public class ActionBar extends Bar {
         g.setFont(new Font("Arial", Font.PLAIN, 15));
         g.drawString(Towers.GetName(displayedTower.getTowerType()), 470, 695);
         g.drawString("ID: " + displayedTower.getId(), 470, 710);
+        g.drawString("Tier: " + displayedTower.getTier(), 470, 725);
 
         drawDisplayedTowerBorder(g);
         drawDisplayedTowerRange(g);
+
+        sellTower.draw(g);
+        drawButtonFeedback(g, sellTower);
+
+        if ((displayedTower.getTier() < 3) && hasEnoughGoldToBuy(displayedTower)) {
+            upgradeTower.draw(g);
+            drawButtonFeedback(g, upgradeTower);
+        }
+
+        if (sellTower.isMouseOver()) {
+            g.setColor(Color.RED);
+            g.drawString("Sell for: " + getSellAmount(displayedTower) + "g", 490, 795);
+        } else if (upgradeTower.isMouseOver() && hasEnoughGoldToBuy(displayedTower)) {
+            g.setColor(Color.BLUE);
+            g.drawString("Upgrade for: " + getUpgradeAmount(displayedTower) + "g", 490, 795);
+        }
     }
 
     private void drawButtons(Graphics g) {
@@ -248,6 +310,24 @@ public class ActionBar extends Bar {
         }
     }
 
+    private void sellTowerClicked() {
+        playing.removeTower(displayedTower);
+
+        gold += getSellAmount(displayedTower);
+        gold += getUpgradeAmount(displayedTower);
+
+        displayedTower = null;
+    }
+
+    private void upgradeTowerClicked() {
+        playing.upgradeTower(displayedTower);
+        gold -= getUpgradeAmount(displayedTower);
+    }
+
+    private boolean hasEnoughGoldToBuy(Tower t) {
+        return gold >= getUpgradeAmount(t);
+    }
+
     private boolean isTowerCostMoreThanCurrentGold() {
         return getTowerCostCost() > gold;
     }
@@ -256,8 +336,20 @@ public class ActionBar extends Bar {
         return Towers.GetName(towerCostType);
     }
 
+    // Pay back some gold to player when selling a tower...
+    private int getSellAmount(Tower tower) {
+        // Add upgrades money to tower cost when selling...
+        int towerCost = Towers.GetTowerCost(tower.getTowerType());
+        int upgradesCost = (tower.getTier() - 1) * getUpgradeAmount(tower);
+
+        return (int) ((towerCost + upgradesCost) * 0.5f);
+    }
+
+    private int getUpgradeAmount(Tower tower) {
+        return (int) (Towers.GetTowerCost(tower.getTowerType()) * 0.3f);
+    }
+
     private int getTowerCostCost() {
         return Towers.GetTowerCost(towerCostType);
     }
-
 }

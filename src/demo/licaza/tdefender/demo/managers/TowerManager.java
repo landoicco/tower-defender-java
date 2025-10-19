@@ -56,6 +56,20 @@ public class TowerManager {
         towers.add(new Tower(xPos, yPos, towerCount++, selectedTower.getTowerType()));
     }
 
+    public void removeTower(Tower displayedTower) {
+        for (int i = 0; i < towers.size(); i++)
+            if (towers.get(i).getId() == displayedTower.getId())
+                towers.remove(i);
+    }
+
+    public void upgradeTower(Tower displayedTower) {
+        for (Tower t : towers) {
+            if (t.getId() == displayedTower.getId())
+                t.upgradeTower();
+        }
+
+    }
+
     private void loadTowerImages() {
         BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
         towerImgs = new BufferedImage[3];

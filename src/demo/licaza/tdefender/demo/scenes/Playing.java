@@ -98,6 +98,14 @@ public class Playing extends GameScene implements SceneMethods {
         actionBar.addGold((int) Enemies.GetReward(enemyType));
     }
 
+    public void removeTower(Tower displayedTower) {
+        towerManager.removeTower(displayedTower);
+    }
+
+    public void upgradeTower(Tower displayedTower) {
+        towerManager.upgradeTower(displayedTower);
+    }
+
     public TowerManager getTowerManager() {
         return towerManager;
     }
