@@ -189,6 +189,10 @@ public class ActionBar extends Bar {
     }
 
     private void drawWaveInfo(Graphics g) {
+        // Draw background
+        g.setColor(Color.GRAY);
+        g.fillRect(30, 710, 250, 85);
+
         // Font settings...
         g.setFont(new Font("LucidaSans", Font.BOLD, 20));
         g.setColor(Color.BLACK);
@@ -199,7 +203,7 @@ public class ActionBar extends Bar {
     }
 
     private void drawGoldAmount(Graphics g) {
-        g.drawString("Gold: " + gold, 110, 725);
+        g.drawString("Gold: " + gold, 10, 25);
     }
 
     private boolean isGoldEnoughForTower(int towerType) {
@@ -208,14 +212,14 @@ public class ActionBar extends Bar {
 
     private void drawEnemiesLeftInfo(Graphics g) {
         int remaining = playing.getEnemyManager().getAmountOfAliveEnemies();
-        g.drawString("Enemies left: " + remaining, 350, 670);
+        g.drawString("Enemies left: " + remaining, 35, 730);
     }
 
     private void drawWavesLeftInfo(Graphics g) {
         int current = playing.getWaveManager().getWaveIndex();
         int size = playing.getWaveManager().getWaves().size();
 
-        g.drawString("Wave " + (current + 1) + " / " + size, 350, 730);
+        g.drawString("Wave " + (current + 1) + " / " + size, 35, 760);
     }
 
     private void drawWaveTimerInfo(Graphics g) {
@@ -223,7 +227,7 @@ public class ActionBar extends Bar {
             float timeLeft = playing.getWaveManager().getTimeLeft();
             String formattedTimeLeft = formatter.format(timeLeft);
 
-            g.drawString("Next wave in: " + formattedTimeLeft + "s", 350, 700);
+            g.drawString("Next wave in: " + formattedTimeLeft + "s", 35, 790);
         }
     }
 
