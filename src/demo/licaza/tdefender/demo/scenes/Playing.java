@@ -209,6 +209,24 @@ public class Playing extends GameScene implements SceneMethods {
         this.lvl = lvl;
     }
 
+    public void removeOneLive() {
+        actionBar.removeOneLive();
+    }
+
+    public void resetEverything() {
+        actionBar.resetEverything();
+
+        // Managers
+        enemyManager.reset();
+        towerManager.reset();
+        projectileManager.reset();
+        waveManager.reset();
+
+        mouseX = mouseY = goldTick = 0;
+        selectedTower = null;
+        isGamePaused = false;
+    }
+
     private void loadLevel() {
         String lvlName = "default_level";
         lvl = LoadSave.GetLevelData(lvlName);

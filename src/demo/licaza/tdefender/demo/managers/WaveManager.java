@@ -93,6 +93,15 @@ public class WaveManager {
         return waves;
     }
 
+    public void reset() {
+        waves.clear();
+        createWaves();
+
+        enemyIndex = waveIndex = waveTick = 0;
+        waveStartTimer = waveTickTimerOver = false;
+        enemySpawnTick = enemySpawnTickLimit;
+    }
+
     private void createWaves() {
         waves.add(new Wave(new ArrayList<Integer>(Arrays
                 .asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1))));

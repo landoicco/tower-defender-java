@@ -42,8 +42,8 @@ public class ProjectileManager {
                         explosions.add(new Explosion(p.getPosition()));
                         explodeOnEnemies(p);
                     }
-                } else {
-                    // Do nothing...
+                } else if (isProjectileOutOfBounds(p)) {
+                    p.setActive(false);
                 }
             }
 
@@ -111,6 +111,13 @@ public class ProjectileManager {
 
         projectiles.add(new Projectile(t.getX() + 16, t.getY() + 16, xSpeed,
                 ySpeed, t.getDamage(), rotate, projectileID++, type));
+    }
+
+    public void reset() {
+        projectiles.clear();
+        explosions.clear();
+
+        projectileID = 0;
     }
 
     private boolean isProjectileHittingEnemy(Projectile p) {
@@ -201,6 +208,16 @@ public class ProjectileManager {
             if (e.getIndex() < 7)
                 g2d.drawImage(explosionImages[e.getIndex()], (int) e.getPosition().x - 16,
                         (int) e.getPosition().y - 16, null);
+    }
+
+    private boolean isProjectileOutOfBounds(Projectile p) {
+        if (p.getPosition().x >= 0)
+            if (p.getPosition().x <= 640)
+                if (p.getPosition().y >= 0)
+                    if (p.getPosition().y <= 800)
+                        return true;
+
+        return false;
     }
 
     /**

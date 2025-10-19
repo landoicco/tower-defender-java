@@ -28,6 +28,7 @@ public class Game extends JFrame {
     private Playing playing;
     private Credits credits;
     private Editing editing;
+    private GameOver gameOver;
 
     public Game() {
         super("Tower Defender - Java");
@@ -106,6 +107,7 @@ public class Game extends JFrame {
         playing = new Playing(this);
         credits = new Credits(this);
         editing = new Editing(this);
+        gameOver = new GameOver(this);
     }
 
     private void createDefaultLevel() {
@@ -138,6 +140,10 @@ public class Game extends JFrame {
     // Getters
     public Render getRender() {
         return render;
+    }
+
+    public GameOver getGameOver() {
+        return gameOver;
     }
 
     public Menu getMenu() {

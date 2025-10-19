@@ -10,7 +10,7 @@ import licaza.tdefender.demo.configs.Constants.Towers;
 
 import licaza.tdefender.engine.awt.ui.MyButton;
 
-import licaza.tdefender.demo.main.GameStates;
+import static licaza.tdefender.demo.main.GameStates.*;
 import licaza.tdefender.demo.actors.towers.Tower;
 import licaza.tdefender.demo.scenes.Playing;
 
@@ -27,6 +27,7 @@ public class ActionBar extends Bar {
      * We use gold as the currency of this game
      */
     private int gold = 100, towerCostType;
+    private int lives = 25;
     private boolean showTowerCost;
 
     public ActionBar(int x, int y, int width, int height, Playing playing) {
@@ -56,11 +57,15 @@ public class ActionBar extends Bar {
             g.setColor(Color.ORANGE);
             g.drawString("Game is paused!", 200, 350);
         }
+
+        // Lives
+        g.setColor(Color.BLUE);
+        g.drawString("Lives: " + lives, 10, 50);
     }
 
     public void mouseClicked(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
-            GameStates.setGameState(GameStates.MENU);
+            setGameState(MENU);
         } else if (bPause.getBounds().contains(x, y)) {
             togglePause();
         } else {
@@ -185,6 +190,25 @@ public class ActionBar extends Bar {
 
     public void addGold(int amount) {
         this.gold += amount;
+    }
+
+    public void resetEverything() {
+        lives = 25;
+        towerCostType = 0;
+        showTowerCost = false;
+        gold = 100;
+        selectedTower = displayedTower = null;
+    }
+
+    public void removeOneLive() {
+        lives--;
+        // Game over...
+        if (lives <= 0)
+            setGameState(GAME_OVER);
+    }
+
+    public int getLives() {
+        return lives;
     }
 
     private void initButtons() {
@@ -342,7 +366,6 @@ public class ActionBar extends Bar {
         playing.removeTower(displayedTower);
 
         gold += getSellAmount(displayedTower);
-        gold += getUpgradeAmount(displayedTower);
 
         displayedTower = null;
     }

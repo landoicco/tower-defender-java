@@ -70,6 +70,11 @@ public class TowerManager {
 
     }
 
+    public void reset() {
+        towers.clear();
+        towerCount = 0;
+    }
+
     private void loadTowerImages() {
         BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
         towerImgs = new BufferedImage[3];

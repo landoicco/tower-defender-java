@@ -35,7 +35,8 @@ public class EnemyManager {
 
     public void update() {
         for (Enemy e : enemies) {
-            updateEnemyMove(e);
+            if (e.isAlive())
+                updateEnemyMove(e);
         }
     }
 
@@ -90,6 +91,10 @@ public class EnemyManager {
         return enemies;
     }
 
+    public void reset() {
+        enemies.clear();
+    }
+
     private void drawEnemy(Enemy e, Graphics g) {
         g.drawImage(enemyImgs[e.getEnemyType()], (int) e.getX(), (int) e.getY(), null);
     }
@@ -126,7 +131,11 @@ public class EnemyManager {
             // Continue on the same direction
             e.move(e.getEnemySpeed(), e.getLastDirection());
         } else if (isAtEnd(e)) {
+            // Kill enemy
             e.kill();
+
+            // When enemy reach end of path, player lost one live
+            playing.removeOneLive();
         } else {
             setNewDirectionAndMove(e);
         }
