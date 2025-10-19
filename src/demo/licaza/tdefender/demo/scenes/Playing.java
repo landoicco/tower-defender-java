@@ -24,6 +24,8 @@ public class Playing extends GameScene implements SceneMethods {
 
     private int[][] lvl;
     private int mouseX, mouseY, goldTick;
+    private boolean isGamePaused;
+
     private ActionBar actionBar;
     private EnemyManager enemyManager;
     private WaveManager waveManager;
@@ -45,6 +47,9 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     public void update() {
+        if (isGamePaused)
+            return;
+
         updateTick();
         waveManager.update();
 
@@ -104,6 +109,14 @@ public class Playing extends GameScene implements SceneMethods {
 
     public void upgradeTower(Tower displayedTower) {
         towerManager.upgradeTower(displayedTower);
+    }
+
+    public void setGamePaused(boolean gamePaused) {
+        this.isGamePaused = gamePaused;
+    }
+
+    public boolean isGamePaused() {
+        return isGamePaused;
     }
 
     public TowerManager getTowerManager() {

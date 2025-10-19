@@ -54,6 +54,10 @@ public class MyButton {
         this.mousePressed = mousePressed;
     }
 
+    public void setText(String s) {
+        this.text = s;
+    }
+
     public Rectangle getBounds() {
         return bounds;
     }

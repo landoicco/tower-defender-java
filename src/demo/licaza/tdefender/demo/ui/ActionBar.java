@@ -16,7 +16,7 @@ import licaza.tdefender.demo.scenes.Playing;
 
 public class ActionBar extends Bar {
 
-    private MyButton bMenu;
+    private MyButton bMenu, bPause;
     private Playing playing;
     private Tower selectedTower, displayedTower;
     private MyButton[] towerButtons;
@@ -50,11 +50,19 @@ public class ActionBar extends Bar {
 
         if (showTowerCost)
             drawTowerCost(g);
+
+        // Game pause text
+        if (playing.isGamePaused()) {
+            g.setColor(Color.ORANGE);
+            g.drawString("Game is paused!", 200, 350);
+        }
     }
 
     public void mouseClicked(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
             GameStates.setGameState(GameStates.MENU);
+        } else if (bPause.getBounds().contains(x, y)) {
+            togglePause();
         } else {
 
             if (displayedTower != null) {
@@ -84,6 +92,8 @@ public class ActionBar extends Bar {
 
     public void mouseMoved(int x, int y) {
         bMenu.setMouseOver(false);
+        bPause.setMouseOver(false);
+
         sellTower.setMouseOver(false);
         upgradeTower.setMouseOver(false);
 
@@ -94,6 +104,8 @@ public class ActionBar extends Bar {
 
         if (bMenu.getBounds().contains(x, y)) {
             bMenu.setMouseOver(true);
+        } else if (bPause.getBounds().contains(x, y)) {
+            bPause.setMouseOver(true);
         } else {
             // Tower buttons...
             if (displayedTower != null) {
@@ -119,6 +131,8 @@ public class ActionBar extends Bar {
     public void mousePressed(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
             bMenu.setMousePressed(true);
+        } else if (bPause.getBounds().contains(x, y)) {
+            bPause.setMousePressed(true);
         } else {
             // Tower buttons...
             if (displayedTower != null) {
@@ -142,6 +156,8 @@ public class ActionBar extends Bar {
     public void mouseReleased(int x, int y) {
         // Reset buttons
         bMenu.resetBooleans();
+        bPause.resetBooleans();
+
         sellTower.resetBooleans();
         upgradeTower.resetBooleans();
 
@@ -158,12 +174,23 @@ public class ActionBar extends Bar {
         gold -= Towers.GetTowerCost(towerType);
     }
 
+    private void togglePause() {
+        playing.setGamePaused(!playing.isGamePaused());
+
+        if (playing.isGamePaused())
+            bPause.setText("Unpause");
+        else
+            bPause.setText("Pause");
+    }
+
     public void addGold(int amount) {
         this.gold += amount;
     }
 
     private void initButtons() {
-        bMenu = new MyButton("Menu", 10, 650, 100, 30);
+        bMenu = new MyButton("Menu", 10, 645, 100, 30);
+        bPause = new MyButton("Pause", 10, 675, 100, 30);
+
         towerButtons = new MyButton[3];
 
         int width = 50;
@@ -226,6 +253,7 @@ public class ActionBar extends Bar {
 
     private void drawButtons(Graphics g) {
         bMenu.draw(g);
+        bPause.draw(g);
 
         for (MyButton b : towerButtons) {
             g.setColor(Color.GRAY);
