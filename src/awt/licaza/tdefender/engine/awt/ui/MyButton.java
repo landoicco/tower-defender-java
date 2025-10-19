@@ -58,6 +58,10 @@ public class MyButton {
         return bounds;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public boolean isMouseOver() {
         return mouseOver;
     }

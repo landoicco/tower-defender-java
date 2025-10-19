@@ -22,6 +22,12 @@ public class ActionBar extends Bar {
     private MyButton[] towerButtons;
     private DecimalFormat formatter;
 
+    /**
+     * We use gold as the currency of this game
+     */
+    private int gold = 100, towerCostType;
+    private boolean showTowerCost;
+
     public ActionBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
@@ -37,7 +43,12 @@ public class ActionBar extends Bar {
 
         drawButtons(g);
         drawDisplayedTower(g);
+
         drawWaveInfo(g);
+        drawGoldAmount(g);
+
+        if (showTowerCost)
+            drawTowerCost(g);
     }
 
     public void mouseClicked(int x, int y) {
@@ -46,6 +57,9 @@ public class ActionBar extends Bar {
         } else {
             for (MyButton b : towerButtons) {
                 if (b.getBounds().contains(x, y)) {
+                    if (!isGoldEnoughForTower(b.getId()))
+                        return;
+
                     selectedTower = new Tower(0, 0, -1, b.id);
                     playing.setSelectedTower(selectedTower);
                     return;
@@ -56,6 +70,7 @@ public class ActionBar extends Bar {
 
     public void mouseMoved(int x, int y) {
         bMenu.setMouseOver(false);
+        showTowerCost = false;
         for (MyButton b : towerButtons) {
             b.setMouseOver(false);
         }
@@ -66,6 +81,8 @@ public class ActionBar extends Bar {
             for (MyButton b : towerButtons) {
                 if (b.getBounds().contains(x, y)) {
                     b.setMouseOver(true);
+                    showTowerCost = true;
+                    towerCostType = b.getId();
                 }
             }
         }
@@ -93,6 +110,14 @@ public class ActionBar extends Bar {
 
     public void displayTower(Tower t) {
         displayedTower = t;
+    }
+
+    public void payForTower(int towerType) {
+        gold -= Towers.GetTowerCost(towerType);
+    }
+
+    public void addGold(int amount) {
+        this.gold += amount;
     }
 
     private void initButtons() {
@@ -164,11 +189,21 @@ public class ActionBar extends Bar {
     }
 
     private void drawWaveInfo(Graphics g) {
+        // Font settings...
         g.setFont(new Font("LucidaSans", Font.BOLD, 20));
+        g.setColor(Color.BLACK);
 
         drawWaveTimerInfo(g);
         drawEnemiesLeftInfo(g);
         drawWavesLeftInfo(g);
+    }
+
+    private void drawGoldAmount(Graphics g) {
+        g.drawString("Gold: " + gold, 110, 725);
+    }
+
+    private boolean isGoldEnoughForTower(int towerType) {
+        return gold >= Towers.GetTowerCost(towerType);
     }
 
     private void drawEnemiesLeftInfo(Graphics g) {
@@ -180,8 +215,7 @@ public class ActionBar extends Bar {
         int current = playing.getWaveManager().getWaveIndex();
         int size = playing.getWaveManager().getWaves().size();
 
-        g.setColor(Color.BLACK);
-        g.drawString("Wave " + (current + 1) + " / " + size, 450, 730);
+        g.drawString("Wave " + (current + 1) + " / " + size, 350, 730);
     }
 
     private void drawWaveTimerInfo(Graphics g) {
@@ -189,9 +223,37 @@ public class ActionBar extends Bar {
             float timeLeft = playing.getWaveManager().getTimeLeft();
             String formattedTimeLeft = formatter.format(timeLeft);
 
-            g.setColor(Color.WHITE);
             g.drawString("Next wave in: " + formattedTimeLeft + "s", 350, 700);
         }
+    }
+
+    private void drawTowerCost(Graphics g) {
+        g.setColor(Color.GRAY);
+        g.fillRect(280, 650, 120, 50);
+        g.setColor(Color.BLACK);
+        g.drawRect(280, 650, 120, 50);
+
+        g.drawString("" + getTowerCostName(), 285, 670);
+        g.drawString("Cost: " + getTowerCostCost() + "g", 285, 695);
+
+        // Show if player cannot afford a tower
+        if (isTowerCostMoreThanCurrentGold()) {
+            g.setColor(Color.RED);
+            g.drawString("Not enough gold...", 285, 725);
+            // g.setColor(Color.BLACK);
+        }
+    }
+
+    private boolean isTowerCostMoreThanCurrentGold() {
+        return getTowerCostCost() > gold;
+    }
+
+    private String getTowerCostName() {
+        return Towers.GetName(towerCostType);
+    }
+
+    private int getTowerCostCost() {
+        return Towers.GetTowerCost(towerCostType);
     }
 
 }

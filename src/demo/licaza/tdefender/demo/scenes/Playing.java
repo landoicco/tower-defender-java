@@ -14,7 +14,7 @@ import licaza.tdefender.demo.managers.TowerManager;
 import licaza.tdefender.demo.managers.WaveManager;
 import licaza.tdefender.demo.actors.enemies.Enemy;
 import licaza.tdefender.demo.actors.towers.Tower;
-import licaza.tdefender.demo.configs.Constants.Tiles;
+import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
 
 import licaza.tdefender.engine.commons.objects.PathPoint;
@@ -23,7 +23,7 @@ import licaza.tdefender.engine.commons.api.SceneMethods;
 public class Playing extends GameScene implements SceneMethods {
 
     private int[][] lvl;
-    private int mouseX, mouseY;
+    private int mouseX, mouseY, goldTick;
     private ActionBar actionBar;
     private EnemyManager enemyManager;
     private WaveManager waveManager;
@@ -46,8 +46,13 @@ public class Playing extends GameScene implements SceneMethods {
 
     public void update() {
         updateTick();
-
         waveManager.update();
+
+        // Gold tick (3 secs...)
+        goldTick++;
+        if (goldTick % (60 * 3) == 0)
+            actionBar.addGold(1);
+
         if (isAllEnemiesDead()) {
             if (isThereMoreWaves()) {
                 waveManager.startWaveTimer();
@@ -89,6 +94,10 @@ public class Playing extends GameScene implements SceneMethods {
         projectileManager.newProjectile(t, e);
     }
 
+    public void rewardPlayer(int enemyType) {
+        actionBar.addGold((int) Enemies.GetReward(enemyType));
+    }
+
     public TowerManager getTowerManager() {
         return towerManager;
     }
@@ -126,7 +135,10 @@ public class Playing extends GameScene implements SceneMethods {
                 if (isTileGrass(mouseX, mouseY) &&
                         getTowerAt(mouseX, mouseY) == null) {
                     towerManager.addTower(selectedTower, mouseX, mouseY);
+
+                    removeGold(selectedTower.getTowerType());
                     selectedTower = null;
+
                     return;
                 }
             } else {
@@ -242,6 +254,10 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     private void drawWaveInfos(Graphics g) {
+    }
+
+    private void removeGold(int towerType) {
+        actionBar.payForTower(towerType);
     }
 
     private void spawnEnemy() {

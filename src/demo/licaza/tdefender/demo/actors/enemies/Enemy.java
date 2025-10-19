@@ -2,6 +2,8 @@ package licaza.tdefender.demo.actors.enemies;
 
 import java.awt.Rectangle;
 
+import licaza.tdefender.demo.managers.EnemyManager;
+
 import static licaza.tdefender.demo.configs.Constants.*;
 
 public abstract class Enemy {
@@ -11,19 +13,21 @@ public abstract class Enemy {
     private boolean alive = true;
     private int health, maxHealth, id, enemyType;
     private int lastDirection, slowTickLimit = 120, slowTick = slowTickLimit;
+    private EnemyManager enemyManager;
 
-    public Enemy(float x, float y, int id, int enemyType) {
+    public Enemy(float x, float y, int id, int enemyType, EnemyManager enemyManager) {
         this.x = x;
         this.y = y;
         this.id = id;
         this.enemyType = enemyType;
+        this.enemyManager = enemyManager;
 
         bounds = new Rectangle((int) x, (int) y, 32, 32);
         lastDirection = -1;
     }
 
-    public Enemy(float x, float y, int id, int enemyType, int startHealth) {
-        this(x, y, id, enemyType);
+    public Enemy(float x, float y, int id, int enemyType, int startHealth, EnemyManager enemyManager) {
+        this(x, y, id, enemyType, enemyManager);
         this.maxHealth = this.health = startHealth;
     }
 
@@ -61,6 +65,7 @@ public abstract class Enemy {
         this.health -= damage;
         if (health <= 0) {
             alive = false;
+            enemyManager.rewardPlayer(enemyType);
         }
     }
 

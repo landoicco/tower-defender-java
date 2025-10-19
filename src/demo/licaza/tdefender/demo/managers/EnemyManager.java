@@ -54,16 +54,16 @@ public class EnemyManager {
         int y = start.yCord() * 32;
         switch (enemyType) {
             case Enemies.ORC:
-                enemies.add(new Orc(x, y, 0));
+                enemies.add(new Orc(x, y, 0, this));
                 break;
             case Enemies.BAT:
-                enemies.add(new Bat(x, y, 0));
+                enemies.add(new Bat(x, y, 0, this));
                 break;
             case Enemies.KNIGHT:
-                enemies.add(new Knight(x, y, 0));
+                enemies.add(new Knight(x, y, 0, this));
                 break;
             case Enemies.WOLF:
-                enemies.add(new Wolf(x, y, 0));
+                enemies.add(new Wolf(x, y, 0, this));
                 break;
 
         }
@@ -71,6 +71,10 @@ public class EnemyManager {
 
     public void spawnEnemy(int nextEnemy) {
         addEnemy(nextEnemy);
+    }
+
+    public void rewardPlayer(int enemyType) {
+        playing.rewardPlayer(enemyType);
     }
 
     public int getAmountOfAliveEnemies() {
