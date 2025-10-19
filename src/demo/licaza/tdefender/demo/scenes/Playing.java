@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 
-import static licaza.tdefender.demo.configs.Constants.Tiles;
-
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.managers.EnemyManager;
 import licaza.tdefender.demo.managers.ProjectileManager;
@@ -16,6 +14,7 @@ import licaza.tdefender.demo.managers.TowerManager;
 import licaza.tdefender.demo.managers.WaveManager;
 import licaza.tdefender.demo.actors.enemies.Enemy;
 import licaza.tdefender.demo.actors.towers.Tower;
+import licaza.tdefender.demo.configs.Constants.Tiles;
 import licaza.tdefender.demo.ui.ActionBar;
 
 import licaza.tdefender.engine.commons.objects.PathPoint;
@@ -47,6 +46,24 @@ public class Playing extends GameScene implements SceneMethods {
 
     public void update() {
         updateTick();
+
+        waveManager.update();
+        if (isAllEnemiesDead()) {
+            if (isThereMoreWaves()) {
+                waveManager.startWaveTimer();
+
+                if (isWaveTimerOver()) {
+                    waveManager.increaseWaveIndex();
+                    enemyManager.getEnemies().clear();
+                    waveManager.resetEnemyIndex();
+                }
+
+            }
+        }
+        if (shouldSpawnNewEnemy()) {
+            spawnEnemy();
+        }
+
         enemyManager.update();
         towerManager.update();
         projectileManager.update();
@@ -95,6 +112,7 @@ public class Playing extends GameScene implements SceneMethods {
 
         drawSelectedTower(g);
         drawHighlight(g);
+        drawWaveInfos(g);
     }
 
     @Override
@@ -185,6 +203,26 @@ public class Playing extends GameScene implements SceneMethods {
         return tyleType == Tiles.GRASS;
     }
 
+    private boolean isAllEnemiesDead() {
+
+        if (waveManager.isThereEnemiesLeft())
+            return false;
+
+        for (Enemy e : enemyManager.getEnemies())
+            if (e.isAlive())
+                return false;
+
+        return true;
+    }
+
+    private boolean isThereMoreWaves() {
+        return waveManager.isThereMoreWaves();
+    }
+
+    private boolean isWaveTimerOver() {
+        return waveManager.isWaveTimerOver();
+    }
+
     private Tower getTowerAt(int x, int y) {
         return towerManager.getTowerAt(x, y);
     }
@@ -201,5 +239,24 @@ public class Playing extends GameScene implements SceneMethods {
             }
         }
 
+    }
+
+    private void drawWaveInfos(Graphics g) {
+    }
+
+    private void spawnEnemy() {
+        enemyManager.spawnEnemy(waveManager.getNextEnemy());
+    }
+
+    /**
+     * On the tutorial, this name is called 'isTimeForNewEnemy'
+     */
+    private boolean shouldSpawnNewEnemy() {
+        if (waveManager.shouldSpawnNewEnemy()) {
+            if (waveManager.isThereEnemiesLeft()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

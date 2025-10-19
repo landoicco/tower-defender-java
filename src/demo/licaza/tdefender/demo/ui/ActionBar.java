@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import java.text.DecimalFormat;
+
 import licaza.tdefender.demo.configs.Constants.Towers;
 
 import licaza.tdefender.engine.awt.ui.MyButton;
@@ -18,10 +20,13 @@ public class ActionBar extends Bar {
     private Playing playing;
     private Tower selectedTower, displayedTower;
     private MyButton[] towerButtons;
+    private DecimalFormat formatter;
 
     public ActionBar(int x, int y, int width, int height, Playing playing) {
         super(x, y, width, height);
         this.playing = playing;
+
+        formatter = new DecimalFormat("0.0");
 
         initButtons();
     }
@@ -32,6 +37,7 @@ public class ActionBar extends Bar {
 
         drawButtons(g);
         drawDisplayedTower(g);
+        drawWaveInfo(g);
     }
 
     public void mouseClicked(int x, int y) {
@@ -149,12 +155,43 @@ public class ActionBar extends Bar {
 
     private void drawDisplayedTowerRange(Graphics g) {
         g.setColor(Color.RED);
-        
+
         // Logic to centre the tower range
         g.drawOval(displayedTower.getX() + 16 - (int) (displayedTower.getRange()),
                 displayedTower.getY() + 16 - (int) (displayedTower.getRange()),
                 (int) displayedTower.getRange() * 2,
                 (int) displayedTower.getRange() * 2);
+    }
+
+    private void drawWaveInfo(Graphics g) {
+        g.setFont(new Font("LucidaSans", Font.BOLD, 20));
+
+        drawWaveTimerInfo(g);
+        drawEnemiesLeftInfo(g);
+        drawWavesLeftInfo(g);
+    }
+
+    private void drawEnemiesLeftInfo(Graphics g) {
+        int remaining = playing.getEnemyManager().getAmountOfAliveEnemies();
+        g.drawString("Enemies left: " + remaining, 350, 670);
+    }
+
+    private void drawWavesLeftInfo(Graphics g) {
+        int current = playing.getWaveManager().getWaveIndex();
+        int size = playing.getWaveManager().getWaves().size();
+
+        g.setColor(Color.BLACK);
+        g.drawString("Wave " + (current + 1) + " / " + size, 450, 730);
+    }
+
+    private void drawWaveTimerInfo(Graphics g) {
+        if (playing.getWaveManager().isWaveTimerStarted()) {
+            float timeLeft = playing.getWaveManager().getTimeLeft();
+            String formattedTimeLeft = formatter.format(timeLeft);
+
+            g.setColor(Color.WHITE);
+            g.drawString("Next wave in: " + formattedTimeLeft + "s", 350, 700);
+        }
     }
 
 }

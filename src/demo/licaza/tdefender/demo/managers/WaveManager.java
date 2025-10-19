@@ -11,7 +11,10 @@ public class WaveManager {
     private ArrayList<Wave> waves = new ArrayList<>();
     private int enemySpawnTickLimit = 60 * 1;
     private int enemySpawnTick = enemySpawnTickLimit;
+    private int waveTickLimit = 60 * 5;
+    private int waveTick = 0;
     private int enemyIndex, waveIndex;
+    private boolean waveStartTimer, waveTickTimerOver;
 
     public WaveManager(Playing playing) {
         this.playing = playing;
@@ -22,6 +25,27 @@ public class WaveManager {
         if (enemySpawnTick < enemySpawnTickLimit) {
             enemySpawnTick++;
         }
+
+        if (waveStartTimer) {
+            waveTick++;
+            if (waveTick >= waveTickLimit) {
+                waveTickTimerOver = true;
+            }
+        }
+    }
+
+    public void increaseWaveIndex() {
+        waveIndex++;
+        waveTickTimerOver = false;
+        waveStartTimer = false;
+    }
+
+    public void startWaveTimer() {
+        waveStartTimer = true;
+    }
+
+    public void resetEnemyIndex() {
+        enemyIndex = 0;
     }
 
     /**
@@ -39,6 +63,27 @@ public class WaveManager {
                 .enemyList().size();
     }
 
+    public boolean isThereMoreWaves() {
+        return waveIndex + 1 < waves.size();
+    }
+
+    public boolean isWaveTimerOver() {
+        return waveTickTimerOver;
+    }
+
+    public boolean isWaveTimerStarted() {
+        return waveStartTimer;
+    }
+
+    public float getTimeLeft() {
+        float ticksLeft = waveTickLimit - waveTick;
+        return ticksLeft / 60.0f;
+    }
+
+    public int getWaveIndex() {
+        return waveIndex;
+    }
+
     public int getNextEnemy() {
         enemySpawnTick = 0;
         return waves.get(waveIndex).enemyList().get(enemyIndex++);
@@ -50,6 +95,9 @@ public class WaveManager {
 
     private void createWaves() {
         waves.add(new Wave(new ArrayList<Integer>(Arrays
-                .asList(1, 2, 1, 3, 1, 1, 2, 1, 3, 1))));
+                .asList(1, 1, 1, 1, 1, 1, 1, 1, 1, 1))));
+
+        waves.add(new Wave(new ArrayList<Integer>(Arrays
+                .asList(2, 2, 2, 2, 2, 2, 2, 2, 2, 2))));
     }
 }

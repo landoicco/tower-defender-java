@@ -34,12 +34,6 @@ public class EnemyManager {
     }
 
     public void update() {
-
-        updateWaveManager();
-
-        if (shouldSpawnNewEnemy()) {
-            spawnEnemy();
-        }
         for (Enemy e : enemies) {
             updateEnemyMove(e);
         }
@@ -73,6 +67,19 @@ public class EnemyManager {
                 break;
 
         }
+    }
+
+    public void spawnEnemy(int nextEnemy) {
+        addEnemy(nextEnemy);
+    }
+
+    public int getAmountOfAliveEnemies() {
+        int size = 0;
+        for (Enemy e : enemies)
+            if (e.isAlive())
+                size++;
+
+        return size;
     }
 
     public ArrayList<Enemy> getEnemies() {
@@ -115,16 +122,10 @@ public class EnemyManager {
             // Continue on the same direction
             e.move(e.getEnemySpeed(), e.getLastDirection());
         } else if (isAtEnd(e)) {
-            // End of road reached
-            System.out.println("End of path reached!");
+            e.kill();
         } else {
-            // Find other direction
             setNewDirectionAndMove(e);
         }
-    }
-
-    private void updateWaveManager() {
-        playing.getWaveManager().update();
     }
 
     private void setNewDirectionAndMove(Enemy e) {
@@ -135,9 +136,8 @@ public class EnemyManager {
         int yCord = (int) (e.getY() / 32);
         fixEnemyOffsetTile(e, direction, xCord, yCord);
 
-        if (isAtEnd(e)) {
+        if (isAtEnd(e))
             return;
-        }
 
         if (direction == Direction.LEFT || direction == Direction.RIGHT) {
             int newY = (int) (e.getY() + getSpeedAndHeight(Direction.UP, e.getEnemySpeed()));
@@ -173,20 +173,8 @@ public class EnemyManager {
     }
 
     private boolean isAtEnd(Enemy e) {
-        return (e.getX() == (end.xCord() * 32)) &&
+        return ((int) e.getX() == ((int) end.xCord() * 32)) &&
                 (e.getY() == (end.yCord() * 32));
-    }
-
-    /**
-     * On the tutorial, this name is called 'isTimeForNewEnemy'
-     */
-    private boolean shouldSpawnNewEnemy() {
-        if (playing.getWaveManager().shouldSpawnNewEnemy()) {
-            if (playing.getWaveManager().isThereEnemiesLeft()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     private int getTileType(int x, int y) {
@@ -209,10 +197,6 @@ public class EnemyManager {
             return speed + 32;
         }
         return 0;
-    }
-
-    private void spawnEnemy() {
-        addEnemy(playing.getWaveManager().getNextEnemy());
     }
 
     private void drawHealthBar(Enemy e, Graphics g) {

@@ -13,6 +13,11 @@ public class Game extends JFrame {
 
     private final double FPS_SET = 120.0;
     private final double UPS_SET = 60.0;
+    private final String STATS_MSG = """
+            ==============
+                FPS: %d
+                UPS: %d
+                """;
 
     private GameScreen gameScreen;
     private TileManager tileManager;
@@ -25,7 +30,7 @@ public class Game extends JFrame {
     private Editing editing;
 
     public Game() {
-        super("Tower Defender Game(...in Java!!!)");
+        super("Tower Defender - Java");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -74,7 +79,7 @@ public class Game extends JFrame {
             }
 
             if (System.currentTimeMillis() - lastTimeCheck >= 1000) {
-                System.out.println("FPS: " + frames + " | UPS: " + updates);
+                System.out.print(STATS_MSG.formatted(frames, updates));
                 frames = 0;
                 updates = 0;
                 lastTimeCheck = System.currentTimeMillis();

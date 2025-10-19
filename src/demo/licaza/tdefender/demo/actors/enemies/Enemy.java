@@ -57,6 +57,18 @@ public abstract class Enemy {
         slowTick = 0;
     }
 
+    public void hurt(int damage) {
+        this.health -= damage;
+        if (health <= 0) {
+            alive = false;
+        }
+    }
+
+    public void kill() {
+        alive = false;
+        health = 0;
+    }
+
     // For position fix
     public void setPosition(int x, int y) {
         this.x = x;
@@ -97,13 +109,6 @@ public abstract class Enemy {
 
     public float getHealthBarFloat() {
         return health / (float) maxHealth;
-    }
-
-    public void hurt(int damage) {
-        this.health -= damage;
-        if (health <= 0) {
-            alive = false;
-        }
     }
 
     public boolean isAlive() {
