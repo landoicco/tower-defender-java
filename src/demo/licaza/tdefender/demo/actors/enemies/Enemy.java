@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import licaza.tdefender.demo.managers.EnemyManager;
 
-import static licaza.tdefender.demo.configs.Constants.*;
+import static licaza.tdefender.engine.commons.misc.Constants.Directions.*;
 
 public abstract class Enemy {
 
@@ -40,16 +40,16 @@ public abstract class Enemy {
         }
 
         switch (direction) {
-            case Direction.LEFT:
+            case LEFT:
                 this.x -= speed;
                 break;
-            case Direction.UP:
+            case UP:
                 this.y -= speed;
                 break;
-            case Direction.RIGHT:
+            case RIGHT:
                 this.x += speed;
                 break;
-            case Direction.DOWN:
+            case DOWN:
                 this.y += speed;
                 break;
         }

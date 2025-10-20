@@ -6,14 +6,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
+import licaza.tdefender.engine.commons.objects.PathPoint;
 
 import static licaza.tdefender.engine.tools.math.PathFinding.*;
+import static licaza.tdefender.engine.commons.misc.Constants.Directions.*;
 
 import licaza.tdefender.demo.actors.enemies.*;
-import licaza.tdefender.demo.configs.Constants.Direction;
 import licaza.tdefender.demo.configs.Constants.Enemies;
 import licaza.tdefender.demo.configs.Constants.Tiles;
-import licaza.tdefender.engine.commons.objects.PathPoint;
 import licaza.tdefender.demo.scenes.Playing;
 
 public class EnemyManager {
@@ -191,31 +191,31 @@ public class EnemyManager {
         if (isAtEnd(e))
             return;
 
-        if (direction == Direction.LEFT || direction == Direction.RIGHT) {
-            int newY = (int) (e.getY() + getSpeedAndHeight(Direction.UP, e.getEnemySpeed()));
+        if (direction == LEFT || direction == RIGHT) {
+            int newY = (int) (e.getY() + getSpeedAndHeight(UP, e.getEnemySpeed()));
             if (getTileType((int) e.getX(), newY) == Tiles.ROAD) {
-                e.move(e.getEnemySpeed(), Direction.UP);
+                e.move(e.getEnemySpeed(), UP);
             } else {
-                e.move(e.getEnemySpeed(), Direction.DOWN);
+                e.move(e.getEnemySpeed(), DOWN);
             }
         } else {
-            int newX = (int) (e.getX() + getSpeedAndWidth(Direction.RIGHT, e.getEnemySpeed()));
+            int newX = (int) (e.getX() + getSpeedAndWidth(RIGHT, e.getEnemySpeed()));
             if (getTileType(newX, (int) e.getY()) == Tiles.ROAD) {
-                e.move(e.getEnemySpeed(), Direction.RIGHT);
+                e.move(e.getEnemySpeed(), RIGHT);
             } else {
-                e.move(e.getEnemySpeed(), Direction.LEFT);
+                e.move(e.getEnemySpeed(), LEFT);
             }
         }
     }
 
     private void fixEnemyOffsetTile(Enemy e, int direction, int xCord, int yCord) {
         switch (direction) {
-            case Direction.RIGHT:
+            case RIGHT:
                 if (xCord < 19) {
                     xCord++;
                 }
                 break;
-            case Direction.DOWN:
+            case DOWN:
                 if (yCord < 19) {
                     yCord++;
                 }
@@ -239,9 +239,9 @@ public class EnemyManager {
 
     private PathPoint getEnemyTile(Enemy e) {
         return switch (e.getLastDirection()) {
-            case Direction.LEFT -> new PathPoint((int) ((e.getX() + 31) / 32), (int) (e.getY() / 32));
-            case Direction.UP -> new PathPoint((int) (e.getX() / 32), (int) ((e.getY() + 31) / 32));
-            case Direction.RIGHT, Direction.DOWN -> new PathPoint((int) (e.getX() / 32), (int) (e.getY() / 32));
+            case LEFT -> new PathPoint((int) ((e.getX() + 31) / 32), (int) (e.getY() / 32));
+            case UP -> new PathPoint((int) (e.getX() / 32), (int) ((e.getY() + 31) / 32));
+            case RIGHT, DOWN -> new PathPoint((int) (e.getX() / 32), (int) (e.getY() / 32));
             default -> new PathPoint((int) (e.getX() / 32), (int) (e.getY() / 32));
 
         };
@@ -252,18 +252,18 @@ public class EnemyManager {
     }
 
     private float getSpeedAndWidth(int direction, float speed) {
-        if (direction == Direction.LEFT) {
+        if (direction == LEFT) {
             return -speed;
-        } else if (direction == Direction.RIGHT) {
+        } else if (direction == RIGHT) {
             return speed + 32;
         }
         return 0;
     }
 
     private float getSpeedAndHeight(int direction, float speed) {
-        if (direction == Direction.UP) {
+        if (direction == UP) {
             return -speed;
-        } else if (direction == Direction.DOWN) {
+        } else if (direction == DOWN) {
             return speed + 32;
         }
         return 0;

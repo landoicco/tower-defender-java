@@ -34,7 +34,6 @@ build_demo() {
         ${DEMO_PATH}/actors/enemies/**.java \
         ${DEMO_PATH}/actors/towers/**.java \
         ${DEMO_PATH}/main/**.java \
-        ${DEMO_PATH}/events/**.java \
         ${DEMO_PATH}/scenes/**.java \
         ${DEMO_PATH}/ui/**.java \
         ${DEMO_PATH}/inputs/**.java \
@@ -76,6 +75,7 @@ build_engine_commons() {
         --module-path src/mods \
         -d src/commons/target \
         ${COMMONS_PATH}/misc/**.java \
+        ${COMMONS_PATH}/events/**.java \
         ${COMMONS_PATH}/api/**.java \
         ${COMMONS_PATH}/objects/**.java \
         src/commons/module-info.java 

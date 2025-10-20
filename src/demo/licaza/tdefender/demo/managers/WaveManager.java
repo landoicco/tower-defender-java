@@ -3,7 +3,8 @@ package licaza.tdefender.demo.managers;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import licaza.tdefender.demo.events.Wave;
+import licaza.tdefender.engine.commons.events.Wave;
+
 import licaza.tdefender.demo.scenes.Playing;
 
 public class WaveManager {
