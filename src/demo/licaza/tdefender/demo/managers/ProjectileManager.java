@@ -109,8 +109,19 @@ public class ProjectileManager {
                 rotate += 270;
         }
 
+        for (Projectile p : projectiles) {
+            if (!p.isActive())
+                if (p.getProjectileType() == type) {
+                    System.out.println("Reusing projectile");
+                    p.reuse(t.getX() + 16, t.getY() + 16, xSpeed, ySpeed, t.getDamage(), rotate);
+                    return;
+                }
+        }
+
         projectiles.add(new Projectile(t.getX() + 16, t.getY() + 16, xSpeed,
                 ySpeed, t.getDamage(), rotate, projectileID++, type));
+
+        System.out.println("Projectiles amount: " + projectiles.size());
     }
 
     public void reset() {
@@ -215,9 +226,9 @@ public class ProjectileManager {
             if (p.getPosition().x <= 640)
                 if (p.getPosition().y >= 0)
                     if (p.getPosition().y <= 800)
-                        return true;
+                        return false;
 
-        return false;
+        return true;
     }
 
     /**

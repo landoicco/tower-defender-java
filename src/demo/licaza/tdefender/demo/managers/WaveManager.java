@@ -36,6 +36,7 @@ public class WaveManager {
 
     public void increaseWaveIndex() {
         waveIndex++;
+        waveTick = 0;
         waveTickTimerOver = false;
         waveStartTimer = false;
     }

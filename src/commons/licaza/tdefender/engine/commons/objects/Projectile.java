@@ -24,6 +24,16 @@ public class Projectile {
         position.y += ySpeed;
     }
 
+    public void reuse(int x, int y, float xSpeed, float ySpeed,
+            int damage, float rotate) {
+        position = new Point2D.Float(x, y);
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
+        this.damage = damage;
+        this.rotation = rotate;
+        active = true;
+    }
+
     public Point2D.Float getPosition() {
         return position;
     }
@@ -31,7 +41,7 @@ public class Projectile {
     public void setPosition(Point2D.Float position) {
         this.position = position;
     }
-    
+
     public int getId() {
         return id;
     }
