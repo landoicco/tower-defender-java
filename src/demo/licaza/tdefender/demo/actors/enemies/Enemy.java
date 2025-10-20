@@ -80,6 +80,10 @@ public abstract class Enemy {
         this.y = y;
     }
 
+    public void setLastDirection(int newDirection) {
+        this.lastDirection = newDirection;
+    }
+
     public abstract float getEnemySpeed();
 
     // Getters

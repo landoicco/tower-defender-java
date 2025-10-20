@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
+import licaza.tdefender.engine.tools.math.Utils;
+
 import licaza.tdefender.demo.actors.enemies.*;
 import licaza.tdefender.demo.configs.Constants.Direction;
 import licaza.tdefender.demo.configs.Constants.Enemies;
@@ -17,6 +19,7 @@ public class EnemyManager {
 
     private Playing playing;
     private BufferedImage[] enemyImgs;
+    private int[][] roadDirectionArray;
     private BufferedImage slowEffect;
     private PathPoint start, end;
     private int HPbarWidth = 20;
@@ -31,12 +34,15 @@ public class EnemyManager {
 
         loadEffectImages();
         loadEnemyImages();
+        loadRoadDirectionArray();
+
     }
 
     public void update() {
         for (Enemy e : enemies) {
-            if (e.isAlive())
-                updateEnemyMove(e);
+            if (e.isAlive()) {
+                updateEnemyMoveNew(e);
+            }
         }
     }
 
@@ -120,6 +126,38 @@ public class EnemyManager {
         }
     }
 
+    private void loadRoadDirectionArray() {
+        roadDirectionArray = Utils.GetRoadDirectionArray(playing.getGame().getTileManager().getTypeArray(),
+                start, end);
+    }
+
+    /**
+     * This is the PathFinding algorithm 2.0
+     */
+    private void updateEnemyMoveNew(Enemy e) {
+        PathPoint currentTile = getEnemyTile(e);
+        int direction = roadDirectionArray[currentTile.yCord()][currentTile.xCord()];
+
+        e.move(e.getEnemySpeed(), direction);
+
+        PathPoint newTile = getEnemyTile(e);
+        if (isTilesTheSame(newTile, end)) {
+            e.kill();
+            playing.removeOneLive();
+        }
+        if (!isTilesTheSame(currentTile, newTile)) {
+            int newDirection = roadDirectionArray[newTile.yCord()][newTile.xCord()];
+            if (newDirection != direction) {
+                e.setPosition(newTile.xCord() * 32, newTile.yCord() * 32);
+                e.setLastDirection(newDirection);
+            }
+        }
+    }
+
+    /**
+     * This method is the legacy PathFinding algorithm
+     */
+    @Deprecated
     private void updateEnemyMove(Enemy e) {
         if (e.getLastDirection() == -1) {
             setNewDirectionAndMove(e);
@@ -188,6 +226,24 @@ public class EnemyManager {
     private boolean isAtEnd(Enemy e) {
         return ((int) e.getX() == ((int) end.xCord() * 32)) &&
                 (e.getY() == (end.yCord() * 32));
+    }
+
+    private boolean isTilesTheSame(PathPoint currentTile, PathPoint newTile) {
+        if (currentTile.xCord() == newTile.xCord())
+            if (currentTile.yCord() == newTile.yCord())
+                return true;
+
+        return false;
+    }
+
+    private PathPoint getEnemyTile(Enemy e) {
+        return switch (e.getLastDirection()) {
+            case Direction.LEFT -> new PathPoint((int) ((e.getX() + 31) / 32), (int) (e.getY() / 32));
+            case Direction.UP -> new PathPoint((int) (e.getX() / 32), (int) ((e.getY() + 31) / 32));
+            case Direction.RIGHT, Direction.DOWN -> new PathPoint((int) (e.getX() / 32), (int) (e.getY() / 32));
+            default -> new PathPoint((int) (e.getX() / 32), (int) (e.getY() / 32));
+
+        };
     }
 
     private int getTileType(int x, int y) {

@@ -40,6 +40,18 @@ public class TileManager {
                 return tiles.get(id);
         }
 
+        public int[][] getTypeArray() {
+                int[][] idArray = LoadSave.GetLevelData("default_level");
+                int[][] typeArray = new int[idArray.length][idArray[0].length];
+
+                for (int j = 0; j < idArray.length; j++)
+                        for (int i = 0; i < idArray[j].length; i++) {
+                                int id = idArray[j][i];
+                                typeArray[j][i] = tiles.get(id).getTileType();
+                        }
+                return typeArray;
+        }
+
         public boolean isAnimatedSprite(int spriteId) {
                 return tiles.get(spriteId).isAnimated();
         }
