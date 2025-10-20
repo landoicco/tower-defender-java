@@ -9,7 +9,8 @@ import java.util.ArrayList;
 
 import licaza.tdefender.engine.tools.helpers.ImageFix;
 import licaza.tdefender.engine.tools.helpers.LoadSave;
-import licaza.tdefender.engine.tools.math.Utils;
+
+import static licaza.tdefender.engine.tools.math.Functions.Pythagoras.*;
 
 import licaza.tdefender.demo.actors.towers.Tower;
 
@@ -101,7 +102,7 @@ public class TowerManager {
     }
 
     private boolean isEnemyInRange(Tower t, Enemy e) {
-        int range = Utils.GetHypotenuseDistance(t.getX(), t.getY(), e.getX(), e.getY());
+        int range = GetHypotenuseDistance(t.getX(), t.getY(), e.getX(), e.getY());
         return range < t.getRange();
     }
 }

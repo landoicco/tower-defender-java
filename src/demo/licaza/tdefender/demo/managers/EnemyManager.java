@@ -6,7 +6,8 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
-import licaza.tdefender.engine.tools.math.Utils;
+
+import static licaza.tdefender.engine.tools.math.PathFinding.*;
 
 import licaza.tdefender.demo.actors.enemies.*;
 import licaza.tdefender.demo.configs.Constants.Direction;
@@ -127,7 +128,7 @@ public class EnemyManager {
     }
 
     private void loadRoadDirectionArray() {
-        roadDirectionArray = Utils.GetRoadDirectionArray(playing.getGame().getTileManager().getTypeArray(),
+        roadDirectionArray = GetRoadDirectionArray(playing.getGame().getTileManager().getTypeArray(),
                 start, end);
     }
 

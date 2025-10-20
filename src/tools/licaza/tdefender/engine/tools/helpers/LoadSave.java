@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
-import licaza.tdefender.engine.tools.math.Utils;
+import static licaza.tdefender.engine.tools.math.Functions.Matrix.*;
 
 import licaza.tdefender.engine.commons.objects.PathPoint;
 
@@ -54,7 +54,7 @@ public class LoadSave {
         File levelFile = new File(name + ".txt");
 
         if (levelFile.exists()) {
-            int[] oneDimArray = Utils.TwoDTo1DintArray(idArray);
+            int[] oneDimArray = TwoDTo1DintArray(idArray);
             WriteToFile(levelFile, oneDimArray, start, end);
         } else {
             System.out.println("File: " + name + ".txt does not exist!");
@@ -88,7 +88,7 @@ public class LoadSave {
 
         ArrayList<Integer> list = ReadFromFile(lvlFile);
 
-        return Utils.ArrayListTo2Dint(list, 20, 20);
+        return ArrayListTo2Dint(list, 20, 20);
     }
 
     public static ArrayList<PathPoint> GetLevelPathPoints(String name) {
