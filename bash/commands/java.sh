@@ -94,6 +94,7 @@ build_engine_tools() {
         --module-path src/mods \
         -d src/tools/target \
         ${TOOLS_PATH}/math/**.java \
+        ${TOOLS_PATH}/managers/**.java \
         ${TOOLS_PATH}/helpers/**.java \
         src/tools/module-info.java 
 
