@@ -5,13 +5,14 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import licaza.tdefender.demo.scenes.Playing;
-import licaza.tdefender.demo.actors.towers.Tower;
 
 import licaza.tdefender.engine.tools.helpers.ImageFix;
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 
 import licaza.tdefender.engine.commons.actors.Enemy;
+import licaza.tdefender.engine.commons.actors.Tower;
 
+import static licaza.tdefender.demo.configs.Constants.Towers.*;
 import static licaza.tdefender.engine.tools.math.Functions.Pythagoras.*;
 
 public class TowerManager {
@@ -54,7 +55,12 @@ public class TowerManager {
     }
 
     public void addTower(Tower selectedTower, int xPos, int yPos) {
-        towers.add(new Tower(xPos, yPos, towerCount++, selectedTower.getTowerType()));
+        int damage, range, cooldown;
+        damage = GetDefaultDamage(selectedTower.getTowerType());
+        range = (int) GetDefaultRange(selectedTower.getTowerType());
+        cooldown = (int) GetDefaultCooldown(selectedTower.getTowerType());
+
+        towers.add(new Tower(xPos, yPos, towerCount++, selectedTower.getTowerType(), damage, range, cooldown));
     }
 
     public void removeTower(Tower displayedTower) {
@@ -66,7 +72,8 @@ public class TowerManager {
     public void upgradeTower(Tower displayedTower) {
         for (Tower t : towers) {
             if (t.getId() == displayedTower.getId())
-                t.upgradeTower();
+                // TODO: Add check for each kinf of tower
+                t.upgradeTower(1, 10.0f, 3.0f);
         }
 
     }

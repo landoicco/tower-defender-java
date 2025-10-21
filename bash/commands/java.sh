@@ -32,7 +32,6 @@ build_demo() {
         -d src/demo/target \
         ${DEMO_PATH}/configs/**.java \
         ${DEMO_PATH}/actors/enemies/**.java \
-        ${DEMO_PATH}/actors/towers/**.java \
         ${DEMO_PATH}/main/**.java \
         ${DEMO_PATH}/scenes/**.java \
         ${DEMO_PATH}/ui/**.java \
