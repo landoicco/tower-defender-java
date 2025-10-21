@@ -76,6 +76,7 @@ build_engine_commons() {
         -d src/commons/target \
         ${COMMONS_PATH}/misc/**.java \
         ${COMMONS_PATH}/events/**.java \
+        ${COMMONS_PATH}/actors/**.java \
         ${COMMONS_PATH}/api/**.java \
         ${COMMONS_PATH}/objects/**.java \
         src/commons/module-info.java 

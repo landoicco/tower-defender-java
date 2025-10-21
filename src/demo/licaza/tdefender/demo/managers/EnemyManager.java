@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.function.IntConsumer;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.commons.objects.PathPoint;
@@ -12,6 +13,7 @@ import static licaza.tdefender.engine.tools.math.PathFinding.*;
 import static licaza.tdefender.engine.commons.misc.Constants.Directions.*;
 
 import licaza.tdefender.demo.actors.enemies.*;
+import licaza.tdefender.engine.commons.actors.Enemy;
 import licaza.tdefender.demo.configs.Constants.Enemies;
 import licaza.tdefender.demo.configs.Constants.Tiles;
 import licaza.tdefender.demo.scenes.Playing;
@@ -26,6 +28,7 @@ public class EnemyManager {
     private int HPbarWidth = 20;
 
     private ArrayList<Enemy> enemies = new ArrayList<>();
+    private IntConsumer enemyCallback = a -> playing.rewardPlayer(a);
 
     public EnemyManager(Playing playing, PathPoint start, PathPoint end) {
         this.playing = playing;
@@ -62,16 +65,16 @@ public class EnemyManager {
         int y = start.yCord() * 32;
         switch (enemyType) {
             case Enemies.ORC:
-                enemies.add(new Orc(x, y, 0, this));
+                enemies.add(new Orc(x, y, 0, enemyCallback));
                 break;
             case Enemies.BAT:
-                enemies.add(new Bat(x, y, 0, this));
+                enemies.add(new Bat(x, y, 0, enemyCallback));
                 break;
             case Enemies.KNIGHT:
-                enemies.add(new Knight(x, y, 0, this));
+                enemies.add(new Knight(x, y, 0, enemyCallback));
                 break;
             case Enemies.WOLF:
-                enemies.add(new Wolf(x, y, 0, this));
+                enemies.add(new Wolf(x, y, 0, enemyCallback));
                 break;
 
         }

@@ -5,4 +5,5 @@ module licaza.tdefender.engine.commons {
     exports licaza.tdefender.engine.commons.api;
     exports licaza.tdefender.engine.commons.misc;
     exports licaza.tdefender.engine.commons.events;
+    exports licaza.tdefender.engine.commons.actors;
 }

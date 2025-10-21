@@ -12,9 +12,9 @@ import static licaza.tdefender.demo.configs.Constants.Towers.*;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.commons.objects.Projectile;
+import licaza.tdefender.engine.commons.actors.Enemy;
 
 import licaza.tdefender.demo.actors.towers.Tower;
-import licaza.tdefender.demo.actors.enemies.Enemy;
 import licaza.tdefender.demo.scenes.Playing;
 
 public class ProjectileManager {

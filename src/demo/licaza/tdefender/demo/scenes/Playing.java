@@ -9,13 +9,13 @@ import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.tools.managers.WaveManager;
 
 import licaza.tdefender.engine.commons.objects.PathPoint;
+import licaza.tdefender.engine.commons.actors.Enemy;
 import licaza.tdefender.engine.commons.api.SceneMethods;
 
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.managers.EnemyManager;
 import licaza.tdefender.demo.managers.ProjectileManager;
 import licaza.tdefender.demo.managers.TowerManager;
-import licaza.tdefender.demo.actors.enemies.Enemy;
 import licaza.tdefender.demo.actors.towers.Tower;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
