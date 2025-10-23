@@ -1,9 +1,10 @@
-package licaza.tdefender.demo.managers;
+package licaza.tdefender.engine.tools.managers;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.function.IntBinaryOperator;
 import java.util.function.IntConsumer;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
@@ -11,16 +12,13 @@ import licaza.tdefender.engine.commons.objects.PathPoint;
 
 import static licaza.tdefender.engine.tools.math.PathFinding.*;
 import static licaza.tdefender.engine.commons.misc.Constants.Directions.*;
+import static licaza.tdefender.engine.commons.misc.Constants.Tiles.*;
 
-import licaza.tdefender.demo.actors.enemies.*;
 import licaza.tdefender.engine.commons.actors.Enemy;
-import licaza.tdefender.demo.configs.Constants.Enemies;
-import licaza.tdefender.demo.configs.Constants.Tiles;
-import licaza.tdefender.demo.scenes.Playing;
+import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 
-public class EnemyManager {
+public abstract class EnemyManager {
 
-    private Playing playing;
     private BufferedImage[] enemyImgs;
     private int[][] roadDirectionArray;
     private BufferedImage slowEffect;
@@ -28,13 +26,23 @@ public class EnemyManager {
     private int HPbarWidth = 20;
 
     private ArrayList<Enemy> enemies = new ArrayList<>();
-    private IntConsumer enemyCallback = a -> playing.rewardPlayer(a);
 
-    public EnemyManager(Playing playing, PathPoint start, PathPoint end) {
-        this.playing = playing;
+    private final IntConsumer rewardPlayerCallback;
+    private final Runnable removeOneLiveCallback;
+    private final IntBinaryOperator getTileTypeCallback;
+    private final IntArrayProvider typeArrayCallback;
+
+    public EnemyManager(IntConsumer rewardPlayerCallback, Runnable removeOneLiveCallback,
+            IntBinaryOperator getTileTypeCallback, IntArrayProvider typeArrayCallback,
+            PathPoint start, PathPoint end) {
         this.start = start;
         this.end = end;
         this.enemyImgs = new BufferedImage[4];
+
+        this.rewardPlayerCallback = rewardPlayerCallback;
+        this.removeOneLiveCallback = removeOneLiveCallback;
+        this.getTileTypeCallback = getTileTypeCallback;
+        this.typeArrayCallback = typeArrayCallback;
 
         loadEffectImages();
         loadEnemyImages();
@@ -60,32 +68,14 @@ public class EnemyManager {
         }
     }
 
-    public void addEnemy(int enemyType) {
-        int x = start.xCord() * 32;
-        int y = start.yCord() * 32;
-        switch (enemyType) {
-            case Enemies.ORC:
-                enemies.add(new Orc(x, y, 0, enemyCallback));
-                break;
-            case Enemies.BAT:
-                enemies.add(new Bat(x, y, 0, enemyCallback));
-                break;
-            case Enemies.KNIGHT:
-                enemies.add(new Knight(x, y, 0, enemyCallback));
-                break;
-            case Enemies.WOLF:
-                enemies.add(new Wolf(x, y, 0, enemyCallback));
-                break;
-
-        }
-    }
+    public abstract void addEnemy(int enemyType);
 
     public void spawnEnemy(int nextEnemy) {
         addEnemy(nextEnemy);
     }
 
     public void rewardPlayer(int enemyType) {
-        playing.rewardPlayer(enemyType);
+        rewardPlayerCallback.accept(enemyType);
     }
 
     public int getAmountOfAliveEnemies() {
@@ -131,7 +121,7 @@ public class EnemyManager {
     }
 
     private void loadRoadDirectionArray() {
-        roadDirectionArray = GetRoadDirectionArray(playing.getGame().getTileManager().getTypeArray(),
+        roadDirectionArray = GetRoadDirectionArray(typeArrayCallback.get(),
                 start, end);
     }
 
@@ -147,7 +137,7 @@ public class EnemyManager {
         PathPoint newTile = getEnemyTile(e);
         if (isTilesTheSame(newTile, end)) {
             e.kill();
-            playing.removeOneLive();
+            removeOneLiveCallback.run();
         }
         if (!isTilesTheSame(currentTile, newTile)) {
             int newDirection = roadDirectionArray[newTile.yCord()][newTile.xCord()];
@@ -169,7 +159,7 @@ public class EnemyManager {
 
         int newX = (int) (e.getX() + getSpeedAndWidth(e.getLastDirection(), e.getEnemySpeed()));
         int newY = (int) (e.getY() + getSpeedAndHeight(e.getLastDirection(), e.getEnemySpeed()));
-        if (getTileType(newX, newY) == Tiles.ROAD && !isAtEnd(e)) {
+        if (getTileType(newX, newY) == ROAD && !isAtEnd(e)) {
             // Continue on the same direction
             e.move(e.getEnemySpeed(), e.getLastDirection());
         } else if (isAtEnd(e)) {
@@ -177,7 +167,7 @@ public class EnemyManager {
             e.kill();
 
             // When enemy reach end of path, player lost one live
-            playing.removeOneLive();
+            removeOneLiveCallback.run();
         } else {
             setNewDirectionAndMove(e);
         }
@@ -196,14 +186,14 @@ public class EnemyManager {
 
         if (direction == LEFT || direction == RIGHT) {
             int newY = (int) (e.getY() + getSpeedAndHeight(UP, e.getEnemySpeed()));
-            if (getTileType((int) e.getX(), newY) == Tiles.ROAD) {
+            if (getTileType((int) e.getX(), newY) == ROAD) {
                 e.move(e.getEnemySpeed(), UP);
             } else {
                 e.move(e.getEnemySpeed(), DOWN);
             }
         } else {
             int newX = (int) (e.getX() + getSpeedAndWidth(RIGHT, e.getEnemySpeed()));
-            if (getTileType(newX, (int) e.getY()) == Tiles.ROAD) {
+            if (getTileType(newX, (int) e.getY()) == ROAD) {
                 e.move(e.getEnemySpeed(), RIGHT);
             } else {
                 e.move(e.getEnemySpeed(), LEFT);
@@ -251,7 +241,7 @@ public class EnemyManager {
     }
 
     private int getTileType(int x, int y) {
-        return playing.getTileType(x, y);
+        return getTileTypeCallback.applyAsInt(x, y);
     }
 
     private float getSpeedAndWidth(int direction, float speed) {

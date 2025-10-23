@@ -5,11 +5,12 @@ import java.util.function.IntConsumer;
 
 import static licaza.tdefender.engine.commons.misc.Constants.Directions.*;
 
-public abstract class Enemy {
+public class Enemy {
 
     private float x, y;
     private Rectangle bounds;
     private boolean alive = true;
+    private float speed;
     private int health, maxHealth, id, enemyType;
     private int lastDirection, slowTickLimit = 120, slowTick = slowTickLimit;
 
@@ -29,6 +30,12 @@ public abstract class Enemy {
     public Enemy(float x, float y, int id, int enemyType, int startHealth, IntConsumer rewardPlayer) {
         this(x, y, id, enemyType, rewardPlayer);
         this.maxHealth = this.health = startHealth;
+    }
+
+    public Enemy(float x, float y, int id, int enemyType, int startHealth, float speed,
+            IntConsumer rewardPlayer) {
+        this(x, y, enemyType, startHealth, rewardPlayer);
+        this.speed = speed;
     }
 
     public void move(float speed, int direction) {
@@ -84,7 +91,9 @@ public abstract class Enemy {
         this.lastDirection = newDirection;
     }
 
-    public abstract float getEnemySpeed();
+    public float getEnemySpeed() {
+        return speed;
+    }
 
     // Getters
 

@@ -6,18 +6,21 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.IntBinaryOperator;
+import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
-import licaza.tdefender.engine.tools.managers.WaveManager;
-
 import licaza.tdefender.engine.commons.objects.PathPoint;
 import licaza.tdefender.engine.commons.actors.Enemy;
 import licaza.tdefender.engine.commons.actors.Tower;
 import licaza.tdefender.engine.commons.api.SceneMethods;
-
+import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 import licaza.tdefender.demo.main.Game;
-import licaza.tdefender.demo.managers.EnemyManager;
+import licaza.tdefender.demo.actors.enemies.Bat;
+import licaza.tdefender.demo.actors.enemies.Knight;
+import licaza.tdefender.demo.actors.enemies.Orc;
+import licaza.tdefender.demo.actors.enemies.Wolf;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
 
@@ -29,6 +32,7 @@ public class Playing extends GameScene implements SceneMethods {
     private int mouseX, mouseY, goldTick;
     private boolean isGamePaused;
 
+    private Game game;
     private ActionBar actionBar;
     private EnemyManager enemyManager;
     private WaveManager waveManager;
@@ -37,17 +41,23 @@ public class Playing extends GameScene implements SceneMethods {
     private Tower selectedTower;
     private PathPoint start, end;
 
-    // "Callback" function to be called inside 'projectileManager'
-    private Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
-    private BiConsumer<Tower, Enemy> shootEnemyConsumer = (t, e) -> shootEnemy(t, e);
+    // "Callbacks" to be called inside managers
+    private final Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
+    private final BiConsumer<Tower, Enemy> shootEnemyConsumer = (t, e) -> shootEnemy(t, e);
+    private final IntConsumer rewardPlayerCallback = (i) -> rewardPlayer(i);
+    private final Runnable removeOneLiveRunnable = () -> removeOneLive();
+    private final IntBinaryOperator getTileTypeOperator = (x, y) -> getTileType(x, y);
+    private final IntArrayProvider typeArrayProvider = () -> game.getTileManager().getTypeArray();
 
     public Playing(Game game) {
         super(game);
+        this.game = game;
 
         actionBar = new ActionBar(0, 640, 640, 160, this);
         loadLevel();
 
-        enemyManager = new EnemyManager(this, start, end);
+        // Init managers...
+        enemyManager = getEnemyManager();
         towerManager = new TowerManager(enemiesSupplier, shootEnemyConsumer);
         projectileManager = new ProjectileManager(enemiesSupplier);
         waveManager = new WaveManager();
@@ -131,6 +141,35 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     public EnemyManager getEnemyManager() {
+        if (enemyManager != null)
+            return enemyManager;
+
+        // We override the addEnemy method in EnemyManager to provide specific
+        // choices about which enemy to spawn
+        enemyManager = new EnemyManager(rewardPlayerCallback, removeOneLiveRunnable,
+                getTileTypeOperator, typeArrayProvider, start, end) {
+            @Override
+            public void addEnemy(int enemyType) {
+                int x = start.xCord() * 32;
+                int y = start.yCord() * 32;
+                List<Enemy> enemies = enemiesSupplier.get();
+
+                switch (enemyType) {
+                    case Enemies.ORC:
+                        enemies.add(new Orc(x, y, 0, rewardPlayerCallback));
+                        break;
+                    case Enemies.BAT:
+                        enemies.add(new Bat(x, y, 0, rewardPlayerCallback));
+                        break;
+                    case Enemies.KNIGHT:
+                        enemies.add(new Knight(x, y, 0, rewardPlayerCallback));
+                        break;
+                    case Enemies.WOLF:
+                        enemies.add(new Wolf(x, y, 0, rewardPlayerCallback));
+                        break;
+                }
+            }
+        };
         return enemyManager;
     }
 
