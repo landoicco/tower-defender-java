@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
@@ -17,11 +18,10 @@ import licaza.tdefender.engine.commons.api.SceneMethods;
 
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.managers.EnemyManager;
-import licaza.tdefender.demo.managers.TowerManager;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
 
-import licaza.tdefender.engine.tools.managers.ProjectileManager;
+import licaza.tdefender.engine.tools.managers.*;
 
 public class Playing extends GameScene implements SceneMethods {
 
@@ -39,6 +39,7 @@ public class Playing extends GameScene implements SceneMethods {
 
     // "Callback" function to be called inside 'projectileManager'
     private Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
+    private BiConsumer<Tower, Enemy> shootEnemyConsumer = (t, e) -> shootEnemy(t, e);
 
     public Playing(Game game) {
         super(game);
@@ -47,7 +48,7 @@ public class Playing extends GameScene implements SceneMethods {
         loadLevel();
 
         enemyManager = new EnemyManager(this, start, end);
-        towerManager = new TowerManager(this);
+        towerManager = new TowerManager(enemiesSupplier, shootEnemyConsumer);
         projectileManager = new ProjectileManager(enemiesSupplier);
         waveManager = new WaveManager();
     }

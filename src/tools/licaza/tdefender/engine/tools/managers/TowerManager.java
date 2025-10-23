@@ -1,10 +1,11 @@
-package licaza.tdefender.demo.managers;
+package licaza.tdefender.engine.tools.managers;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-
-import licaza.tdefender.demo.scenes.Playing;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 import licaza.tdefender.engine.tools.helpers.ImageFix;
 import licaza.tdefender.engine.tools.helpers.LoadSave;
@@ -12,18 +13,23 @@ import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.commons.actors.Enemy;
 import licaza.tdefender.engine.commons.actors.Tower;
 
-import static licaza.tdefender.demo.configs.Constants.Towers.*;
 import static licaza.tdefender.engine.tools.math.Functions.Pythagoras.*;
 
 public class TowerManager {
 
-    private Playing playing;
     private BufferedImage[] towerImgs;
     private int towerCount = 0;
     private ArrayList<Tower> towers = new ArrayList<>();
 
-    public TowerManager(Playing playing) {
-        this.playing = playing;
+    // "Callbacks"
+    private final Supplier<List<Enemy>> enemiesSupplier;
+    private final BiConsumer<Tower, Enemy> shootEnemyConsumer;
+
+    public TowerManager(Supplier<List<Enemy>> enemiesSupplier,
+            BiConsumer<Tower, Enemy> shootEnemyConsumer) {
+        this.enemiesSupplier = enemiesSupplier;
+        this.shootEnemyConsumer = shootEnemyConsumer;
+
         loadTowerImages();
     }
 
@@ -56,9 +62,11 @@ public class TowerManager {
 
     public void addTower(Tower selectedTower, int xPos, int yPos) {
         int damage, range, cooldown;
-        damage = GetDefaultDamage(selectedTower.getTowerType());
-        range = (int) GetDefaultRange(selectedTower.getTowerType());
-        cooldown = (int) GetDefaultCooldown(selectedTower.getTowerType());
+
+        // TODO: Find a good way to get tower specs. Maybe a TowerSpecs class
+        damage = 50; // GetDefaultDamage(selectedTower.getTowerType());
+        range = 100; // (int) GetDefaultRange(selectedTower.getTowerType());
+        cooldown = 60;// (int) GetDefaultCooldown(selectedTower.getTowerType());
 
         towers.add(new Tower(xPos, yPos, towerCount++, selectedTower.getTowerType(), damage, range, cooldown));
     }
@@ -94,11 +102,11 @@ public class TowerManager {
     }
 
     private void attackEnemyIfClose(Tower t) {
-        for (Enemy e : playing.getEnemyManager().getEnemies()) {
+        for (Enemy e : enemiesSupplier.get()) {
             if (e.isAlive()) {
                 if (isEnemyInRange(t, e)) {
                     if (t.isCooldownOver()) {
-                        playing.shootEnemy(t, e);
+                        shootEnemyConsumer.accept(t, e);
                         t.resetCooldown();
                     }
                 } else {
