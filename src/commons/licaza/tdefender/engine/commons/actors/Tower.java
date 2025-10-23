@@ -28,6 +28,7 @@ public class Tower {
     }
 
     public void upgradeTower(int damage, float range, float cooldown) {
+        tier++;
         this.damage += damage;
         this.range += range;
         this.cooldown -= cooldown;

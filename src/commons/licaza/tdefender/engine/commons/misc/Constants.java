@@ -17,4 +17,26 @@ public class Constants {
     public static final class Tiles {
         public static final int ROAD_TILE = 2;
     }
+
+    public static class Towers {
+        public static final int CANNON = 0;
+        public static final int ARCHER = 1;
+        public static final int WIZARD = 2;
+    }
+
+    public static class Projectiles {
+        public static final int ARROW = 0;
+        public static final int BOMB = 1;
+        public static final int CHAINS = 2;
+
+        // TODO: Move this function to demo module
+        public static float GetSpeed(int type) {
+            return switch (type) {
+                case ARROW -> 8f;
+                case BOMB -> 4f;
+                case CHAINS -> 2f;
+                default -> 0;
+            };
+        }
+    }
 }

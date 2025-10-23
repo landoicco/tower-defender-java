@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.tools.managers.WaveManager;
@@ -15,10 +17,11 @@ import licaza.tdefender.engine.commons.api.SceneMethods;
 
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.managers.EnemyManager;
-import licaza.tdefender.demo.managers.ProjectileManager;
 import licaza.tdefender.demo.managers.TowerManager;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
+
+import licaza.tdefender.engine.tools.managers.ProjectileManager;
 
 public class Playing extends GameScene implements SceneMethods {
 
@@ -34,6 +37,9 @@ public class Playing extends GameScene implements SceneMethods {
     private Tower selectedTower;
     private PathPoint start, end;
 
+    // "Callback" function to be called inside 'projectileManager'
+    private Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
+
     public Playing(Game game) {
         super(game);
 
@@ -42,7 +48,7 @@ public class Playing extends GameScene implements SceneMethods {
 
         enemyManager = new EnemyManager(this, start, end);
         towerManager = new TowerManager(this);
-        projectileManager = new ProjectileManager(this);
+        projectileManager = new ProjectileManager(enemiesSupplier);
         waveManager = new WaveManager();
     }
 
