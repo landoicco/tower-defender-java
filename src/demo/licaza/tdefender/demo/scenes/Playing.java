@@ -17,12 +17,9 @@ import licaza.tdefender.engine.commons.actors.Tower;
 import licaza.tdefender.engine.commons.api.SceneMethods;
 import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 import licaza.tdefender.demo.main.Game;
-import licaza.tdefender.demo.actors.enemies.Bat;
-import licaza.tdefender.demo.actors.enemies.Knight;
-import licaza.tdefender.demo.actors.enemies.Orc;
-import licaza.tdefender.demo.actors.enemies.Wolf;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
+import licaza.tdefender.demo.managers.EnemyManager;
 
 import licaza.tdefender.engine.tools.managers.*;
 
@@ -57,7 +54,8 @@ public class Playing extends GameScene implements SceneMethods {
         loadLevel();
 
         // Init managers...
-        enemyManager = getEnemyManager();
+        enemyManager = new EnemyManager(rewardPlayerCallback, removeOneLiveRunnable,
+                getTileTypeOperator, typeArrayProvider, start, end);
         towerManager = new TowerManager(enemiesSupplier, shootEnemyConsumer);
         projectileManager = new ProjectileManager(enemiesSupplier);
         waveManager = new WaveManager();
@@ -141,35 +139,6 @@ public class Playing extends GameScene implements SceneMethods {
     }
 
     public EnemyManager getEnemyManager() {
-        if (enemyManager != null)
-            return enemyManager;
-
-        // We override the addEnemy method in EnemyManager to provide specific
-        // choices about which enemy to spawn
-        enemyManager = new EnemyManager(rewardPlayerCallback, removeOneLiveRunnable,
-                getTileTypeOperator, typeArrayProvider, start, end) {
-            @Override
-            public void addEnemy(int enemyType) {
-                int x = start.xCord() * 32;
-                int y = start.yCord() * 32;
-                List<Enemy> enemies = enemiesSupplier.get();
-
-                switch (enemyType) {
-                    case Enemies.ORC:
-                        enemies.add(new Orc(x, y, 0, rewardPlayerCallback));
-                        break;
-                    case Enemies.BAT:
-                        enemies.add(new Bat(x, y, 0, rewardPlayerCallback));
-                        break;
-                    case Enemies.KNIGHT:
-                        enemies.add(new Knight(x, y, 0, rewardPlayerCallback));
-                        break;
-                    case Enemies.WOLF:
-                        enemies.add(new Wolf(x, y, 0, rewardPlayerCallback));
-                        break;
-                }
-            }
-        };
         return enemyManager;
     }
 
