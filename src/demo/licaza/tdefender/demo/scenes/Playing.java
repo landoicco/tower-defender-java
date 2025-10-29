@@ -21,7 +21,7 @@ import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
 import licaza.tdefender.demo.managers.EnemyManager;
 
-import licaza.tdefender.engine.tools.managers.*;
+import licaza.tdefender.engine.core.managers.*;
 
 public class Playing extends GameScene implements SceneMethods {
 

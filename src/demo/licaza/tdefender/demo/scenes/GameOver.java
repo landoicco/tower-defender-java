@@ -4,7 +4,7 @@ import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
 
-import licaza.tdefender.engine.awt.ui.MyButton;
+import licaza.tdefender.engine.tools.gui.MyButton;
 import licaza.tdefender.engine.commons.api.SceneMethods;
 
 import licaza.tdefender.demo.main.Game;

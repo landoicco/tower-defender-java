@@ -10,7 +10,7 @@ import licaza.tdefender.engine.commons.api.SceneMethods;
 
 import licaza.tdefender.demo.main.Game;
 
-import licaza.tdefender.engine.awt.ui.MyButton;
+import licaza.tdefender.engine.tools.gui.MyButton;
 
 public class Credits extends GameScene implements SceneMethods {
 

@@ -31,6 +31,10 @@ set_build_selection() {
     "awt")
         awt
         ;;
+    "core")
+        core
+        ;;
+
     "all")
         all
         ;;

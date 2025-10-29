@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.main.GameStates;
 
-import licaza.tdefender.engine.awt.ui.TextButton;
+import licaza.tdefender.engine.tools.gui.TextButton;
 import licaza.tdefender.engine.commons.api.SceneMethods;
 
 public class Menu extends GameScene implements SceneMethods {

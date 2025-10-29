@@ -1,4 +1,4 @@
-package licaza.tdefender.engine.tools.managers;
+package licaza.tdefender.engine.core.managers;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

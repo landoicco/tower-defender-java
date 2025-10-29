@@ -14,7 +14,7 @@ import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 import licaza.tdefender.engine.commons.objects.PathPoint;
 
 public class EnemyManager extends
-        licaza.tdefender.engine.tools.managers.EnemyManager {
+        licaza.tdefender.engine.core.managers.EnemyManager {
 
     private PathPoint start;
     private IntConsumer rewardPlayerCallback;

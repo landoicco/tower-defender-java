@@ -3,6 +3,6 @@ module licaza.tdefender.demo {
 
     // Engine tools...
     requires licaza.tdefender.engine.commons;
-    requires licaza.tdefender.engine.awt;
     requires licaza.tdefender.engine.tools;
+    requires licaza.tdefender.engine.core;
 }

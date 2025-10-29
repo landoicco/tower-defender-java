@@ -9,7 +9,7 @@ import java.util.Map;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.commons.objects.Tile;
-import licaza.tdefender.engine.awt.ui.MyButton;
+import licaza.tdefender.engine.tools.gui.MyButton;
 
 import licaza.tdefender.demo.main.GameStates;
 import licaza.tdefender.demo.scenes.Editing;

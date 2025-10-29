@@ -8,7 +8,7 @@ import licaza.tdefender.engine.tools.helpers.ImageFix;
 import licaza.tdefender.engine.commons.objects.Tile;
 
 public class TileManager extends
-                licaza.tdefender.engine.tools.managers.TileManager {
+                licaza.tdefender.engine.core.managers.TileManager {
 
         public final static String TILE_ATLAS_PATH = "default_level";
 
