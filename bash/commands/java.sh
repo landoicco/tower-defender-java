@@ -113,6 +113,7 @@ build_engine_core() {
         --module-path src/mods \
         -d src/core/target \
         ${CORE_PATH}/managers/**.java \
+        ${CORE_PATH}/main/**.java \
         src/core/module-info.java
 
     jar -cvf src/mods/${CORE_MODULE}.jar -C src/core/target .

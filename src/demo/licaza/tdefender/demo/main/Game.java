@@ -3,21 +3,11 @@ package licaza.tdefender.demo.main;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.swing.JFrame;
-
-import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.demo.managers.TileManager;
 import licaza.tdefender.demo.scenes.*;
 
-public class Game extends JFrame {
-
-    private final double FPS_SET = 120.0;
-    private final double UPS_SET = 60.0;
-    private final String STATS_MSG = """
-            ==============
-                FPS: %d
-                UPS: %d
-                """;
+public class Game extends
+        licaza.tdefender.engine.core.main.Game {
 
     private GameScreen gameScreen;
     private TileManager tileManager;
@@ -30,15 +20,17 @@ public class Game extends JFrame {
     private Editing editing;
     private GameOver gameOver;
 
-    public Game() {
-        super("Tower Defender - Java");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setResizable(false);
+    private final Runnable updateGameCallback = () -> updateGame();
 
-        createDefaultLevel();
+    public Game() {
+        // from parent 'Game' class
+        super("Cannons... fuck yeah!");
+        setUpdateGameCallback(updateGameCallback);
+        createDefaultLevel("default_level");
+
         initClasses();
 
+        // from JFrame...
         add(gameScreen);
         pack();
         setVisible(true);
@@ -50,49 +42,11 @@ public class Game extends JFrame {
         new Game().gameScreen.initInputs();
     }
 
-    Runnable gameLoop = () -> {
-
-        double timePerFrame = 1_000_000_000.0 / FPS_SET;
-        double timePerUpdate = 1_000_000_000.0 / UPS_SET;
-        long lastTimeCheck = System.currentTimeMillis();
-        long lastFrame = System.nanoTime();
-        long lastTimeUPS = System.nanoTime();
-        int frames = 0;
-        int updates = 0;
-
-        long now;
-
-        while (true) {
-            now = System.nanoTime();
-
-            // Render
-            if (now - lastFrame >= timePerFrame) {
-                lastFrame = now;
-                repaint();
-                frames++;
-            }
-
-            // Update
-            if (now - lastTimeUPS >= timePerUpdate) {
-                lastTimeUPS = now;
-                updateGame();
-                updates++;
-            }
-
-            if (System.currentTimeMillis() - lastTimeCheck >= 1000) {
-                System.out.print(STATS_MSG.formatted(frames, updates));
-                frames = 0;
-                updates = 0;
-                lastTimeCheck = System.currentTimeMillis();
-            }
-        }
-    };
-
     private void initGameLoopThread() {
         ExecutorService service = null;
         try {
             service = Executors.newSingleThreadExecutor();
-            service.execute(gameLoop);
+            service.execute(getGameLoop());
         } finally {
             if (service != null)
                 service.shutdown();
@@ -108,15 +62,6 @@ public class Game extends JFrame {
         credits = new Credits(this);
         editing = new Editing(this);
         gameOver = new GameOver(this);
-    }
-
-    private void createDefaultLevel() {
-        int[] arr = new int[400];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = 0;
-        }
-
-        LoadSave.CreateLevel("default_level", arr);
     }
 
     private void updateGame() {
