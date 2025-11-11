@@ -1,12 +1,8 @@
 package licaza.tdefender.demo.scenes;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.*;
-
+import java.util.Map;
 import java.io.*;
-import java.nio.file.*;
 
 import javax.sound.sampled.*;
 
@@ -15,15 +11,26 @@ import licaza.tdefender.demo.main.GameStates;
 
 import licaza.tdefender.engine.tools.gui.TextButton;
 import licaza.tdefender.engine.commons.api.SceneMethods;
+import licaza.tdefender.engine.commons.misc.ColorPalette;
 
 import static licaza.tdefender.engine.tools.helpers.ResourcesLoader.*;
+import static licaza.tdefender.demo.configs.Colors.*;
 
 public class Menu extends GameScene implements SceneMethods {
 
     private static final float BUTTON_SIZE = 50f;
+
     private static final Clip hoverClip = Audio.LoadClipFromFile(new File("equip.wav"));
     private static final Clip clickClip = Audio.LoadClipFromFile(new File("use-item.wav"));
     private static final Clip menuClip = Audio.LoadClipFromFile(new File("menu.wav"));
+
+    // Set color palette
+    private static final Color BG_COLOR = GetColorFromPalette(ColorPalette.BACKGROUND);
+    private static final Color PRIMARY_COLOR = GetColorFromPalette(ColorPalette.PRIMARY);
+    private static final Color ACCENT_COLOR = GetColorFromPalette(ColorPalette.ACCENT);
+    private static final Color TEXT_COLOR = GetColorFromPalette(ColorPalette.TEXT);
+
+    private static final Map<ColorPalette, Color> colorPalette = GetColorMap();
 
     private TextButton bPlaying, bEdit, bSettings, bQuit;
 
@@ -40,15 +47,18 @@ public class Menu extends GameScene implements SceneMethods {
         menuClip.start();
 
         // Draw background
-        g.setColor(new Color(195, 204, 128));
+        g.setColor(BG_COLOR);
         g.fillRect(0, 0, 640, 800);
 
         // Set fonts and draw menu buttons
-        setFonts(g);
+        g.setColor(PRIMARY_COLOR);
+        Font cFont = Fonts.LoadFontFromFile(new File("audiowide.ttf"));
+        g.setFont(cFont.deriveFont(BUTTON_SIZE));
+
         drawButtons(g);
 
         // Draw build version
-        g.setColor(Color.BLACK);
+        g.setColor(TEXT_COLOR);
         g.drawString("v0.0.1", 400, 730);
     }
 
@@ -139,10 +149,10 @@ public class Menu extends GameScene implements SceneMethods {
         yPos = 200;
         padding = 20;
 
-        bPlaying = new TextButton("Play", xPos, yPos, width, height);
-        bEdit = new TextButton("Edit", xPos, yPos + (height + padding), width, height);
-        bSettings = new TextButton("Credits", xPos, yPos + 2 * (height + padding), width, height);
-        bQuit = new TextButton("Quit", xPos, yPos + 3 * (height + padding), width, height);
+        bPlaying = new TextButton("Play", xPos, yPos, width, height, colorPalette);
+        bEdit = new TextButton("Edit", xPos, yPos + (height + padding), width, height, colorPalette);
+        bSettings = new TextButton("Credits", xPos, yPos + 2 * (height + padding), width, height, colorPalette);
+        bQuit = new TextButton("Quit", xPos, yPos + 3 * (height + padding), width, height, colorPalette);
     }
 
     private void drawButtons(Graphics g) {
@@ -150,12 +160,5 @@ public class Menu extends GameScene implements SceneMethods {
         bEdit.draw(g);
         bSettings.draw(g);
         bQuit.draw(g);
-    }
-
-    private void setFonts(Graphics g) {
-        g.setColor(Color.BLACK);
-        Font cFont = Fonts.LoadFontFromFile(new File("audiowide.ttf"));
-
-        g.setFont(cFont.deriveFont(BUTTON_SIZE));
     }
 }

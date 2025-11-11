@@ -1,9 +1,11 @@
 package licaza.tdefender.engine.tools.gui;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Map;
+
+import licaza.tdefender.engine.commons.misc.ColorPalette;
 
 public class TextButton {
     public final int x, y, width, height, id;
@@ -11,6 +13,13 @@ public class TextButton {
     private boolean mouseOver, mousePressed;
     private String text;
     private Rectangle bounds;
+    private Map<ColorPalette, Color> colorPalette;
+
+    public TextButton(String text, int x, int y, int width, int height,
+            Map<ColorPalette, Color> colors) {
+        this(text, x, y, width, height);
+        this.colorPalette = colors;
+    }
 
     // Normal buttons
     public TextButton(String text, int x, int y, int width, int height) {
@@ -29,13 +38,15 @@ public class TextButton {
         int textWidth = g.getFontMetrics().stringWidth(text);
         int textHeight = g.getFontMetrics().getHeight();
 
-        if (mouseOver)
-            g.setColor(new Color(231, 127, 9));
-        else
-            g.setColor(new Color(24, 17, 1));
+        if (colorPalette != null) {
+            if (mouseOver)
+                g.setColor(colorPalette.get(ColorPalette.ACCENT));
+            else
+                g.setColor(colorPalette.get(ColorPalette.PRIMARY));
 
-        if (mousePressed) {
-            g.setColor(new Color(234, 202, 0));
+            if (mousePressed) {
+                g.setColor(colorPalette.get(ColorPalette.PRIMARY));
+            }
         }
 
         g.drawString(
