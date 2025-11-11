@@ -34,11 +34,7 @@ tools() {
     build_engine_tools
 }
 
-awt() {
-    create_mods_dir
-    build_engine_awt
-}
-
 core() {
+    create_mods_dir
     build_engine_core
 }

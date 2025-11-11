@@ -4,13 +4,11 @@
 # # needs to be defined on a variable
 
 DEMO_PATH=src/demo/licaza/tdefender/demo
-AWT_PATH=src/awt/licaza/tdefender/engine/awt
 COMMONS_PATH=src/commons/licaza/tdefender/engine/commons
 TOOLS_PATH=src/tools/licaza/tdefender/engine/tools
 CORE_PATH=src/core/licaza/tdefender/engine/core
 
 DEMO_MODULE=licaza.tdefender.demo
-AWT_MODULE=licaza.tdefender.engine.awt
 COMMONS_MODULE=licaza.tdefender.engine.commons
 TOOLS_MODULE=licaza.tdefender.engine.tools
 CORE_MODULE=licaza.tdefender.engine.core
@@ -47,22 +45,6 @@ build_demo() {
         -cvfe src/mods/${DEMO_MODULE}.jar \
         ${DEMO_MODULE}.main.Game \
         -C src/demo/target .
-}
-
-# licaza.tdefender.engine.awt
-build_engine_awt() {
-
-    # Safety clean...
-    rm -rf src/awt/target
-    rm src/mods/${AWT_MODULE}.jar
-
-    javac \
-        --module-path src/mods \
-        -d src/awt/target \
-        ${AWT_PATH}/ui/**.java \
-        src/awt/module-info.java 
-
-    jar -cvf src/mods/${AWT_MODULE}.jar -C src/awt/target .
 }
 
 # licaza.tdefender.engine.commons
@@ -123,7 +105,6 @@ build_engine_core() {
 # # Method for properly list the involved java modules to be build
 
 build_full_engine() {
-    # build_engine_awt
     build_engine_commons
     build_engine_tools
     build_engine_core
