@@ -23,6 +23,7 @@ public class Menu extends GameScene implements SceneMethods {
     private static final float BUTTON_SIZE = 50f;
     private static final Clip hoverClip = Audio.LoadClipFromFile(new File("equip.wav"));
     private static final Clip clickClip = Audio.LoadClipFromFile(new File("use-item.wav"));
+    private static final Clip menuClip = Audio.LoadClipFromFile(new File("menu.wav"));
 
     private TextButton bPlaying, bEdit, bSettings, bQuit;
 
@@ -34,6 +35,10 @@ public class Menu extends GameScene implements SceneMethods {
 
     @Override
     public void render(Graphics g) {
+        // Play background music
+        menuClip.loop(Clip.LOOP_CONTINUOUSLY); // Loop indefinitely
+        menuClip.start();
+
         // Draw background
         g.setColor(new Color(195, 204, 128));
         g.fillRect(0, 0, 640, 800);
@@ -50,6 +55,7 @@ public class Menu extends GameScene implements SceneMethods {
     @Override
     public void mouseClicked(int x, int y) {
         if (bPlaying.getBounds().contains(x, y)) {
+            menuClip.stop();
             clickClip.start();
             GameStates.setGameState(GameStates.PLAYING);
         }
@@ -149,9 +155,6 @@ public class Menu extends GameScene implements SceneMethods {
     private void setFonts(Graphics g) {
         g.setColor(Color.BLACK);
         Font cFont = Fonts.LoadFontFromFile(new File("audiowide.ttf"));
-
-        // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        // ge.registerFont(cFont);
 
         g.setFont(cFont.deriveFont(BUTTON_SIZE));
     }
