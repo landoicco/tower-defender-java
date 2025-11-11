@@ -4,21 +4,24 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.IntBinaryOperator;
+import java.util.function.IntConsumer;
+import java.util.function.Supplier;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
-
+import licaza.tdefender.engine.commons.objects.PathPoint;
+import licaza.tdefender.engine.commons.actors.Enemy;
+import licaza.tdefender.engine.commons.actors.Tower;
+import licaza.tdefender.engine.commons.api.SceneMethods;
+import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 import licaza.tdefender.demo.main.Game;
-import licaza.tdefender.demo.managers.EnemyManager;
-import licaza.tdefender.demo.managers.ProjectileManager;
-import licaza.tdefender.demo.managers.TowerManager;
-import licaza.tdefender.demo.managers.WaveManager;
-import licaza.tdefender.demo.actors.enemies.Enemy;
-import licaza.tdefender.demo.actors.towers.Tower;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
+import licaza.tdefender.demo.managers.EnemyManager;
 
-import licaza.tdefender.engine.commons.objects.PathPoint;
-import licaza.tdefender.engine.commons.api.SceneMethods;
+import licaza.tdefender.engine.core.managers.*;
 
 public class Playing extends GameScene implements SceneMethods {
 
@@ -26,6 +29,7 @@ public class Playing extends GameScene implements SceneMethods {
     private int mouseX, mouseY, goldTick;
     private boolean isGamePaused;
 
+    private Game game;
     private ActionBar actionBar;
     private EnemyManager enemyManager;
     private WaveManager waveManager;
@@ -34,16 +38,27 @@ public class Playing extends GameScene implements SceneMethods {
     private Tower selectedTower;
     private PathPoint start, end;
 
+    // "Callbacks" to be called inside managers
+    private final Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
+    private final BiConsumer<Tower, Enemy> shootEnemyConsumer = (t, e) -> shootEnemy(t, e);
+    private final IntConsumer rewardPlayerCallback = (i) -> rewardPlayer(i);
+    private final Runnable removeOneLiveRunnable = () -> removeOneLive();
+    private final IntBinaryOperator getTileTypeOperator = (x, y) -> getTileType(x, y);
+    private final IntArrayProvider typeArrayProvider = () -> game.getTileManager().getTypeArray();
+
     public Playing(Game game) {
         super(game);
+        this.game = game;
 
         actionBar = new ActionBar(0, 640, 640, 160, this);
         loadLevel();
 
-        enemyManager = new EnemyManager(this, start, end);
-        towerManager = new TowerManager(this);
-        projectileManager = new ProjectileManager(this);
-        waveManager = new WaveManager(this);
+        // Init managers...
+        enemyManager = new EnemyManager(rewardPlayerCallback, removeOneLiveRunnable,
+                getTileTypeOperator, typeArrayProvider, start, end);
+        towerManager = new TowerManager(enemiesSupplier, shootEnemyConsumer);
+        projectileManager = new ProjectileManager(enemiesSupplier);
+        waveManager = new WaveManager();
     }
 
     public void update() {

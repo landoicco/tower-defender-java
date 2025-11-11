@@ -1,32 +1,32 @@
-package licaza.tdefender.demo.managers;
+package licaza.tdefender.engine.core.managers;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Supplier;
 
-import static licaza.tdefender.demo.configs.Constants.*;
-import static licaza.tdefender.demo.configs.Constants.Projectiles.*;
-import static licaza.tdefender.demo.configs.Constants.Towers.*;
+import static licaza.tdefender.engine.commons.misc.Constants.Projectiles.*;
+import static licaza.tdefender.engine.commons.misc.Constants.Towers.*;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
-import licaza.tdefender.engine.commons.objects.Projectile;
 
-import licaza.tdefender.demo.actors.towers.Tower;
-import licaza.tdefender.demo.actors.enemies.Enemy;
-import licaza.tdefender.demo.scenes.Playing;
+import licaza.tdefender.engine.commons.objects.Projectile;
+import licaza.tdefender.engine.commons.actors.Enemy;
+import licaza.tdefender.engine.commons.actors.Tower;
 
 public class ProjectileManager {
-    private Playing playing;
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<Explosion> explosions = new ArrayList<>();
     private BufferedImage[] projectileImages, explosionImages;
+    private Supplier<List<Enemy>> enemiesSupplier;
 
     private int projectileID;
 
-    public ProjectileManager(Playing playing) {
-        this.playing = playing;
+    public ProjectileManager(Supplier<List<Enemy>> enemiesSupplier) {
+        this.enemiesSupplier = enemiesSupplier;
 
         loadProjectileImages();
     }
@@ -89,8 +89,8 @@ public class ProjectileManager {
         // Percentage? Take a deeper look
         float xPer = (float) Math.abs(xDistance) / totalDistance;
 
-        float xSpeed = xPer * Projectiles.GetSpeed(type);
-        float ySpeed = Projectiles.GetSpeed(type) - xSpeed;
+        float xSpeed = xPer * GetSpeed(type);
+        float ySpeed = GetSpeed(type) - xSpeed;
 
         if (t.getX() > e.getX())
             xSpeed *= -1;
@@ -112,7 +112,6 @@ public class ProjectileManager {
         for (Projectile p : projectiles) {
             if (!p.isActive())
                 if (p.getProjectileType() == type) {
-                    System.out.println("Reusing projectile");
                     p.reuse(t.getX() + 16, t.getY() + 16, xSpeed, ySpeed, t.getDamage(), rotate);
                     return;
                 }
@@ -121,7 +120,6 @@ public class ProjectileManager {
         projectiles.add(new Projectile(t.getX() + 16, t.getY() + 16, xSpeed,
                 ySpeed, t.getDamage(), rotate, projectileID++, type));
 
-        System.out.println("Projectiles amount: " + projectiles.size());
     }
 
     public void reset() {
@@ -132,7 +130,7 @@ public class ProjectileManager {
     }
 
     private boolean isProjectileHittingEnemy(Projectile p) {
-        for (Enemy e : playing.getEnemyManager().getEnemies()) {
+        for (Enemy e : enemiesSupplier.get()) {
             if (e.isAlive()) {
                 if (e.getRectangle().contains(p.getPosition())) {
                     e.hurt(p.getDamage());
@@ -186,7 +184,7 @@ public class ProjectileManager {
     }
 
     private void explodeOnEnemies(Projectile p) {
-        for (Enemy e : playing.getEnemyManager().getEnemies()) {
+        for (Enemy e : enemiesSupplier.get()) {
             if (e.isAlive()) {
                 float radius = 40.0f;
 

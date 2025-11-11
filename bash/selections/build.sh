@@ -28,9 +28,11 @@ set_build_selection() {
     "tools")
         tools
         ;;
-    "awt")
-        awt
+     "core")
+        core
         ;;
+
+    # All-in-one
     "all")
         all
         ;;

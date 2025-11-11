@@ -8,10 +8,10 @@ import java.text.DecimalFormat;
 
 import licaza.tdefender.demo.configs.Constants.Towers;
 
-import licaza.tdefender.engine.awt.ui.MyButton;
+import licaza.tdefender.engine.tools.gui.MyButton;
+import licaza.tdefender.engine.commons.actors.Tower;
 
 import static licaza.tdefender.demo.main.GameStates.*;
-import licaza.tdefender.demo.actors.towers.Tower;
 import licaza.tdefender.demo.scenes.Playing;
 
 public class ActionBar extends Bar {

@@ -3,7 +3,7 @@ package licaza.tdefender.demo.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import licaza.tdefender.engine.awt.ui.MyButton;
+import licaza.tdefender.engine.tools.gui.MyButton;
 
 public abstract class Bar {
 

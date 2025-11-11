@@ -1,4 +1,4 @@
-package licaza.tdefender.engine.awt.ui;
+package licaza.tdefender.engine.tools.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;

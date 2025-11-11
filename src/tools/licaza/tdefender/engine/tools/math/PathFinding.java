@@ -1,55 +1,11 @@
 package licaza.tdefender.engine.tools.math;
 
-import java.util.ArrayList;
-
 import licaza.tdefender.engine.commons.objects.PathPoint;
 
-public class Utils {
+import static licaza.tdefender.engine.commons.misc.Constants.Directions.*;
+import static licaza.tdefender.engine.commons.misc.Constants.Tiles.*;
 
-    // Temporal variables here... TODO: Move to it's own package in 'commons'
-    private static final int LEFT = 0;
-    private static final int UP = 1;
-    private static final int RIGHT = 2;
-    private static final int DOWN = 3;
-    private static final int ROAD_TILE = 2;
-
-    // Create a 2D matrix of integers from an ArrayList
-    public static int[][] ArrayListTo2Dint(ArrayList<Integer> list, int ySize, int xSize) {
-        int[][] newArray = new int[ySize][xSize];
-
-        for (int j = 0; j < newArray.length; j++) {
-            for (int i = 0; i < newArray[j].length; i++) {
-                int index = j * ySize + i;
-                newArray[j][i] = list.get(index);
-            }
-        }
-
-        return newArray;
-    }
-
-    // Create a 1D matrix from 2D matrix
-    public static int[] TwoDTo1DintArray(int[][] twoDimArray) {
-        int[] oneDimArray = new int[twoDimArray.length * twoDimArray[0].length];
-
-        for (int j = 0; j < twoDimArray.length; j++) {
-            for (int i = 0; i < twoDimArray[j].length; i++) {
-                int index = j * twoDimArray.length + i;
-                oneDimArray[index] = twoDimArray[j][i];
-            }
-        }
-
-        return oneDimArray;
-    }
-
-    // TODO: Is just 'getHypotenuse' better? Distance of what?
-    public static int GetHypotenuseDistance(float x1, float y1, float x2, float y2) {
-        float xDiff = Math.abs(x2 - x1);
-        float yDiff = Math.abs(y2 - y1);
-
-        return (int) Math.hypot(xDiff, yDiff);
-    }
-
-    // TODO: Maybe move to a PathFinder class
+public class PathFinding {
 
     public static int[][] GetRoadDirectionArray(int[][] lvlTypeArr, PathPoint start, PathPoint end) {
         int[][] roadDirectionArray = new int[lvlTypeArr.length][lvlTypeArr[0].length];

@@ -1,4 +1,4 @@
-package licaza.tdefender.engine.awt.ui;
+package licaza.tdefender.engine.tools.gui;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -26,7 +26,6 @@ public class TextButton {
 
     public void draw(Graphics g) {
         // Draw text
-        g.setFont(new Font("Hack", Font.BOLD, 50));
         int textWidth = g.getFontMetrics().stringWidth(text);
         int textHeight = g.getFontMetrics().getHeight();
 

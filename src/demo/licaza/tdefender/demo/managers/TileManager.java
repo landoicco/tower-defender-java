@@ -2,58 +2,30 @@ package licaza.tdefender.demo.managers;
 
 import static licaza.tdefender.demo.configs.Constants.*;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import licaza.tdefender.engine.tools.helpers.ImageFix;
-import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.commons.objects.Tile;
 
-public class TileManager {
+public class TileManager extends
+                licaza.tdefender.engine.core.managers.TileManager {
+
+        public final static String TILE_ATLAS_PATH = "default_level";
 
         public Tile GRASS, WATER, BL_WATER_CORNER, TL_WATER_CORNER, TR_WATER_CORNER, BR_WATER_CORNER, TL_ISLAND,
                         TR_ISLAND, BR_ISLAND, BL_ISLAND, T_WATER, R_WATER, B_WATER, L_WATER, ROAD_L_TO_R, ROAD_B_TO_T,
                         BR_ROAD, LB_ROAD, TL_ROAD, RT_ROAD;
-        public BufferedImage atlas;
 
-        public ArrayList<Tile> tiles = new ArrayList<>();
-        public ArrayList<Tile> plainRoads = new ArrayList<>();
-        public ArrayList<Tile> cornerRoads = new ArrayList<>();
-        public ArrayList<Tile> corners = new ArrayList<>();
-        public ArrayList<Tile> coasts = new ArrayList<>();
-        public ArrayList<Tile> islands = new ArrayList<>();
+        public static ArrayList<Tile> plainRoads = new ArrayList<>();
+        public static ArrayList<Tile> cornerRoads = new ArrayList<>();
+        public static ArrayList<Tile> corners = new ArrayList<>();
+        public static ArrayList<Tile> coasts = new ArrayList<>();
+        public static ArrayList<Tile> islands = new ArrayList<>();
 
         public TileManager() {
-                loadAtlas();
+                super(TILE_ATLAS_PATH);
+
                 createTiles();
-        }
-
-        public BufferedImage getSprite(int id) {
-                return tiles.get(id).getSprite();
-        }
-
-        public BufferedImage getAnimatedSprite(int id, int animationIndex) {
-                return tiles.get(id).getSprite(animationIndex);
-        }
-
-        public Tile getTile(int id) {
-                return tiles.get(id);
-        }
-
-        public int[][] getTypeArray() {
-                int[][] idArray = LoadSave.GetLevelData("default_level");
-                int[][] typeArray = new int[idArray.length][idArray[0].length];
-
-                for (int j = 0; j < idArray.length; j++)
-                        for (int i = 0; i < idArray[j].length; i++) {
-                                int id = idArray[j][i];
-                                typeArray[j][i] = tiles.get(id).getTileType();
-                        }
-                return typeArray;
-        }
-
-        public boolean isAnimatedSprite(int spriteId) {
-                return tiles.get(spriteId).isAnimated();
         }
 
         // Getters
@@ -78,7 +50,7 @@ public class TileManager {
                 return islands;
         }
 
-        private void createTiles() {
+        public void createTiles() {
                 int id = 0;
 
                 // Basics
@@ -149,24 +121,6 @@ public class TileManager {
                 tiles.addAll(corners);
                 tiles.addAll(coasts);
                 tiles.addAll(islands);
-        }
-
-        private void loadAtlas() {
-                atlas = LoadSave.GetSpriteAtlas();
-        }
-
-        // We don't have animated tiles here
-        private BufferedImage[] getAnimatedSprite(int xCord, int yCord, int amount) {
-                BufferedImage[] arr = new BufferedImage[amount];
-                for (int i = 0; i < amount; i++) {
-                        arr[i] = getSprite(xCord + i, yCord);
-                }
-
-                return arr;
-        }
-
-        private BufferedImage getSprite(int xCord, int yCord) {
-                return atlas.getSubimage(xCord * 32, yCord * 32, 32, 32);
         }
 
 }

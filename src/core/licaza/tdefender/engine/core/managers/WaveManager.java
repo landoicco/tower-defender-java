@@ -1,13 +1,11 @@
-package licaza.tdefender.demo.managers;
+package licaza.tdefender.engine.core.managers;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import licaza.tdefender.demo.events.Wave;
-import licaza.tdefender.demo.scenes.Playing;
+import licaza.tdefender.engine.commons.events.Wave;
 
 public class WaveManager {
-    private Playing playing;
     private ArrayList<Wave> waves = new ArrayList<>();
     private int enemySpawnTickLimit = 60 * 1;
     private int enemySpawnTick = enemySpawnTickLimit;
@@ -16,8 +14,7 @@ public class WaveManager {
     private int enemyIndex, waveIndex;
     private boolean waveStartTimer, waveTickTimerOver;
 
-    public WaveManager(Playing playing) {
-        this.playing = playing;
+    public WaveManager() {
         createWaves();
     }
 
@@ -49,16 +46,10 @@ public class WaveManager {
         enemyIndex = 0;
     }
 
-    /**
-     * On the tutorial, this name is called 'isTimeForNewEnemy'
-     */
     public boolean shouldSpawnNewEnemy() {
         return enemySpawnTick >= enemySpawnTickLimit;
     }
 
-    /**
-     * In tutorial, this method is called 'isThereMoreEnemiesInWave'
-     */
     public boolean isThereEnemiesLeft() {
         return enemyIndex < waves.get(waveIndex)
                 .enemyList().size();

@@ -1,34 +1,41 @@
-package licaza.tdefender.demo.actors.enemies;
+package licaza.tdefender.engine.commons.actors;
 
 import java.awt.Rectangle;
+import java.util.function.IntConsumer;
 
-import licaza.tdefender.demo.managers.EnemyManager;
+import static licaza.tdefender.engine.commons.misc.Constants.Directions.*;
 
-import static licaza.tdefender.demo.configs.Constants.*;
-
-public abstract class Enemy {
+public class Enemy {
 
     private float x, y;
     private Rectangle bounds;
     private boolean alive = true;
+    private float speed;
     private int health, maxHealth, id, enemyType;
     private int lastDirection, slowTickLimit = 120, slowTick = slowTickLimit;
-    private EnemyManager enemyManager;
 
-    public Enemy(float x, float y, int id, int enemyType, EnemyManager enemyManager) {
+    private IntConsumer rewardPlayer;
+
+    public Enemy(float x, float y, int id, int enemyType, IntConsumer rewardPlayer) {
         this.x = x;
         this.y = y;
         this.id = id;
         this.enemyType = enemyType;
-        this.enemyManager = enemyManager;
+        this.rewardPlayer = rewardPlayer;
 
         bounds = new Rectangle((int) x, (int) y, 32, 32);
         lastDirection = -1;
     }
 
-    public Enemy(float x, float y, int id, int enemyType, int startHealth, EnemyManager enemyManager) {
-        this(x, y, id, enemyType, enemyManager);
+    public Enemy(float x, float y, int id, int enemyType, int startHealth, IntConsumer rewardPlayer) {
+        this(x, y, id, enemyType, rewardPlayer);
         this.maxHealth = this.health = startHealth;
+    }
+
+    public Enemy(float x, float y, int id, int enemyType, int startHealth, float speed,
+            IntConsumer rewardPlayer) {
+        this(x, y, enemyType, startHealth, rewardPlayer);
+        this.speed = speed;
     }
 
     public void move(float speed, int direction) {
@@ -40,16 +47,16 @@ public abstract class Enemy {
         }
 
         switch (direction) {
-            case Direction.LEFT:
+            case LEFT:
                 this.x -= speed;
                 break;
-            case Direction.UP:
+            case UP:
                 this.y -= speed;
                 break;
-            case Direction.RIGHT:
+            case RIGHT:
                 this.x += speed;
                 break;
-            case Direction.DOWN:
+            case DOWN:
                 this.y += speed;
                 break;
         }
@@ -65,7 +72,7 @@ public abstract class Enemy {
         this.health -= damage;
         if (health <= 0) {
             alive = false;
-            enemyManager.rewardPlayer(enemyType);
+            rewardPlayer.accept(enemyType);
         }
     }
 
@@ -84,7 +91,9 @@ public abstract class Enemy {
         this.lastDirection = newDirection;
     }
 
-    public abstract float getEnemySpeed();
+    public float getEnemySpeed() {
+        return speed;
+    }
 
     // Getters
 

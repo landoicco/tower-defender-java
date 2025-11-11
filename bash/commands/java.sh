@@ -4,14 +4,14 @@
 # # needs to be defined on a variable
 
 DEMO_PATH=src/demo/licaza/tdefender/demo
-AWT_PATH=src/awt/licaza/tdefender/engine/awt
 COMMONS_PATH=src/commons/licaza/tdefender/engine/commons
 TOOLS_PATH=src/tools/licaza/tdefender/engine/tools
+CORE_PATH=src/core/licaza/tdefender/engine/core
 
 DEMO_MODULE=licaza.tdefender.demo
-AWT_MODULE=licaza.tdefender.engine.awt
 COMMONS_MODULE=licaza.tdefender.engine.commons
 TOOLS_MODULE=licaza.tdefender.engine.tools
+CORE_MODULE=licaza.tdefender.engine.core
 
 
 ######################################################
@@ -32,9 +32,7 @@ build_demo() {
         -d src/demo/target \
         ${DEMO_PATH}/configs/**.java \
         ${DEMO_PATH}/actors/enemies/**.java \
-        ${DEMO_PATH}/actors/towers/**.java \
         ${DEMO_PATH}/main/**.java \
-        ${DEMO_PATH}/events/**.java \
         ${DEMO_PATH}/scenes/**.java \
         ${DEMO_PATH}/ui/**.java \
         ${DEMO_PATH}/inputs/**.java \
@@ -49,22 +47,6 @@ build_demo() {
         -C src/demo/target .
 }
 
-# licaza.tdefender.engine.awt
-build_engine_awt() {
-
-    # Safety clean...
-    rm -rf src/awt/target
-    rm src/mods/${AWT_MODULE}.jar
-
-    javac \
-        --module-path src/mods \
-        -d src/awt/target \
-        ${AWT_PATH}/ui/**.java \
-        src/awt/module-info.java 
-
-    jar -cvf src/mods/${AWT_MODULE}.jar -C src/awt/target .
-}
-
 # licaza.tdefender.engine.commons
 build_engine_commons() {
 
@@ -75,6 +57,9 @@ build_engine_commons() {
     javac \
         --module-path src/mods \
         -d src/commons/target \
+        ${COMMONS_PATH}/misc/**.java \
+        ${COMMONS_PATH}/events/**.java \
+        ${COMMONS_PATH}/actors/**.java \
         ${COMMONS_PATH}/api/**.java \
         ${COMMONS_PATH}/objects/**.java \
         src/commons/module-info.java 
@@ -94,18 +79,35 @@ build_engine_tools() {
         -d src/tools/target \
         ${TOOLS_PATH}/math/**.java \
         ${TOOLS_PATH}/helpers/**.java \
+        ${TOOLS_PATH}/gui/**.java \
         src/tools/module-info.java 
 
     jar -cvf src/mods/${TOOLS_MODULE}.jar -C src/tools/target .
+}
+
+build_engine_core() {
+
+    # Safety clean...
+    rm -rf src/core/target
+    rm src/mods/${CORE_MODULE}.jar
+
+    javac \
+        --module-path src/mods \
+        -d src/core/target \
+        ${CORE_PATH}/managers/**.java \
+        ${CORE_PATH}/main/**.java \
+        src/core/module-info.java
+
+    jar -cvf src/mods/${CORE_MODULE}.jar -C src/core/target .
 }
     
 
 # # Method for properly list the involved java modules to be build
 
 build_full_engine() {
-    build_engine_awt
     build_engine_commons
     build_engine_tools
+    build_engine_core
 }
 
 build_all_java_modules() {

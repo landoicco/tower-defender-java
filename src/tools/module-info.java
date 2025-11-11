@@ -5,4 +5,5 @@ module licaza.tdefender.engine.tools {
     
     exports licaza.tdefender.engine.tools.helpers;
     exports licaza.tdefender.engine.tools.math;
+    exports licaza.tdefender.engine.tools.gui;
 }
