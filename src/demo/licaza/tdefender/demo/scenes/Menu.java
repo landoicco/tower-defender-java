@@ -8,6 +8,8 @@ import java.awt.*;
 import java.io.*;
 import java.nio.file.*;
 
+import javax.sound.sampled.*;
+
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.main.GameStates;
 
@@ -19,6 +21,8 @@ import static licaza.tdefender.engine.tools.helpers.ResourcesLoader.*;
 public class Menu extends GameScene implements SceneMethods {
 
     private static final float BUTTON_SIZE = 50f;
+    private static final Clip hoverClip = Audio.LoadClipFromFile(new File("equip.wav"));
+    private static final Clip clickClip = Audio.LoadClipFromFile(new File("use-item.wav"));
 
     private TextButton bPlaying, bEdit, bSettings, bQuit;
 
@@ -46,15 +50,19 @@ public class Menu extends GameScene implements SceneMethods {
     @Override
     public void mouseClicked(int x, int y) {
         if (bPlaying.getBounds().contains(x, y)) {
+            clickClip.start();
             GameStates.setGameState(GameStates.PLAYING);
         }
         if (bEdit.getBounds().contains(x, y)) {
+            clickClip.start();
             GameStates.setGameState(GameStates.EDIT);
         }
         if (bSettings.getBounds().contains(x, y)) {
+            clickClip.start();
             GameStates.setGameState(GameStates.SETTINGS);
         }
         if (bQuit.getBounds().contains(x, y)) {
+            clickClip.start();
             System.exit(0);
         }
     }
@@ -67,16 +75,20 @@ public class Menu extends GameScene implements SceneMethods {
         bQuit.setMouseOver(false);
 
         if (bPlaying.getBounds().contains(x, y)) {
+            hoverClip.start();
             bPlaying.setMouseOver(true);
-        }
-        if (bEdit.getBounds().contains(x, y)) {
+        } else if (bEdit.getBounds().contains(x, y)) {
+            hoverClip.start();
             bEdit.setMouseOver(true);
-        }
-        if (bSettings.getBounds().contains(x, y)) {
+        } else if (bSettings.getBounds().contains(x, y)) {
+            hoverClip.start();
             bSettings.setMouseOver(true);
-        }
-        if (bQuit.getBounds().contains(x, y)) {
+        } else if (bQuit.getBounds().contains(x, y)) {
+            hoverClip.start();
             bQuit.setMouseOver(true);
+        } else {
+            // Restart position of hover audio clip
+            hoverClip.setFramePosition(0);
         }
     }
 
@@ -103,6 +115,9 @@ public class Menu extends GameScene implements SceneMethods {
         bEdit.resetBooleans();
         bSettings.resetBooleans();
         bQuit.resetBooleans();
+
+        // Reset click audio clip
+        clickClip.setFramePosition(0);
     }
 
     @Override
