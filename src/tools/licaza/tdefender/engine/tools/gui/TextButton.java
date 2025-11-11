@@ -26,7 +26,6 @@ public class TextButton {
 
     public void draw(Graphics g) {
         // Draw text
-        g.setFont(new Font("Hack", Font.BOLD, 50));
         int textWidth = g.getFontMetrics().stringWidth(text);
         int textHeight = g.getFontMetrics().getHeight();
 

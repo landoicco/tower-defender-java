@@ -3,6 +3,10 @@ package licaza.tdefender.demo.scenes;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.*;
+
+import java.io.*;
+import java.nio.file.*;
 
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.main.GameStates;
@@ -10,7 +14,11 @@ import licaza.tdefender.demo.main.GameStates;
 import licaza.tdefender.engine.tools.gui.TextButton;
 import licaza.tdefender.engine.commons.api.SceneMethods;
 
+import static licaza.tdefender.engine.tools.helpers.ResourcesLoader.*;
+
 public class Menu extends GameScene implements SceneMethods {
+
+    private static final float BUTTON_SIZE = 50f;
 
     private TextButton bPlaying, bEdit, bSettings, bQuit;
 
@@ -26,12 +34,13 @@ public class Menu extends GameScene implements SceneMethods {
         g.setColor(new Color(195, 204, 128));
         g.fillRect(0, 0, 640, 800);
 
+        // Set fonts and draw menu buttons
+        setFonts(g);
         drawButtons(g);
 
-        // Draw version
+        // Draw build version
         g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.PLAIN, 15));
-        g.drawString("v0.0.1", 590, 795);
+        g.drawString("v0.0.1", 400, 730);
     }
 
     @Override
@@ -120,5 +129,15 @@ public class Menu extends GameScene implements SceneMethods {
         bEdit.draw(g);
         bSettings.draw(g);
         bQuit.draw(g);
+    }
+
+    private void setFonts(Graphics g) {
+        g.setColor(Color.BLACK);
+        Font cFont = Fonts.LoadFontFromFile(new File("audiowide.ttf"));
+
+        // GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        // ge.registerFont(cFont);
+
+        g.setFont(cFont.deriveFont(BUTTON_SIZE));
     }
 }
