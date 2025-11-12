@@ -6,10 +6,20 @@ import java.util.Map;
 import licaza.tdefender.engine.commons.misc.ColorPalette;
 
 public class Colors {
-    private static final Color BACKGROUND = Color.decode("#121212");
-    private static final Color PRIMARY = Color.decode("#4B0082");
-    private static final Color ACCENT = Color.decode("#39FF14");
-    private static final Color TEXT = Color.decode("#E0E0E0");
+
+    // First Theme
+    // private static final Color BACKGROUND = Color.decode("#121212");
+    // private static final Color PRIMARY = Color.decode("#4B0082");
+    // private static final Color ACCENT = Color.decode("#39FF14");
+    // private static final Color TEXT = Color.decode("#E0E0E0");
+
+    // Cozy theme
+    private static final Color BACKGROUND = Color.decode("#D3D3D3");
+    private static final Color PRIMARY = Color.decode("#C47E5A");
+    private static final Color ACCENT = Color.decode("#FFF8F0");
+    private static final Color ACCENT_TWO = Color.decode("#A8B88C");
+    private static final Color ACCENT_THREE = Color.decode("#D4C07A");
+    private static final Color TEXT = Color.decode("#3E322A");
 
     private static Map<ColorPalette, Color> colorMap;
 

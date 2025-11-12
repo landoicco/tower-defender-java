@@ -17,12 +17,16 @@ import static licaza.tdefender.engine.tools.helpers.ResourcesLoader.*;
 import static licaza.tdefender.demo.configs.Colors.*;
 
 public class Menu extends GameScene implements SceneMethods {
-
-    private static final float BUTTON_SIZE = 50f;
+    private static final float BUTTON_FONT_SIZE = 50f;
+    private static final float HEADER_FONT_SIZE = 80f;
+    private static final float FOOTER_FONT_SIZE = 20f;
 
     private static final Clip hoverClip = Audio.LoadClipFromFile(new File("equip.wav"));
     private static final Clip clickClip = Audio.LoadClipFromFile(new File("use-item.wav"));
     private static final Clip menuClip = Audio.LoadClipFromFile(new File("menu.wav"));
+
+    private static final Font headerFont = Fonts.LoadFontFromFile(new File("caveat-brush.ttf"));
+    private static final Font baseFont = Fonts.LoadFontFromFile(new File("patrick-hand.ttf"));
 
     // Set color palette
     private static final Color BG_COLOR = GetColorFromPalette(ColorPalette.BACKGROUND);
@@ -50,16 +54,9 @@ public class Menu extends GameScene implements SceneMethods {
         g.setColor(BG_COLOR);
         g.fillRect(0, 0, 640, 800);
 
-        // Set fonts and draw menu buttons
-        g.setColor(PRIMARY_COLOR);
-        Font cFont = Fonts.LoadFontFromFile(new File("audiowide.ttf"));
-        g.setFont(cFont.deriveFont(BUTTON_SIZE));
-
+        drawHeader(g);
         drawButtons(g);
-
-        // Draw build version
-        g.setColor(TEXT_COLOR);
-        g.drawString("v0.0.1", 400, 730);
+        drawFooter(g);
     }
 
     @Override
@@ -141,12 +138,11 @@ public class Menu extends GameScene implements SceneMethods {
     }
 
     private void initButtons() {
-
         int height, width, xPos, yPos, padding;
         height = 50;
         width = 120;
         xPos = 270;
-        yPos = 200;
+        yPos = 300;
         padding = 20;
 
         bPlaying = new TextButton("Play", xPos, yPos, width, height, colorPalette);
@@ -156,9 +152,30 @@ public class Menu extends GameScene implements SceneMethods {
     }
 
     private void drawButtons(Graphics g) {
+        g.setColor(PRIMARY_COLOR);
+        g.setFont(baseFont.deriveFont(BUTTON_FONT_SIZE));
+
         bPlaying.draw(g);
         bEdit.draw(g);
         bSettings.draw(g);
         bQuit.draw(g);
+    }
+
+    private void drawHeader(Graphics g) {
+        g.setFont(headerFont.deriveFont(HEADER_FONT_SIZE));
+        g.setColor(TEXT_COLOR);
+
+        int xPos = 120, yPos = 100, yOffset = 60, xOffset = 30;
+
+        g.drawString("Cannons, spells", xPos, yPos);
+        g.drawString("& \"zombies\"", xPos + xOffset, (yPos + yOffset));
+        g.drawString("(... a draft)", xPos + xOffset, yPos + (yOffset * 2));
+    }
+
+    private void drawFooter(Graphics g) {
+        g.setColor(PRIMARY_COLOR);
+        g.setFont(baseFont.deriveFont(FOOTER_FONT_SIZE));
+
+        g.drawString("v0.0.1", 580, 790);
     }
 }
