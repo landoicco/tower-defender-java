@@ -1,0 +1,13 @@
+I DO NOT OWN ANY OF THE ASSETS USED FOR THIS PROJECT.
+
+All resources listed on the credits, are listed below:
+
+051_use_item_01.wav -> https://opengameart.org/content/10-retro-rpg-menu-sounds
+070_Equip_10.wav ->  https://opengameart.org/content/10-retro-rpg-menu-sounds
+Menu-3-1.mp3 -> https://opengameart.org/content/some-unused-menu-stuff
+
+spriteAtlas -> https://static1.squarespace.com/static/6084530dee3c2836c3604d97/t/616f3f607b3b502c4f4a64b9/1634680684762/spriteatlas_ep26.png
+
+
+Patrick Hand -> https://fonts.google.com/specimen/Patrick+Hand
+Caveat Brush -> https://fonts.google.com/specimen/Caveat+Brush
