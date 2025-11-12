@@ -2,7 +2,6 @@ package licaza.tdefender.demo.scenes;
 
 import java.awt.*;
 import java.util.Map;
-import java.io.*;
 
 import javax.sound.sampled.*;
 
@@ -13,20 +12,20 @@ import licaza.tdefender.engine.tools.gui.TextButton;
 import licaza.tdefender.engine.commons.api.SceneMethods;
 import licaza.tdefender.engine.commons.misc.ColorPalette;
 
-import static licaza.tdefender.engine.tools.helpers.ResourcesLoader.*;
 import static licaza.tdefender.demo.configs.Colors.*;
+import static licaza.tdefender.demo.configs.MediaSource.*;
 
 public class Menu extends GameScene implements SceneMethods {
     private static final float BUTTON_FONT_SIZE = 50f;
     private static final float HEADER_FONT_SIZE = 80f;
     private static final float FOOTER_FONT_SIZE = 20f;
 
-    private static final Clip hoverClip = Audio.LoadClipFromFile(new File("equip.wav"));
-    private static final Clip clickClip = Audio.LoadClipFromFile(new File("use-item.wav"));
-    private static final Clip menuClip = Audio.LoadClipFromFile(new File("menu.wav"));
+    private static final Clip hoverClip = Sounds.GetAudioClip("HOVER");
+    private static final Clip clickClip = Sounds.GetAudioClip("CLICK");
+    private static final Clip menuClip = Sounds.GetAudioClip("MENU");
 
-    private static final Font headerFont = Fonts.LoadFontFromFile(new File("caveat-brush.ttf"));
-    private static final Font baseFont = Fonts.LoadFontFromFile(new File("patrick-hand.ttf"));
+    private static final Font headerFont = Fonts.GetHeaderFont();
+    private static final Font baseFont = Fonts.GetBaseFont();
 
     // Set color palette
     private static final Color BG_COLOR = GetColorFromPalette(ColorPalette.BACKGROUND);
@@ -62,7 +61,6 @@ public class Menu extends GameScene implements SceneMethods {
     @Override
     public void mouseClicked(int x, int y) {
         if (bPlaying.getBounds().contains(x, y)) {
-            menuClip.stop();
             clickClip.start();
             GameStates.setGameState(GameStates.PLAYING);
         }

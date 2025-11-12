@@ -3,12 +3,11 @@ package licaza.tdefender.demo.scenes;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.io.File;
 import java.util.Map;
 
 import javax.sound.sampled.*;
 
-import static licaza.tdefender.engine.tools.helpers.ResourcesLoader.*;
+import static licaza.tdefender.demo.configs.MediaSource.*;
 import static licaza.tdefender.demo.configs.Colors.*;
 
 import licaza.tdefender.engine.tools.gui.TextButton;
@@ -20,16 +19,15 @@ import licaza.tdefender.demo.main.GameStates;
 
 public class Credits extends GameScene implements SceneMethods {
 
-    private static final Clip hoverClip = Audio.LoadClipFromFile(new File("equip.wav"));
-    private static final Clip clickClip = Audio.LoadClipFromFile(new File("use-item.wav"));
-    private static final Clip menuClip = Audio.LoadClipFromFile(new File("menu.wav"));
+    private static final Clip hoverClip = Sounds.GetAudioClip("HOVER");
+    private static final Clip clickClip = Sounds.GetAudioClip("CLICK");
 
     private static final Color BG_COLOR = GetColorFromPalette(ColorPalette.BACKGROUND);
     private static final Color PRIMARY_COLOR = GetColorFromPalette(ColorPalette.PRIMARY);
     private static final Color TEXT_COLOR = GetColorFromPalette(ColorPalette.TEXT);
 
-    private static final Font HEADER_FONT = Fonts.LoadFontFromFile(new File("caveat-brush.ttf"));
-    private static final Font BASE_FONT = Fonts.LoadFontFromFile(new File("patrick-hand.ttf"));
+    private static final Font HEADER_FONT = Fonts.GetHeaderFont();
+    private static final Font BASE_FONT = Fonts.GetBaseFont();
 
     private static final Map<ColorPalette, Color> colorPalette = GetColorMap();
     private static final float HEADER_FONT_SIZE = 80f;
@@ -129,6 +127,7 @@ public class Credits extends GameScene implements SceneMethods {
         g.drawString("051_use_item_01.wav", 90, 350);
         g.drawString("070_Equip_10.wav", 90, 370);
         g.drawString("Menu-3-1.mp3", 90, 390);
+        g.drawString("Menu1.mp3", 90, 410);
 
         // Sprites
         g.setColor(PRIMARY_COLOR);

@@ -3,8 +3,9 @@ package licaza.tdefender.demo.ui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-
 import java.text.DecimalFormat;
+
+import javax.sound.sampled.Clip;
 
 import licaza.tdefender.demo.configs.Constants.Towers;
 
@@ -12,9 +13,13 @@ import licaza.tdefender.engine.tools.gui.MyButton;
 import licaza.tdefender.engine.commons.actors.Tower;
 
 import static licaza.tdefender.demo.main.GameStates.*;
+import static licaza.tdefender.demo.configs.MediaSource.*;
+
 import licaza.tdefender.demo.scenes.Playing;
 
 public class ActionBar extends Bar {
+
+    private static final Clip bgMusic = Sounds.GetAudioClip("PLAY");
 
     private MyButton bMenu, bPause;
     private Playing playing;
