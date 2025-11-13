@@ -56,9 +56,6 @@ public class Credits extends GameScene implements SceneMethods {
     @Override
     public void mouseClicked(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
-            // menuClip.stop();
-            // clickClip.start();
-            System.out.println("Go home");
             GameStates.setGameState(GameStates.MENU);
         }
     }
