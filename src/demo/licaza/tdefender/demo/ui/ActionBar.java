@@ -3,7 +3,6 @@ package licaza.tdefender.demo.ui;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-
 import java.text.DecimalFormat;
 
 import licaza.tdefender.demo.configs.Constants.Towers;
@@ -12,6 +11,7 @@ import licaza.tdefender.engine.tools.gui.MyButton;
 import licaza.tdefender.engine.commons.actors.Tower;
 
 import static licaza.tdefender.demo.main.GameStates.*;
+
 import licaza.tdefender.demo.scenes.Playing;
 
 public class ActionBar extends Bar {

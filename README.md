@@ -19,6 +19,13 @@ and then, just run:
 ```
 and the wizard will get all ready for you.
 
+If you want it right now, go for it:
+
+``` shell
+./init.sh bplay
+```
+This will build the *engine* modules (commons, tools & core) and the *demo* module, then run the game.
+
 ## How was made?
 
 First of all, the roots of this project are based on the great work of [Kaarin Gaming](https://www.youtube.com/watch?v=kclnyiXmY7Q&list=PL4rzdwizLaxb0-TajNIp5DOoT_PAxhx0T)
@@ -31,6 +38,14 @@ Well, Maven/Gradle is for the weak... right?
 
 This project pretends to help understand how the "roots" of Java work, from the very basics and in the most "pure" and "vanilla" way.
 
-That said, NO FRAMWORKS, NO BUILDING TOOLS
+That said, NO FRAMWORKS, NO BUILDING TOOLS, NO LIBRARIES
 
 since this is a very basic project, we don't need those.
+
+Want to be sure? Run:
+
+``` shell
+./init.sh deps
+```
+this will show you the modules that make the game, as well as their dependencies.
+
