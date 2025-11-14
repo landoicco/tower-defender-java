@@ -10,6 +10,8 @@ import java.util.function.IntBinaryOperator;
 import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
+import javax.sound.sampled.Clip;
+
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.commons.objects.PathPoint;
 import licaza.tdefender.engine.commons.actors.Enemy;
@@ -23,7 +25,11 @@ import licaza.tdefender.demo.managers.EnemyManager;
 
 import licaza.tdefender.engine.core.managers.*;
 
+import static licaza.tdefender.demo.configs.MediaSource.*;
+
 public class Playing extends GameScene implements SceneMethods {
+
+    private final static Clip BG_MUSIC = Sounds.GetAudioClip("PLAY");
 
     private int[][] lvl;
     private int mouseX, mouseY, goldTick;
@@ -148,6 +154,8 @@ public class Playing extends GameScene implements SceneMethods {
 
     @Override
     public void render(Graphics g) {
+        // Make background music loop during gameplay
+        BG_MUSIC.loop(Clip.LOOP_CONTINUOUSLY);
         drawLevel(g);
 
         actionBar.draw(g);

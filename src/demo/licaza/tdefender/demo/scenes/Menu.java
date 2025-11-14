@@ -30,7 +30,7 @@ public class Menu extends GameScene implements SceneMethods {
     // Set color palette
     private static final Color BG_COLOR = GetColorFromPalette(ColorPalette.BACKGROUND);
     private static final Color PRIMARY_COLOR = GetColorFromPalette(ColorPalette.PRIMARY);
-    private static final Color ACCENT_COLOR = GetColorFromPalette(ColorPalette.ACCENT);
+    private static final Color ACCENT_COLOR = GetColorFromPalette(ColorPalette.ACCENT_ONE);
     private static final Color TEXT_COLOR = GetColorFromPalette(ColorPalette.TEXT);
 
     private static final Map<ColorPalette, Color> colorPalette = GetColorMap();
@@ -47,7 +47,6 @@ public class Menu extends GameScene implements SceneMethods {
     public void render(Graphics g) {
         // Play background music
         menuClip.loop(Clip.LOOP_CONTINUOUSLY); // Loop indefinitely
-        menuClip.start();
 
         // Draw background
         g.setColor(BG_COLOR);
