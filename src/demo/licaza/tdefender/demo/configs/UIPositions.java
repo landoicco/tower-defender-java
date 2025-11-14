@@ -10,6 +10,43 @@ public class UIPositions {
     private UIPositions() {
     }
 
+    public static final class Menu {
+        // Header
+        private static final IntPoint2D HEADER = new IntPoint2D(260, 330);
+        private static final float HEADER_X_OFFSET = 30;
+        private static final float HEADER_Y_OFFSET = 60;
+
+        public static final IntPoint2D GetHeaderPoint() {
+            return HEADER;
+        }
+
+        public static final float GetHeaderOffset(String s) {
+            return switch (s) {
+                case "X" -> HEADER_X_OFFSET;
+                case "Y" -> HEADER_Y_OFFSET;
+                default -> -1f;
+            };
+        }
+
+        // Buttons
+        private static final IntPoint2D PLAY_BTN = new IntPoint2D(270, 300);
+        private static final int BTN_WIDTH = 120, BTN_HEIGHT = 50;
+        private static final int BTNS_Y_PADDING = 20;
+
+        public static final IntPoint2D GetPlayButtonPoint() {
+            return PLAY_BTN;
+        }
+
+        public static final int GetValue(String s) {
+            return switch (s) {
+                case "BTN_WIDTH" -> BTN_WIDTH;
+                case "BTN_HEIGHT" -> BTN_HEIGHT;
+                case "BTNS_PADDING" -> BTNS_Y_PADDING;
+                default -> -1;
+            };
+        }
+    }
+
     public static final class Editing {
     }
 

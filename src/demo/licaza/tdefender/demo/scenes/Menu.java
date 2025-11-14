@@ -14,6 +14,7 @@ import licaza.tdefender.engine.commons.misc.ColorPalette;
 
 import static licaza.tdefender.demo.configs.Colors.*;
 import static licaza.tdefender.demo.configs.MediaSource.*;
+import static licaza.tdefender.demo.configs.UIPositions.Menu.*;
 
 public class Menu extends GameScene implements SceneMethods {
     private static final float BUTTON_FONT_SIZE = 50f;
@@ -136,11 +137,11 @@ public class Menu extends GameScene implements SceneMethods {
 
     private void initButtons() {
         int height, width, xPos, yPos, padding;
-        height = 50;
-        width = 120;
-        xPos = 270;
-        yPos = 300;
-        padding = 20;
+        height = GetValue("BTN_HEIGHT");
+        width = GetValue("BTN_WIDTH");
+        xPos = GetHeaderPoint().x();
+        yPos = GetHeaderPoint().y();
+        padding = GetValue("BTNS_PADDING");
 
         bPlaying = new TextButton("Play", xPos, yPos, width, height, colorPalette);
         bEdit = new TextButton("Edit", xPos, yPos + (height + padding), width, height, colorPalette);
