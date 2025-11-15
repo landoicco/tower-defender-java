@@ -53,6 +53,8 @@ public final class UIPositions {
     public static final class Playing {
         public static final class ActionBar {
             private static final int BTNS_HEIGHT = 30;
+            private static final float GAME_OVER_FONT_SIZE = 60f;
+            private static final IntPoint2D GAME_OVER_LABEL = new IntPoint2D(170, 350);
 
             // Non-gameplay buttons
             private static final IntPoint2D MENU_BTN = new IntPoint2D(10, 735);
@@ -130,6 +132,7 @@ public final class UIPositions {
                     case "DISPLAYED_TOWER_FONT_SIZE" -> DISPLAYED_TOWER_FONT_SIZE;
                     case "GOLD_AND_LIVES_FONT_SIZE" -> GOLD_AND_LIVES_FONT_SIZE;
                     case "NON_GAMEPLAY_BTNS_FONT_SIZE" -> NON_GAMEPLAY_BTNS_FONT_SIZE;
+                    case "GAME_OVER_FONT_SIZE" -> GAME_OVER_FONT_SIZE;
                     default -> throw new IllegalArgumentException("Value not defined!");
                 };
             }
@@ -161,6 +164,7 @@ public final class UIPositions {
                     case "TOWER_TIER" -> TOWER_TIER;
                     case "LIVES" -> LIVES_LABEL;
                     case "GOLD" -> GOLD_LABEL;
+                    case "GAME_OVER" -> GAME_OVER_LABEL;
                     default -> throw new IllegalArgumentException("Button not defined!");
                 };
             }

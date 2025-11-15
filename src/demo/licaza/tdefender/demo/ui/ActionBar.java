@@ -41,6 +41,10 @@ public class ActionBar extends Bar {
     private static final Font BASE_FONT = Fonts.GetBaseFont();
     private static final Font HEADER_FONT = Fonts.GetHeaderFont();
 
+    // Game Paused Label
+    private static final IntPoint2D pGAME_OVER_LABEL = GetLabelPoint("GAME_OVER");
+    private static final float GAME_OVER_FONT_SIZE = GetFloatValue("GAME_OVER_FONT_SIZE");
+
     private TextButton bMenu, bPause, bSellTower, bUpgradeTower;
     private Playing playing;
     private Tower selectedTower, displayedTower;
@@ -77,8 +81,9 @@ public class ActionBar extends Bar {
 
         // Game pause text
         if (playing.isGamePaused()) {
-            g.setColor(Color.ORANGE);
-            g.drawString("Game is paused!", 200, 350);
+            g.setColor(TEXT_COLOR);
+            g.setFont(HEADER_FONT.deriveFont(GAME_OVER_FONT_SIZE));
+            g.drawString("GAME PAUSED", pGAME_OVER_LABEL.x(), pGAME_OVER_LABEL.y());
         }
 
         drawGoldAndLivesAmount(g);
