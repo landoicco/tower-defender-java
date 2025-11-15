@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.text.DecimalFormat;
 import java.util.Map;
 
+import javax.sound.sampled.Clip;
+
 import licaza.tdefender.demo.configs.Constants.Towers;
 
 import licaza.tdefender.engine.tools.gui.*;
@@ -29,6 +31,11 @@ public class ActionBar extends Bar {
     private static final Color ACCENT_THREE = GetColorFromPalette(ColorPalette.ACCENT_THREE);
     private static final Color TEXT_COLOR = GetColorFromPalette(ColorPalette.TEXT);
     private static final Map<ColorPalette, Color> COLOR_MAP = GetColorMap();
+
+    // Get Audio Clips
+    private static final Clip HOVER_CLIP = Sounds.GetAudioClip("HOVER");
+    private static final Clip CLICK_CLIP = Sounds.GetAudioClip("CLICK");
+    private static final Clip MONEY_CLIP = Sounds.GetAudioClip("MONEY");
 
     // Get All Fonts
     private static final Font BASE_FONT = Fonts.GetBaseFont();
@@ -79,8 +86,10 @@ public class ActionBar extends Bar {
 
     public void mouseClicked(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
+            CLICK_CLIP.start();
             setGameState(MENU);
         } else if (bPause.getBounds().contains(x, y)) {
+            CLICK_CLIP.start();
             togglePause();
         } else {
 
@@ -96,10 +105,14 @@ public class ActionBar extends Bar {
                 }
             }
 
+            // Tower adquired!
             for (MyButton b : towerButtons) {
                 if (b.getBounds().contains(x, y)) {
                     if (!isGoldEnoughForTower(b.getId()))
                         return;
+
+                    // Play money sound
+                    MONEY_CLIP.start();
 
                     selectedTower = new Tower(0, 0, -1, b.id);
                     playing.setSelectedTower(selectedTower);
@@ -122,10 +135,13 @@ public class ActionBar extends Bar {
         }
 
         if (bMenu.getBounds().contains(x, y)) {
+            HOVER_CLIP.start();
             bMenu.setMouseOver(true);
         } else if (bPause.getBounds().contains(x, y)) {
+            HOVER_CLIP.start();
             bPause.setMouseOver(true);
         } else {
+            HOVER_CLIP.setFramePosition(0);
             // Tower buttons...
             if (displayedTower != null) {
                 if (bSellTower.getBounds().contains(x, y)) {
@@ -173,6 +189,10 @@ public class ActionBar extends Bar {
     }
 
     public void mouseReleased(int x, int y) {
+        // Reset audio clips
+        MONEY_CLIP.setFramePosition(0);
+        CLICK_CLIP.setFramePosition(0);
+
         // Reset buttons
         bMenu.resetBooleans();
         bPause.resetBooleans();
@@ -322,12 +342,12 @@ public class ActionBar extends Bar {
     }
 
     private void drawDisplayedTowerBorder(Graphics g) {
-        g.setColor(Color.GREEN);
+        g.setColor(ACCENT_TWO);
         g.drawRect(displayedTower.getX(), displayedTower.getY(), 32, 32);
     }
 
     private void drawDisplayedTowerRange(Graphics g) {
-        g.setColor(Color.RED);
+        g.setColor(ACCENT_THREE);
 
         // Logic to centre the tower range
         g.drawOval(displayedTower.getX() + 16 - (int) (displayedTower.getRange()),
@@ -424,6 +444,9 @@ public class ActionBar extends Bar {
     }
 
     private void sellTowerClicked() {
+        // Play money sound
+        MONEY_CLIP.start();
+
         playing.removeTower(displayedTower);
 
         gold += getSellAmount(displayedTower);
@@ -432,6 +455,9 @@ public class ActionBar extends Bar {
     }
 
     private void upgradeTowerClicked() {
+        // Play money sound
+        MONEY_CLIP.start();
+
         playing.upgradeTower(displayedTower);
         gold -= getUpgradeAmount(displayedTower);
     }

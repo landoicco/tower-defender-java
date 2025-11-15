@@ -25,6 +25,7 @@ public class MediaSource {
         private static final Clip CLICK = ResourcesLoader.Audio.LoadClipFromFile(new File("use-item.wav"));
         private static final Clip MENU = ResourcesLoader.Audio.LoadClipFromFile(new File("menu.wav"));
         private static final Clip PLAY = ResourcesLoader.Audio.LoadClipFromFile(new File("playing.wav"));
+        private static final Clip MONEY = ResourcesLoader.Audio.LoadClipFromFile(new File("money.wav"));
 
         public final static Clip GetAudioClip(String s) {
             return switch (s) {
@@ -32,7 +33,8 @@ public class MediaSource {
                 case "CLICK" -> CLICK;
                 case "MENU" -> MENU;
                 case "PLAY" -> PLAY;
-                default -> CLICK;
+                case "MONEY" -> MONEY;
+                default -> throw new IllegalArgumentException("Audio clip not defined!");
             };
         }
     }
