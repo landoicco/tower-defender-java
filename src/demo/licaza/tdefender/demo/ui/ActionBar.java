@@ -22,7 +22,7 @@ import static licaza.tdefender.demo.configs.Colors.*;
 
 import licaza.tdefender.demo.scenes.Playing;
 
-public class ActionBar extends Bar {
+public final class ActionBar extends Bar {
 
     // Get All Colors
     private static final Color BG_COLOR = GetColorFromPalette(ColorPalette.BACKGROUND);

@@ -8,7 +8,7 @@ import licaza.tdefender.engine.commons.misc.ColorPalette;
 
 import static licaza.tdefender.demo.configs.Colors.*;
 
-public abstract class Bar {
+public sealed abstract class Bar permits ActionBar, ToolBar {
 
     private final static Color BORDER_BASE_COLOR = GetColorFromPalette(ColorPalette.ACCENT_ONE);
     private final static Color BORDER_HOVER_COLOR = GetColorFromPalette(ColorPalette.PRIMARY);

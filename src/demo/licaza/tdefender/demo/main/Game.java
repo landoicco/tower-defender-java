@@ -20,7 +20,7 @@ public class Game extends
     private Editing editing;
     private GameOver gameOver;
 
-    private final Runnable updateGameCallback = () -> updateGame();
+    private final Runnable updateGameCallback = this::updateGame;
 
     public Game() {
         // from parent 'Game' class
