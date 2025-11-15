@@ -11,9 +11,11 @@ import licaza.tdefender.demo.configs.Constants.Towers;
 import licaza.tdefender.engine.tools.gui.*;
 import licaza.tdefender.engine.commons.actors.Tower;
 import licaza.tdefender.engine.commons.misc.ColorPalette;
+import licaza.tdefender.engine.commons.misc.IntPoint2D;
 
 import static licaza.tdefender.demo.main.GameStates.*;
 import static licaza.tdefender.demo.configs.MediaSource.*;
+import static licaza.tdefender.demo.configs.UIPositions.Playing.ActionBar.*;
 import static licaza.tdefender.demo.configs.Colors.*;
 
 import licaza.tdefender.demo.scenes.Playing;
@@ -62,7 +64,6 @@ public class ActionBar extends Bar {
         drawDisplayedTower(g);
 
         drawWaveInfo(g);
-        drawGoldAmount(g);
 
         if (showTowerCost)
             drawTowerCost(g);
@@ -73,12 +74,7 @@ public class ActionBar extends Bar {
             g.drawString("Game is paused!", 200, 350);
         }
 
-        // Lives label
-        float livesLabelSize = 25f;
-        g.setColor(ACCENT_TWO);
-        g.setFont(HEADER_FONT.deriveFont(livesLabelSize));
-
-        g.drawString("Lives: " + lives, 10, 700);
+        drawGoldAndLivesAmount(g);
     }
 
     public void mouseClicked(int x, int y) {
@@ -230,47 +226,67 @@ public class ActionBar extends Bar {
     }
 
     private void initButtons() {
-        bMenu = new TextButton("Menu", 0, 710, 100, 30, COLOR_MAP);
-        bPause = new TextButton("Pause", 0, 740, 100, 30, COLOR_MAP);
+        IntPoint2D pMenu = GetNonGameplayButtonPoint("MENU"),
+                pPause = GetNonGameplayButtonPoint("PAUSE");
+        int sellButtonWidth = GetValue("SELL_BTN_WIDTH"),
+                upgradeButtonWidth = GetValue("UPGRADE_BTN_WIDTH"),
+                buttonsHeight = GetValue("BTNS_HEIGHT"),
+                buttonsWidth = GetValue("NON_GAMEPLAY_BTNS_WIDTH");
+
+        bMenu = new TextButton("Menu", pMenu.x(), pMenu.y(), buttonsWidth, buttonsHeight, COLOR_MAP);
+        bPause = new TextButton("Pause", pPause.x(), pPause.y(), buttonsWidth, buttonsHeight, COLOR_MAP);
 
         towerButtons = new MyButton[3];
 
-        int width = 50;
-        int height = 50;
-        int xStart = 220;
-        int yStart = 670;
-        int xOffset = (int) (width * 1.1f);
+        IntPoint2D firstTowerButton = GetGameplayButtonPoint("TOWER");
+        int towerButtonSize = GetValue("IMAGE_BTN_SIZE"),
+                xOffset = GetValue("X_OFFSET");
 
         for (int i = 0; i < towerButtons.length; i++) {
-            towerButtons[i] = new MyButton("", xStart + (xOffset * i), yStart, width, height, i);
+            towerButtons[i] = new MyButton("", firstTowerButton.x() + (xOffset * i), firstTowerButton.y(),
+                    towerButtonSize, towerButtonSize, i);
         }
 
-        bSellTower = new TextButton("Sell", 480, 745, 50, 30, COLOR_MAP);
-        bUpgradeTower = new TextButton("Upgrade", 540, 745, 80, 30, COLOR_MAP);
+        IntPoint2D pSell = GetGameplayButtonPoint("SELL"),
+                pUpgrade = GetGameplayButtonPoint("UPGRADE");
+
+        bSellTower = new TextButton("Sell", pSell.x(), pSell.y(), sellButtonWidth, buttonsHeight, COLOR_MAP);
+        bUpgradeTower = new TextButton("Upgrade", pUpgrade.x(), pUpgrade.y(), upgradeButtonWidth,
+                buttonsHeight, COLOR_MAP);
     }
 
     private void drawDisplayedTower(Graphics g) {
-        float fontSize = 18f;
+        float fontSize = GetFloatValue("DISPLAYED_TOWER_FONT_SIZE");
 
         if (displayedTower == null) {
             return;
         }
 
         // Draw background rectangle
+        IntPoint2D pBgRect = GetBackgroundPoint("DISPLAYED_TOWER");
+        int bgRectWidth = GetValue("DISPLAYED_TOWER_BACKGROUND_RECT_WIDTH"),
+                bgRectHeight = GetValue("DISPLAYED_TOWER_BACKGROUND_RECT_HEIGHT");
         g.setColor(ACCENT_TWO);
-        g.fillRect(470, 670, 160, 80);
+        g.fillRect(pBgRect.x(), pBgRect.y(), bgRectWidth, bgRectHeight);
 
         // Draw tower sprite
+        IntPoint2D pSprite = GetLabelPoint("SPRITE");
+        int spriteSize = GetValue("SPRITE_SIZE");
         g.drawImage(playing.getTowerManager().getTowerImgs()[displayedTower.getTowerType()],
-                480, 680, 50, 50, null);
+                pSprite.x(), pSprite.y(), spriteSize, spriteSize, null);
 
         // Draw text
         g.setColor(TEXT_COLOR);
         g.setFont(BASE_FONT.deriveFont(fontSize));
 
-        g.drawString(Towers.GetName(displayedTower.getTowerType()), 560, 695);
-        g.drawString("ID: " + displayedTower.getId(), 560, 715);
-        g.drawString("Tier: " + displayedTower.getTier(), 560, 735);
+        IntPoint2D pTowerNameLabel = GetLabelPoint("TOWER_NAME"),
+                pTowerIdLabel = GetLabelPoint("TOWER_ID"),
+                pTowerTierLabel = GetLabelPoint("TOWER_TIER"),
+                pSellLabel = GetLabelPoint("SELL"),
+                pUpgradeLabel = GetLabelPoint("UPGRADE");
+        g.drawString(Towers.GetName(displayedTower.getTowerType()), pTowerNameLabel.x(), pTowerNameLabel.y());
+        g.drawString("ID: " + displayedTower.getId(), pTowerIdLabel.x(), pTowerIdLabel.y());
+        g.drawString("Tier: " + displayedTower.getTier(), pTowerTierLabel.x(), pTowerTierLabel.y());
 
         drawDisplayedTowerBorder(g);
         drawDisplayedTowerRange(g);
@@ -283,15 +299,16 @@ public class ActionBar extends Bar {
 
         g.setColor(TEXT_COLOR);
         if (bSellTower.isMouseOver()) {
-            g.drawString("Sell for: " + getSellAmount(displayedTower) + "g", 500, 795);
+            g.drawString("Sell for: " + getSellAmount(displayedTower) + "g", pSellLabel.x(), pSellLabel.y());
         } else if (bUpgradeTower.isMouseOver() && hasEnoughGoldToBuy(displayedTower)) {
-            g.drawString("Upgrade for: " + getUpgradeAmount(displayedTower) + "g", 500, 795);
+            g.drawString("Upgrade for: " + getUpgradeAmount(displayedTower) + "g", pUpgradeLabel.x(),
+                    pUpgradeLabel.y());
         }
     }
 
     private void drawButtons(Graphics g) {
-        float menuButtonsSize = 30f;
-        g.setFont(BASE_FONT.deriveFont(menuButtonsSize));
+        float nonGameplayButtonsSize = GetFloatValue("NON_GAMEPLAY_BTNS_FONT_SIZE");
+        g.setFont(BASE_FONT.deriveFont(nonGameplayButtonsSize));
 
         bMenu.draw(g);
         bPause.draw(g);
@@ -321,8 +338,15 @@ public class ActionBar extends Bar {
 
     private void drawWaveInfo(Graphics g) {
         float fontSize = 20f;
+        int backgroundWidth = GetValue("WAVE_INFO_BACKGROUND_WIDTH"),
+                backgroundHeight = GetValue("WAVE_INFO_BACKGROUND_HEIGHT");
+        IntPoint2D pBackground = GetBackgroundPoint("WAVE_INFO_BACKGROUND");
 
+        // Draw background
         g.setColor(ACCENT_THREE);
+        g.fillRect(pBackground.x(), pBackground.y(), backgroundWidth, backgroundHeight);
+
+        g.setColor(TEXT_COLOR);
         g.setFont(HEADER_FONT.deriveFont(fontSize));
 
         drawWaveTimerInfo(g);
@@ -330,12 +354,23 @@ public class ActionBar extends Bar {
         drawWavesLeftInfo(g);
     }
 
-    private void drawGoldAmount(Graphics g) {
-        float textSize = 25f;
-        g.setFont(HEADER_FONT.deriveFont(textSize));
-        g.setColor(ACCENT_TWO);
+    private void drawGoldAndLivesAmount(Graphics g) {
+        int bgRectWidth = GetValue("GOLD_AND_LIVES_BACKGROUND_WIDTH"),
+                bgRectHeight = GetValue("GOLD_AND_LIVES_BACKGROUND_HEIGHT");
+        float fontSize = GetFloatValue("GOLD_AND_LIVES_FONT_SIZE");
+        IntPoint2D pBackground = GetBackgroundPoint("GOLD_AND_LIVES_BACKGROUND"),
+                pLivesLabel = GetLabelPoint("LIVES"),
+                pGoldLabel = GetLabelPoint("GOLD");
 
-        g.drawString("Gold: " + gold, 10, 680);
+        // Draw background
+        g.setColor(ACCENT_TWO);
+        g.fillRect(pBackground.x(), pBackground.y(), bgRectWidth, bgRectHeight);
+
+        // Draw data
+        g.setColor(TEXT_COLOR);
+        g.setFont(HEADER_FONT.deriveFont(fontSize));
+        g.drawString("Lives: " + lives, pLivesLabel.x(), pLivesLabel.y());
+        g.drawString("Gold: " + gold, pGoldLabel.x(), pGoldLabel.y());
     }
 
     private boolean isGoldEnoughForTower(int towerType) {

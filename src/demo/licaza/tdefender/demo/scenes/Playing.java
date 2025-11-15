@@ -45,12 +45,12 @@ public class Playing extends GameScene implements SceneMethods {
     private PathPoint start, end;
 
     // "Callbacks" to be called inside managers
-    private final Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
-    private final BiConsumer<Tower, Enemy> shootEnemyConsumer = (t, e) -> shootEnemy(t, e);
-    private final IntConsumer rewardPlayerCallback = (i) -> rewardPlayer(i);
-    private final Runnable removeOneLiveRunnable = () -> removeOneLive();
-    private final IntBinaryOperator getTileTypeOperator = (x, y) -> getTileType(x, y);
     private final IntArrayProvider typeArrayProvider = () -> game.getTileManager().getTypeArray();
+    private final Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
+    private final BiConsumer<Tower, Enemy> shootEnemyConsumer = this::shootEnemy;
+    private final IntConsumer rewardPlayerCallback = this::rewardPlayer;
+    private final Runnable removeOneLiveRunnable = this::removeOneLive;
+    private final IntBinaryOperator getTileTypeOperator = this::getTileType;
 
     public Playing(Game game) {
         super(game);
