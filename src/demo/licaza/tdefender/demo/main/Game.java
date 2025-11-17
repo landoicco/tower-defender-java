@@ -3,7 +3,8 @@ package licaza.tdefender.demo.main;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import licaza.tdefender.demo.managers.TileManager;
+import static licaza.tdefender.demo.configs.Managers.TileManager;
+
 import licaza.tdefender.demo.scenes.*;
 
 public class Game extends

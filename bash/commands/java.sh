@@ -36,7 +36,6 @@ build_demo() {
         ${DEMO_PATH}/scenes/**.java \
         ${DEMO_PATH}/ui/**.java \
         ${DEMO_PATH}/inputs/**.java \
-        ${DEMO_PATH}/managers/**.java \
         src/demo/module-info.java 
 
     cp -r src/res/** src/demo/target/
