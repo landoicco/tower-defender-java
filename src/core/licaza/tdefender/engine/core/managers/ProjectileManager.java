@@ -17,13 +17,14 @@ import licaza.tdefender.engine.commons.objects.Projectile;
 import licaza.tdefender.engine.commons.actors.Enemy;
 import licaza.tdefender.engine.commons.actors.Tower;
 
-public class ProjectileManager {
+public abstract class ProjectileManager {
     private ArrayList<Projectile> projectiles = new ArrayList<>();
     private ArrayList<Explosion> explosions = new ArrayList<>();
-    private BufferedImage[] projectileImages, explosionImages;
     private Supplier<List<Enemy>> enemiesSupplier;
 
     private int projectileID;
+
+    protected BufferedImage[] projectileImages, explosionImages;
 
     public ProjectileManager(Supplier<List<Enemy>> enemiesSupplier) {
         this.enemiesSupplier = enemiesSupplier;
@@ -129,6 +130,10 @@ public class ProjectileManager {
         projectileID = 0;
     }
 
+    protected abstract void loadProjectileImages();
+
+    protected abstract void loadExplosionImages();
+
     private boolean isProjectileHittingEnemy(Projectile p) {
         for (Enemy e : enemiesSupplier.get()) {
             if (e.isAlive()) {
@@ -163,25 +168,6 @@ public class ProjectileManager {
         return 0;
     }
 
-    private void loadProjectileImages() {
-        BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
-        projectileImages = new BufferedImage[3];
-
-        for (int i = 0; i < 3; i++) {
-            projectileImages[i] = atlas.getSubimage((20 + i) * 32, (10) * 32, 32, 32);
-        }
-
-        importExplosionImages();
-    }
-
-    private void importExplosionImages() {
-        BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_legacy");
-        explosionImages = new BufferedImage[7];
-
-        for (int i = 0; i < 7; i++) {
-            explosionImages[i] = atlas.getSubimage(i * 32, 2 * 32, 32, 32);
-        }
-    }
 
     private void explodeOnEnemies(Projectile p) {
         for (Enemy e : enemiesSupplier.get()) {

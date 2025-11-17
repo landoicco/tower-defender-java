@@ -22,6 +22,7 @@ import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
 import licaza.tdefender.demo.managers.EnemyManager;
+import licaza.tdefender.demo.configs.Managers;
 
 import licaza.tdefender.engine.core.managers.*;
 
@@ -63,7 +64,7 @@ public class Playing extends GameScene implements SceneMethods {
         enemyManager = new EnemyManager(rewardPlayerCallback, removeOneLiveRunnable,
                 getTileTypeOperator, typeArrayProvider, start, end);
         towerManager = new TowerManager(enemiesSupplier, shootEnemyConsumer);
-        projectileManager = new ProjectileManager(enemiesSupplier);
+        projectileManager = new Managers.Projectile(enemiesSupplier);
         waveManager = new WaveManager();
     }
 
