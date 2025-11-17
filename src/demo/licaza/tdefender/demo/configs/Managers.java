@@ -46,4 +46,22 @@ public final class Managers {
 
         }
     }
+
+    public static final class Tower extends TowerManager {
+        public Tower(Supplier<List<Enemy>> enemiesSupplier,BiConsumer<
+                     licaza.tdefender.engine.commons.actors.Tower, Enemy> shootEnemyConsumer) {
+            super(enemiesSupplier, shootEnemyConsumer);
+        }
+
+        @Override
+        protected void loadTowerImages() {
+            BufferedImage atlas = Sprites.GetSprite("ACTORS");
+            towerImgs = new BufferedImage[3];
+            for (int i = 0; i < 3; i++) {
+                BufferedImage topImg = atlas.getSubimage((20 + i) * 32, (8) * 32, 32, 32);
+                BufferedImage backgroundImg = atlas.getSubimage((20 + i) * 32, (7) * 32, 32, 32);
+                towerImgs[i] = ImageFix.BuildImage(new BufferedImage[] { backgroundImg, topImg });
+            }
+        }
+    }
 }

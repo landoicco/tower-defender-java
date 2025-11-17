@@ -63,7 +63,7 @@ public class Playing extends GameScene implements SceneMethods {
         // Init managers...
         enemyManager = new EnemyManager(rewardPlayerCallback, removeOneLiveRunnable,
                 getTileTypeOperator, typeArrayProvider, start, end);
-        towerManager = new TowerManager(enemiesSupplier, shootEnemyConsumer);
+        towerManager = new Managers.Tower(enemiesSupplier, shootEnemyConsumer);
         projectileManager = new Managers.Projectile(enemiesSupplier);
         waveManager = new WaveManager();
     }

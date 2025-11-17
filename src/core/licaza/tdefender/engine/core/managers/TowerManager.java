@@ -15,15 +15,16 @@ import licaza.tdefender.engine.commons.actors.Tower;
 
 import static licaza.tdefender.engine.tools.math.Functions.Pythagoras.*;
 
-public class TowerManager {
+public abstract class TowerManager {
 
-    private BufferedImage[] towerImgs;
     private int towerCount = 0;
     private ArrayList<Tower> towers = new ArrayList<>();
 
     // "Callbacks"
     private final Supplier<List<Enemy>> enemiesSupplier;
     private final BiConsumer<Tower, Enemy> shootEnemyConsumer;
+
+    protected BufferedImage[] towerImgs;
 
     public TowerManager(Supplier<List<Enemy>> enemiesSupplier,
             BiConsumer<Tower, Enemy> shootEnemyConsumer) {
@@ -91,15 +92,7 @@ public class TowerManager {
         towerCount = 0;
     }
 
-    private void loadTowerImages() {
-        BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
-        towerImgs = new BufferedImage[3];
-        for (int i = 0; i < 3; i++) {
-            BufferedImage topImg = atlas.getSubimage((20 + i) * 32, (8) * 32, 32, 32);
-            BufferedImage backgroundImg = atlas.getSubimage((20 + i) * 32, (7) * 32, 32, 32);
-            towerImgs[i] = ImageFix.BuildImage(new BufferedImage[] { backgroundImg, topImg });
-        }
-    }
+    protected abstract void loadTowerImages();
 
     private void attackEnemyIfClose(Tower t) {
         for (Enemy e : enemiesSupplier.get()) {
