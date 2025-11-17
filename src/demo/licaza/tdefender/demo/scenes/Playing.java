@@ -18,14 +18,13 @@ import licaza.tdefender.engine.commons.actors.Enemy;
 import licaza.tdefender.engine.commons.actors.Tower;
 import licaza.tdefender.engine.commons.api.SceneMethods;
 import licaza.tdefender.engine.commons.misc.IntArrayProvider;
+import licaza.tdefender.engine.core.managers.WaveManager;
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
-import licaza.tdefender.demo.configs.Managers;
-
-import licaza.tdefender.engine.core.managers.*;
 
 import static licaza.tdefender.demo.configs.MediaSource.*;
+import static licaza.tdefender.demo.configs.Managers.*;
 
 public class Playing extends GameScene implements SceneMethods {
 
@@ -60,10 +59,10 @@ public class Playing extends GameScene implements SceneMethods {
         loadLevel();
 
         // Init managers...
-        enemyManager = new Managers.Enemy(rewardPlayerCallback, removeOneLiveRunnable,
+        enemyManager = new EnemyManager(rewardPlayerCallback, removeOneLiveRunnable,
                 getTileTypeOperator, typeArrayProvider, start, end);
-        towerManager = new Managers.Tower(enemiesSupplier, shootEnemyConsumer);
-        projectileManager = new Managers.Projectile(enemiesSupplier);
+        towerManager = new TowerManager(enemiesSupplier, shootEnemyConsumer);
+        projectileManager = new ProjectileManager(enemiesSupplier);
         waveManager = new WaveManager();
     }
 

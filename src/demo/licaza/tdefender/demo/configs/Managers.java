@@ -15,15 +15,15 @@ import licaza.tdefender.engine.commons.objects.PathPoint;
 import licaza.tdefender.engine.commons.objects.Tile;
 import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 import licaza.tdefender.engine.commons.actors.*;
-import licaza.tdefender.engine.core.managers.*;
 import licaza.tdefender.engine.tools.helpers.ImageFix;
 
 
 import static licaza.tdefender.demo.configs.MediaSource.*;
 
 public final class Managers {
-    public static final class Projectile extends ProjectileManager {
-        public Projectile(Supplier<List<licaza.tdefender.engine.commons.actors.Enemy>> enemiesSupplier) {
+    public static final class ProjectileManager
+        extends licaza.tdefender.engine.core.managers.ProjectileManager {
+        public ProjectileManager(Supplier<List<Enemy>> enemiesSupplier) {
             super(enemiesSupplier);
         }
 
@@ -52,10 +52,10 @@ public final class Managers {
         }
     }
 
-    public static final class Tower extends TowerManager {
-        public Tower(Supplier<List<licaza.tdefender.engine.commons.actors.Enemy>> enemiesSupplier,
-                     BiConsumer<licaza.tdefender.engine.commons.actors.Tower,
-                     licaza.tdefender.engine.commons.actors.Enemy> shootEnemyConsumer) {
+    public static final class TowerManager
+        extends licaza.tdefender.engine.core.managers.TowerManager {
+        public TowerManager(Supplier<List<Enemy>> enemiesSupplier,
+                            BiConsumer<Tower, Enemy> shootEnemyConsumer) {
             super(enemiesSupplier, shootEnemyConsumer);
         }
 
@@ -71,14 +71,15 @@ public final class Managers {
         }
     }
 
-    public static final class Enemy extends EnemyManager {
+    public static final class EnemyManager
+        extends licaza.tdefender.engine.core.managers.EnemyManager {
         private PathPoint start;
         private IntConsumer rewardPlayerCallback;
 
         // "Callbacks"
-        public Enemy(IntConsumer rewardPlayerCallback, Runnable removeOneLiveCallback,
-                     IntBinaryOperator getTileTypeCallback, IntArrayProvider typeArrayCallback,
-                     PathPoint start, PathPoint end) {
+        public EnemyManager(IntConsumer rewardPlayerCallback, Runnable removeOneLiveCallback,
+                            IntBinaryOperator getTileTypeCallback, IntArrayProvider typeArrayCallback,
+                            PathPoint start, PathPoint end) {
             super(rewardPlayerCallback, removeOneLiveCallback, getTileTypeCallback,
                   typeArrayCallback, start, end);
 
@@ -95,11 +96,11 @@ public final class Managers {
         // We use 4 because we know we only have 4 enemy sprites at this point
         @Override
         protected void loadEnemyImages() {
-            BufferedImage atlas = MediaSource.Sprites.GetSprite("ACTORS");
+            BufferedImage atlas = MediaSource.Sprites.GetSprite("ENEMIES");
 
             for (int i = 0; i < 4; i++) {
                 // For position of enemies in spritesheet_actors
-                enemyImgs[i] = atlas.getSubimage((i * 32) + (15 * 32), (10 * 32), 32, 32);
+                enemyImgs[i] = atlas.getSubimage((i * 32), 0, 32, 32);
             }
         }
 
@@ -127,8 +128,8 @@ public final class Managers {
         }
     }
 
-    public static final class TileManager extends
-                                              licaza.tdefender.engine.core.managers.TileManager {
+    public static final class TileManager
+        extends licaza.tdefender.engine.core.managers.TileManager {
         public final static String TILE_ATLAS_PATH = "default_level";
 
         public Tile GRASS, WATER, BL_WATER_CORNER, TL_WATER_CORNER, TR_WATER_CORNER, BR_WATER_CORNER, TL_ISLAND,
