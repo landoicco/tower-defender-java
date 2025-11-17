@@ -1,14 +1,18 @@
 package licaza.tdefender.demo.configs;
 
 import java.awt.image.BufferedImage;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
+import java.util.function.*;
 import java.util.concurrent.*;
 import java.util.List;
 import java.io.File;
 
 import javax.sound.sampled.*;
 
+import licaza.tdefender.demo.actors.enemies.*;
+import licaza.tdefender.demo.configs.Constants.Enemies;
+
+import licaza.tdefender.engine.commons.objects.PathPoint;
+import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 import licaza.tdefender.engine.commons.actors.*;
 import licaza.tdefender.engine.core.managers.*;
 import licaza.tdefender.engine.tools.helpers.ImageFix;
@@ -18,7 +22,7 @@ import static licaza.tdefender.demo.configs.MediaSource.*;
 
 public final class Managers {
     public static final class Projectile extends ProjectileManager {
-        public Projectile(Supplier<List<Enemy>> enemiesSupplier) {
+        public Projectile(Supplier<List<licaza.tdefender.engine.commons.actors.Enemy>> enemiesSupplier) {
             super(enemiesSupplier);
         }
 
@@ -48,8 +52,9 @@ public final class Managers {
     }
 
     public static final class Tower extends TowerManager {
-        public Tower(Supplier<List<Enemy>> enemiesSupplier,BiConsumer<
-                     licaza.tdefender.engine.commons.actors.Tower, Enemy> shootEnemyConsumer) {
+        public Tower(Supplier<List<licaza.tdefender.engine.commons.actors.Enemy>> enemiesSupplier,
+                     BiConsumer<licaza.tdefender.engine.commons.actors.Tower,
+                     licaza.tdefender.engine.commons.actors.Enemy> shootEnemyConsumer) {
             super(enemiesSupplier, shootEnemyConsumer);
         }
 
@@ -61,6 +66,62 @@ public final class Managers {
                 BufferedImage topImg = atlas.getSubimage((20 + i) * 32, (8) * 32, 32, 32);
                 BufferedImage backgroundImg = atlas.getSubimage((20 + i) * 32, (7) * 32, 32, 32);
                 towerImgs[i] = ImageFix.BuildImage(new BufferedImage[] { backgroundImg, topImg });
+            }
+        }
+    }
+
+    public static final class Enemy extends EnemyManager {
+        private PathPoint start;
+        private IntConsumer rewardPlayerCallback;
+
+        // "Callbacks"
+        public Enemy(IntConsumer rewardPlayerCallback, Runnable removeOneLiveCallback,
+                     IntBinaryOperator getTileTypeCallback, IntArrayProvider typeArrayCallback,
+                     PathPoint start, PathPoint end) {
+            super(rewardPlayerCallback, removeOneLiveCallback, getTileTypeCallback,
+                  typeArrayCallback, start, end);
+
+            this.rewardPlayerCallback = rewardPlayerCallback;
+            this.start = start;
+        }
+
+        @Override
+        protected void loadEffectImages() {
+            slowEffect = MediaSource.Sprites.GetSprite("LEGACY")
+                .getSubimage(32 * 9, 32 * 2, 32, 32);
+        }
+
+        // We use 4 because we know we only have 4 enemy sprites at this point
+        @Override
+        protected void loadEnemyImages() {
+            BufferedImage atlas = MediaSource.Sprites.GetSprite("ACTORS");
+
+            for (int i = 0; i < 4; i++) {
+                // For position of enemies in spritesheet_actors
+                enemyImgs[i] = atlas.getSubimage((i * 32) + (15 * 32), (10 * 32), 32, 32);
+            }
+        }
+
+
+        @Override
+        public void addEnemy(int enemyType) {
+            int x = start.xCord() * 32;
+            int y = start.yCord() * 32;
+            List<licaza.tdefender.engine.commons.actors.Enemy> enemies = getEnemies();
+
+            switch (enemyType) {
+            case Enemies.ORC:
+                enemies.add(new Orc(x, y, 0, rewardPlayerCallback));
+                break;
+            case Enemies.BAT:
+                enemies.add(new Bat(x, y, 0, rewardPlayerCallback));
+                break;
+            case Enemies.KNIGHT:
+                enemies.add(new Knight(x, y, 0, rewardPlayerCallback));
+                break;
+            case Enemies.WOLF:
+                enemies.add(new Wolf(x, y, 0, rewardPlayerCallback));
+                break;
             }
         }
     }
