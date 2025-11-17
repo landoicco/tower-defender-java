@@ -3,6 +3,7 @@ package licaza.tdefender.demo.managers;
 import java.util.List;
 import java.util.function.IntBinaryOperator;
 import java.util.function.IntConsumer;
+import java.awt.image.BufferedImage;
 
 import licaza.tdefender.demo.actors.enemies.Bat;
 import licaza.tdefender.demo.actors.enemies.Knight;
@@ -13,7 +14,9 @@ import licaza.tdefender.engine.commons.actors.Enemy;
 import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 import licaza.tdefender.engine.commons.objects.PathPoint;
 
-public class EnemyManager extends
+import licaza.tdefender.demo.configs.MediaSource;
+
+public final class EnemyManager extends
         licaza.tdefender.engine.core.managers.EnemyManager {
 
     private PathPoint start;
@@ -29,6 +32,24 @@ public class EnemyManager extends
         this.rewardPlayerCallback = rewardPlayerCallback;
         this.start = start;
     }
+
+    @Override
+    protected void loadEffectImages() {
+        slowEffect = MediaSource.Sprites.GetSprite("LEGACY")
+            .getSubimage(32 * 9, 32 * 2, 32, 32);
+    }
+
+    // We use 4 because we know we only have 4 enemy sprites at this point
+    @Override
+    protected void loadEnemyImages() {
+        BufferedImage atlas = MediaSource.Sprites.GetSprite("ACTORS");
+
+        for (int i = 0; i < 4; i++) {
+            // For position of enemies in spritesheet_actors
+            enemyImgs[i] = atlas.getSubimage((i * 32) + (15 * 32), (10 * 32), 32, 32);
+        }
+    }
+
 
     @Override
     public void addEnemy(int enemyType) {

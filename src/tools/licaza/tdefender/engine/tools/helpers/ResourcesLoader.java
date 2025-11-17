@@ -2,7 +2,9 @@ package licaza.tdefender.engine.tools.helpers;
 
 import java.awt.*;
 import java.io.*;
+import java.awt.image.*;
 
+import javax.imageio.ImageIO;
 import javax.sound.sampled.*;
 
 public class ResourcesLoader {
@@ -10,7 +12,7 @@ public class ResourcesLoader {
     private ResourcesLoader() {
     } // No instance should exist
 
-    public static class Audio {
+    public static final class Audio {
         public static Clip LoadClipFromFile(File source) {
             Clip clip = null;
 
@@ -26,7 +28,7 @@ public class ResourcesLoader {
         }
     }
 
-    public static class Fonts {
+    public static final class Fonts {
         public static Font LoadFontFromFile(File source) {
             Font font = null;
 
@@ -38,5 +40,20 @@ public class ResourcesLoader {
 
             return font;
         }
+    }
+
+    public static final class Sprites {
+        public static BufferedImage LoadSpriteFromFile(File source) {
+            BufferedImage img = null;
+            try (InputStream is = Sprites.class.getClassLoader().getResourceAsStream(source.toString())) {
+                img = ImageIO.read(is);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return img;
+        }
+
     }
 }

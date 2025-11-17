@@ -3,6 +3,7 @@ package licaza.tdefender.demo.configs;
 import java.awt.Font;
 import java.io.File;
 import javax.sound.sampled.Clip;
+import java.awt.image.BufferedImage;
 
 import licaza.tdefender.engine.tools.helpers.ResourcesLoader;
 
@@ -35,6 +36,21 @@ public class MediaSource {
                 case "PLAY" -> PLAY;
                 case "MONEY" -> MONEY;
                 default -> throw new IllegalArgumentException("Audio clip not defined!");
+            };
+        }
+    }
+
+    public final static class Sprites {
+        private static final BufferedImage
+            LEGACY = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("spriteatlas_legacy.png")),
+            ACTORS = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("spriteatlas_actors.png")),
+            NEW = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("map.png"));
+
+        public static final BufferedImage GetSprite(String s) {
+            return switch(s) {
+                case "LEGACY" -> LEGACY;
+                case "ACTORS" -> ACTORS;
+                default -> throw new IllegalArgumentException("Sprite not defined!");
             };
         }
     }
