@@ -41,6 +41,9 @@ public final class ToolBar extends Bar {
 
     private TextButton bMenu, bSave;
     private MyButton bPathStart, bPathEnd;
+
+    private MyButton bNewSand, bNewGrass, bNewStone, bNewIce, bNewChalk;
+
     private BufferedImage pathStart, pathEnd;
     private Tile selectedTile;
     private Editing editing;
@@ -64,7 +67,8 @@ public final class ToolBar extends Bar {
         g.fillRect(x, y, width, height);
 
         drawTileDescriptor(g);
-        drawButtons(g);
+        drawNewButtons(g);
+        // drawButtons(g);
     }
 
     public BufferedImage getStartPathImg() {
@@ -216,30 +220,50 @@ public final class ToolBar extends Bar {
         int xOffset = (int) (width * 1.1f);
         int id = 0;
 
-        // Init basic tile buttons
-        bGrass = new MyButton("Grass", xStart, yStart, width, height, id++);
-        bWater = new MyButton("Water", xStart + xOffset, yStart, width, height, id++);
+        bNewSand = new MyButton("Sand", xStart + xOffset, yStart, width, height, id++);
+        bNewGrass = new MyButton("Grass", xStart + (xOffset * 2), yStart, width, height, id++);
+        bNewStone = new MyButton("Stone", xStart + (xOffset * 3), yStart, width, height, id++);
+        bNewIce = new MyButton("Ice", xStart + (xOffset * 4), yStart, width, height, id++);
+        bNewChalk = new MyButton("Chalk", xStart + (xOffset * 5), yStart, width, height, id++);
 
-        // Init tile ArrayLists
-        initMapButtons(bPlainRoads, editing.getGame().getTileManager().getPlainRoads(), xStart, yStart, xOffset, width,
-                height, id++);
-        initMapButtons(bCornerRoads, editing.getGame().getTileManager().getCornerRoads(), xStart, yStart, xOffset,
-                width, height, id++);
-        initMapButtons(bWaterCorners, editing.getGame().getTileManager().getCorners(), xStart, yStart, xOffset, width,
-                height, id++);
-        initMapButtons(bWaterCoasts, editing.getGame().getTileManager().getCoasts(), xStart, yStart, xOffset, width,
-                height, id++);
-        initMapButtons(bWaterIslands, editing.getGame().getTileManager().getIslands(), xStart, yStart, xOffset, width,
-                height, id++);
+        // // Init basic tile buttons
+        // bGrass = new MyButton("Grass", xStart, yStart, width, height, id++);
+        // bWater = new MyButton("Water", xStart + xOffset, yStart, width, height, id++);
 
-        // Init path definer buttons
-        bPathStart = new MyButton("Start", xStart, yStart + xOffset, width, height, id++);
-        bPathEnd = new MyButton("End", xStart + xOffset, yStart + xOffset, width, height, id++);
+        // // Init tile ArrayLists
+        // initMapButtons(bPlainRoads, editing.getGame().getTileManager().getPlainRoads(), xStart, yStart, xOffset, width,
+        //         height, id++);
+        // initMapButtons(bCornerRoads, editing.getGame().getTileManager().getCornerRoads(), xStart, yStart, xOffset,
+        //         width, height, id++);
+        // initMapButtons(bWaterCorners, editing.getGame().getTileManager().getCorners(), xStart, yStart, xOffset, width,
+        //         height, id++);
+        // initMapButtons(bWaterCoasts, editing.getGame().getTileManager().getCoasts(), xStart, yStart, xOffset, width,
+        //         height, id++);
+        // initMapButtons(bWaterIslands, editing.getGame().getTileManager().getIslands(), xStart, yStart, xOffset, width,
+        //         height, id++);
+
+        // // Init path definer buttons
+        // bPathStart = new MyButton("Start", xStart, yStart + xOffset, width, height, id++);
+        // bPathEnd = new MyButton("End", xStart + xOffset, yStart + xOffset, width, height, id++);
     }
 
     private void initPathImages() {
         pathStart = LoadSave.GetSpriteAtlas("spriteatlas_legacy").getSubimage(7 * 32, 2 * 32, 32, 32);
         pathEnd = LoadSave.GetSpriteAtlas("spriteatlas_legacy").getSubimage(8 * 32, 2 * 32, 32, 32);
+    }
+
+    private void drawNewButtons(Graphics g) {
+        float buttonsSize = GetFloatValue("BTNS_FONT_SIZE");
+        g.setColor(PRIMARY_COLOR);
+        g.setFont(BASE_FONT.deriveFont(buttonsSize));
+        bMenu.draw(g);
+        bSave.draw(g);
+
+        drawBasicTileButtons(g, bNewGrass);
+        drawBasicTileButtons(g, bNewSand);
+        drawBasicTileButtons(g, bNewStone);
+        drawBasicTileButtons(g, bNewIce);
+        drawBasicTileButtons(g, bNewChalk);
     }
 
     private void drawButtons(Graphics g) {

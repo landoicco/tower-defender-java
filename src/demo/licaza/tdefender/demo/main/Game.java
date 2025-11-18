@@ -2,13 +2,17 @@ package licaza.tdefender.demo.main;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.awt.image.BufferedImage;
 
 import static licaza.tdefender.demo.configs.Managers.TileManager;
+import static licaza.tdefender.demo.configs.MediaSource.*;
 
 import licaza.tdefender.demo.scenes.*;
 
 public class Game extends
         licaza.tdefender.engine.core.main.Game {
+
+    private static final BufferedImage FAVICON = Sprites.GetSprite("FAVICON");
 
     private GameScreen gameScreen;
     private TileManager tileManager;
@@ -26,6 +30,8 @@ public class Game extends
     public Game() {
         // from parent 'Game' class
         super("Cannons... fuck yeah!");
+        super.setIconImage(FAVICON);
+
         setUpdateGameCallback(updateGameCallback);
         createDefaultLevel("default_level");
 

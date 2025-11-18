@@ -31,6 +31,7 @@ build_demo() {
         --module-path src/mods \
         -d src/demo/target \
         ${DEMO_PATH}/configs/**.java \
+        ${DEMO_PATH}/configs/tiles/**.java \
         ${DEMO_PATH}/actors/enemies/**.java \
         ${DEMO_PATH}/main/**.java \
         ${DEMO_PATH}/scenes/**.java \

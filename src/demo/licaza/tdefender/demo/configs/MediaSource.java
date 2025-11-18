@@ -45,13 +45,16 @@ public class MediaSource {
             LEGACY = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("spriteatlas_legacy.png")),
             ACTORS = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("spriteatlas_actors.png")),
             ENEMIES = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("enemies.png")),
-            NEW = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("map.png"));
+            FAVICON = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("favicon.png")),
+            GROUNDS = ResourcesLoader.Sprites.LoadSpriteFromFile(new File("map.png"));
 
         public static final BufferedImage GetSprite(String s) {
             return switch(s) {
             case "LEGACY" -> LEGACY;
             case "ACTORS" -> ACTORS;
             case "ENEMIES" -> ENEMIES;
+            case "GROUNDS" -> GROUNDS;
+            case "FAVICON" -> FAVICON;
             default -> throw new IllegalArgumentException("Sprite not defined!");
             };
         }
