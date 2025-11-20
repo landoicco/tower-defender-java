@@ -3,7 +3,8 @@ package licaza.tdefender.demo.main;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import licaza.tdefender.demo.managers.TileManager;
+import static licaza.tdefender.demo.configs.Managers.TileManager;
+
 import licaza.tdefender.demo.scenes.*;
 
 public class Game extends
@@ -20,7 +21,7 @@ public class Game extends
     private Editing editing;
     private GameOver gameOver;
 
-    private final Runnable updateGameCallback = () -> updateGame();
+    private final Runnable updateGameCallback = this::updateGame;
 
     public Game() {
         // from parent 'Game' class

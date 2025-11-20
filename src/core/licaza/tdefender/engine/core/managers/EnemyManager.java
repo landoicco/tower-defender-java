@@ -19,9 +19,7 @@ import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 
 public abstract class EnemyManager {
 
-    private BufferedImage[] enemyImgs;
     private int[][] roadDirectionArray;
-    private BufferedImage slowEffect;
     private PathPoint start, end;
     private int HPbarWidth = 20;
 
@@ -31,6 +29,9 @@ public abstract class EnemyManager {
     private final Runnable removeOneLiveCallback;
     private final IntBinaryOperator getTileTypeCallback;
     private final IntArrayProvider typeArrayCallback;
+
+    protected BufferedImage[] enemyImgs;
+    protected BufferedImage slowEffect;
 
     public EnemyManager(IntConsumer rewardPlayerCallback, Runnable removeOneLiveCallback,
             IntBinaryOperator getTileTypeCallback, IntArrayProvider typeArrayCallback,
@@ -68,8 +69,6 @@ public abstract class EnemyManager {
         }
     }
 
-    public abstract void addEnemy(int enemyType);
-
     public void spawnEnemy(int nextEnemy) {
         addEnemy(nextEnemy);
     }
@@ -95,6 +94,13 @@ public abstract class EnemyManager {
         enemies.clear();
     }
 
+    protected abstract void addEnemy(int enemyType);
+
+    protected abstract void loadEffectImages();
+
+    protected abstract void loadEnemyImages();
+
+
     private void drawEnemy(Enemy e, Graphics g) {
         g.drawImage(enemyImgs[e.getEnemyType()], (int) e.getX(), (int) e.getY(), null);
     }
@@ -102,21 +108,6 @@ public abstract class EnemyManager {
     private void drawEffects(Enemy e, Graphics g) {
         if (e.isSlowed()) {
             g.drawImage(slowEffect, (int) e.getX(), (int) e.getY(), null);
-        }
-    }
-
-    private void loadEffectImages() {
-        slowEffect = LoadSave.GetSpriteAtlas("spriteatlas_legacy")
-                .getSubimage(32 * 9, 32 * 2, 32, 32);
-    }
-
-    // We use 4 because we know we only have 4 enemy sprites at this point
-    private void loadEnemyImages() {
-        BufferedImage atlas = LoadSave.GetSpriteAtlas("spriteatlas_actors");
-
-        for (int i = 0; i < 4; i++) {
-            // For position of enemies in spritesheet_actors
-            enemyImgs[i] = atlas.getSubimage((i * 32) + (15 * 32), (10 * 32), 32, 32);
         }
     }
 

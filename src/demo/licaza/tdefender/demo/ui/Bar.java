@@ -4,8 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import licaza.tdefender.engine.tools.gui.MyButton;
+import licaza.tdefender.engine.commons.misc.ColorPalette;
 
-public abstract class Bar {
+import static licaza.tdefender.demo.configs.Colors.*;
+
+public sealed abstract class Bar permits ActionBar, ToolBar {
+
+    private final static Color BORDER_BASE_COLOR = GetColorFromPalette(ColorPalette.ACCENT_ONE);
+    private final static Color BORDER_HOVER_COLOR = GetColorFromPalette(ColorPalette.PRIMARY);
 
     public int x, y, width, height;
 
@@ -20,14 +26,14 @@ public abstract class Bar {
     protected void drawButtonFeedback(Graphics g, MyButton b) {
         // Set border color on MouseOver
         if (b.isMouseOver()) {
-            g.setColor(Color.CYAN);
+            g.setColor(BORDER_BASE_COLOR);
         } else {
-            g.setColor(Color.WHITE);
+            g.setColor(BORDER_HOVER_COLOR);
         }
 
         // Set border color on MousePressed
         if (b.isMousePressed()) {
-            g.setColor(Color.RED);
+            g.setColor(BORDER_BASE_COLOR);
         }
 
         // Draw border

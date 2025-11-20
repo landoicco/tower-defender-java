@@ -1,22 +1,45 @@
 package licaza.tdefender.demo.ui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.sound.sampled.Clip;
+
 import licaza.tdefender.engine.tools.helpers.LoadSave;
-import licaza.tdefender.engine.commons.objects.Tile;
+import licaza.tdefender.engine.tools.gui.TextButton;
 import licaza.tdefender.engine.tools.gui.MyButton;
+import licaza.tdefender.engine.commons.objects.Tile;
+import licaza.tdefender.engine.commons.misc.ColorPalette;
+import licaza.tdefender.engine.commons.misc.IntPoint2D;
 
 import licaza.tdefender.demo.main.GameStates;
 import licaza.tdefender.demo.scenes.Editing;
 
-public class ToolBar extends Bar {
+import static licaza.tdefender.demo.configs.Colors.*;
+import static licaza.tdefender.demo.configs.MediaSource.*;
+import static licaza.tdefender.demo.configs.UIPositions.Editing.ToolBar.*;
 
-    private MyButton bMenu, bSave;
+public final class ToolBar extends Bar {
+
+    private static final Color BACKGROUND_COLOR = GetColorFromPalette(ColorPalette.BACKGROUND);
+    private static final Color PRIMARY_COLOR = GetColorFromPalette(ColorPalette.PRIMARY);
+    private static final Color ACCENT_THREE = GetColorFromPalette(ColorPalette.ACCENT_THREE);
+    private static final Color TEXT_COLOR = GetColorFromPalette(ColorPalette.TEXT);
+    private static final Map COLOR_MAP = GetColorMap();
+
+    private static final Clip HOVER_CLIP = Sounds.GetAudioClip("HOVER");
+    private static final Clip CLICK_CLIP = Sounds.GetAudioClip("CLICK");
+
+
+    private static final Font BASE_FONT = Fonts.GetBaseFont();
+    private static final Font HEADER_FONT = Fonts.GetHeaderFont();
+
+    private TextButton bMenu, bSave;
     private MyButton bPathStart, bPathEnd;
     private BufferedImage pathStart, pathEnd;
     private Tile selectedTile;
@@ -37,9 +60,10 @@ public class ToolBar extends Bar {
     }
 
     public void draw(Graphics g) {
-        g.setColor(new Color(63, 117, 6));
-        // g.fillRect(x, y, width, height);
+        g.setColor(BACKGROUND_COLOR);
+        g.fillRect(x, y, width, height);
 
+        drawTileDescriptor(g);
         drawButtons(g);
     }
 
@@ -53,8 +77,10 @@ public class ToolBar extends Bar {
 
     public void mouseClicked(int x, int y) {
         if (bMenu.getBounds().contains(x, y)) {
+            CLICK_CLIP.start();
             GameStates.setGameState(GameStates.MENU);
         } else if (bSave.getBounds().contains(x, y)) {
+            CLICK_CLIP.start();
             saveLevel();
         } else if (bGrass.getBounds().contains(x, y)) {
             selectedTile = editing.getGame().getTileManager().getTile(bGrass.id);
@@ -97,8 +123,10 @@ public class ToolBar extends Bar {
         }
 
         if (bMenu.getBounds().contains(x, y)) {
+            HOVER_CLIP.start();
             bMenu.setMouseOver(true);
         } else if (bSave.getBounds().contains(x, y)) {
+            HOVER_CLIP.start();
             bSave.setMouseOver(true);
         } else if (bGrass.getBounds().contains(x, y)) {
             bGrass.setMouseOver(true);
@@ -109,6 +137,7 @@ public class ToolBar extends Bar {
         } else if (bPathEnd.getBounds().contains(x, y)) {
             bPathEnd.setMouseOver(true);
         } else {
+            HOVER_CLIP.setFramePosition(0);
             for (MyButton b : tilesMap.keySet()) {
                 if (b.getBounds().contains(x, y)) {
                     b.setMouseOver(true);
@@ -140,6 +169,9 @@ public class ToolBar extends Bar {
     }
 
     public void mouseReleased(int x, int y) {
+        // Reset audio effects
+        CLICK_CLIP.setFramePosition(0);
+
         // Reset buttons
         bMenu.resetBooleans();
         bSave.resetBooleans();
@@ -166,14 +198,21 @@ public class ToolBar extends Bar {
     }
 
     private void initButtons() {
-        bMenu = new MyButton("Menu", 10, 650, 100, 30);
-        bSave = new MyButton("Save Level", 10, 680, 100, 30);
+        IntPoint2D pMenuButton = GetElementPoint("MENU_BTN"),
+            pSaveButton = GetElementPoint("SAVE_BTN");
+        int buttonsWidth = GetValue("BTNS_WIDTH"),
+            buttonsHeight = GetValue("BTNS_HEIGHT");
+
+        bMenu = new TextButton("Menu", pMenuButton.x(), pMenuButton.y(), buttonsWidth,
+                               buttonsHeight, COLOR_MAP);
+        bSave = new TextButton("Save", pSaveButton.x(), pSaveButton.y(), buttonsWidth,
+                               buttonsHeight, COLOR_MAP);
 
         // Tile buttons properties
         int width = 50;
         int height = 50;
-        int xStart = 120;
-        int yStart = 650;
+        int xStart = GetElementPoint("FIRST_TILE_BTN").x();
+        int yStart = GetElementPoint("FIRST_TILE_BTN").y();
         int xOffset = (int) (width * 1.1f);
         int id = 0;
 
@@ -204,6 +243,9 @@ public class ToolBar extends Bar {
     }
 
     private void drawButtons(Graphics g) {
+        float buttonsSize = GetFloatValue("BTNS_FONT_SIZE");
+        g.setColor(PRIMARY_COLOR);
+        g.setFont(BASE_FONT.deriveFont(buttonsSize));
         bMenu.draw(g);
         bSave.draw(g);
 
@@ -248,6 +290,22 @@ public class ToolBar extends Bar {
             g.setColor(Color.BLACK);
             g.drawRect(550, 670, 50, 50);
         }
+    }
+
+    private void drawTileDescriptor(Graphics g) {
+        // Background
+        IntPoint2D pBackground = GetElementPoint("TILE_DESCRIPTOR"),
+            pDescription = GetElementPoint("TILE_DESCRIPTION");
+        int backgroundWidth = GetValue("TILE_DESCRIPTOR_WIDTH"),
+            backgroundHeight = GetValue("TILE_DESCRIPTOR_HEIGHT");
+        float fontSize = GetFloatValue("TILE_DESCRIPTOR_FONT_SIZE");
+        g.setColor(ACCENT_THREE);
+        g.fillRect(pBackground.x(), pBackground.y(), backgroundWidth, backgroundHeight);
+
+        // Description
+        g.setFont(HEADER_FONT.deriveFont(fontSize));
+        g.setColor(TEXT_COLOR);
+        g.drawString("description...", pDescription.x(), pDescription.y());
     }
 
     private void initMapButtons(MyButton b, ArrayList<Tile> list, int x, int y, int xOffset, int width, int height,

@@ -14,6 +14,7 @@ import licaza.tdefender.engine.commons.misc.ColorPalette;
 
 import static licaza.tdefender.demo.configs.Colors.*;
 import static licaza.tdefender.demo.configs.MediaSource.*;
+import static licaza.tdefender.demo.configs.UIPositions.Menu.*;
 
 public class Menu extends GameScene implements SceneMethods {
     private static final float BUTTON_FONT_SIZE = 50f;
@@ -30,7 +31,7 @@ public class Menu extends GameScene implements SceneMethods {
     // Set color palette
     private static final Color BG_COLOR = GetColorFromPalette(ColorPalette.BACKGROUND);
     private static final Color PRIMARY_COLOR = GetColorFromPalette(ColorPalette.PRIMARY);
-    private static final Color ACCENT_COLOR = GetColorFromPalette(ColorPalette.ACCENT);
+    private static final Color ACCENT_COLOR = GetColorFromPalette(ColorPalette.ACCENT_ONE);
     private static final Color TEXT_COLOR = GetColorFromPalette(ColorPalette.TEXT);
 
     private static final Map<ColorPalette, Color> colorPalette = GetColorMap();
@@ -47,7 +48,6 @@ public class Menu extends GameScene implements SceneMethods {
     public void render(Graphics g) {
         // Play background music
         menuClip.loop(Clip.LOOP_CONTINUOUSLY); // Loop indefinitely
-        menuClip.start();
 
         // Draw background
         g.setColor(BG_COLOR);
@@ -137,11 +137,11 @@ public class Menu extends GameScene implements SceneMethods {
 
     private void initButtons() {
         int height, width, xPos, yPos, padding;
-        height = 50;
-        width = 120;
-        xPos = 270;
-        yPos = 300;
-        padding = 20;
+        height = GetValue("BTN_HEIGHT");
+        width = GetValue("BTN_WIDTH");
+        xPos = GetHeaderPoint().x();
+        yPos = GetHeaderPoint().y();
+        padding = GetValue("BTNS_PADDING");
 
         bPlaying = new TextButton("Play", xPos, yPos, width, height, colorPalette);
         bEdit = new TextButton("Edit", xPos, yPos + (height + padding), width, height, colorPalette);

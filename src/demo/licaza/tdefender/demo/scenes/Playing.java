@@ -10,20 +10,25 @@ import java.util.function.IntBinaryOperator;
 import java.util.function.IntConsumer;
 import java.util.function.Supplier;
 
+import javax.sound.sampled.Clip;
+
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.commons.objects.PathPoint;
 import licaza.tdefender.engine.commons.actors.Enemy;
 import licaza.tdefender.engine.commons.actors.Tower;
 import licaza.tdefender.engine.commons.api.SceneMethods;
 import licaza.tdefender.engine.commons.misc.IntArrayProvider;
+import licaza.tdefender.engine.core.managers.WaveManager;
 import licaza.tdefender.demo.main.Game;
 import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.ui.ActionBar;
-import licaza.tdefender.demo.managers.EnemyManager;
 
-import licaza.tdefender.engine.core.managers.*;
+import static licaza.tdefender.demo.configs.MediaSource.*;
+import static licaza.tdefender.demo.configs.Managers.*;
 
 public class Playing extends GameScene implements SceneMethods {
+
+    private final static Clip BG_MUSIC = Sounds.GetAudioClip("PLAY");
 
     private int[][] lvl;
     private int mouseX, mouseY, goldTick;
@@ -39,12 +44,12 @@ public class Playing extends GameScene implements SceneMethods {
     private PathPoint start, end;
 
     // "Callbacks" to be called inside managers
-    private final Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
-    private final BiConsumer<Tower, Enemy> shootEnemyConsumer = (t, e) -> shootEnemy(t, e);
-    private final IntConsumer rewardPlayerCallback = (i) -> rewardPlayer(i);
-    private final Runnable removeOneLiveRunnable = () -> removeOneLive();
-    private final IntBinaryOperator getTileTypeOperator = (x, y) -> getTileType(x, y);
     private final IntArrayProvider typeArrayProvider = () -> game.getTileManager().getTypeArray();
+    private final Supplier<List<Enemy>> enemiesSupplier = () -> enemyManager.getEnemies();
+    private final BiConsumer<Tower, Enemy> shootEnemyConsumer = this::shootEnemy;
+    private final IntConsumer rewardPlayerCallback = this::rewardPlayer;
+    private final Runnable removeOneLiveRunnable = this::removeOneLive;
+    private final IntBinaryOperator getTileTypeOperator = this::getTileType;
 
     public Playing(Game game) {
         super(game);
@@ -148,6 +153,8 @@ public class Playing extends GameScene implements SceneMethods {
 
     @Override
     public void render(Graphics g) {
+        // Make background music loop during gameplay
+        BG_MUSIC.loop(Clip.LOOP_CONTINUOUSLY);
         drawLevel(g);
 
         actionBar.draw(g);

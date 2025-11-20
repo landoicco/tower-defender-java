@@ -40,7 +40,7 @@ public class TextButton {
 
         if (colorPalette != null) {
             if (mouseOver)
-                g.setColor(colorPalette.get(ColorPalette.ACCENT));
+                g.setColor(colorPalette.get(ColorPalette.ACCENT_ONE));
             else
                 g.setColor(colorPalette.get(ColorPalette.PRIMARY));
 
@@ -62,6 +62,10 @@ public class TextButton {
         this.mousePressed = mousePressed;
     }
 
+    public void setText(String t) {
+        this.text = t;
+    }
+
     public void resetBooleans() {
         mouseOver = false;
         mousePressed = false;
@@ -69,6 +73,10 @@ public class TextButton {
 
     public Rectangle getBounds() {
         return bounds;
+    }
+
+    public boolean isMouseOver() {
+        return mouseOver;
     }
 
     private void initBounds() {

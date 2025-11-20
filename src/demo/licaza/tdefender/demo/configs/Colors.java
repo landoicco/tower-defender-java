@@ -16,7 +16,7 @@ public class Colors {
     // Cozy theme
     private static final Color BACKGROUND = Color.decode("#D3D3D3");
     private static final Color PRIMARY = Color.decode("#C47E5A");
-    private static final Color ACCENT = Color.decode("#FFF8F0");
+    private static final Color ACCENT_ONE = Color.decode("#FFF8F0");
     private static final Color ACCENT_TWO = Color.decode("#A8B88C");
     private static final Color ACCENT_THREE = Color.decode("#D4C07A");
     private static final Color TEXT = Color.decode("#3E322A");
@@ -27,7 +27,9 @@ public class Colors {
         colorMap = Map.of(
                 ColorPalette.BACKGROUND, BACKGROUND,
                 ColorPalette.PRIMARY, PRIMARY,
-                ColorPalette.ACCENT, ACCENT,
+                ColorPalette.ACCENT_ONE, ACCENT_ONE,
+                ColorPalette.ACCENT_TWO, ACCENT_TWO,
+                ColorPalette.ACCENT_THREE, ACCENT_THREE,
                 ColorPalette.TEXT, TEXT);
     }
 
@@ -35,7 +37,9 @@ public class Colors {
         return switch (c) {
             case BACKGROUND -> BACKGROUND;
             case PRIMARY -> PRIMARY;
-            case ACCENT -> ACCENT;
+            case ACCENT_ONE -> ACCENT_ONE;
+            case ACCENT_TWO -> ACCENT_TWO;
+            case ACCENT_THREE -> ACCENT_THREE;
             case TEXT -> TEXT;
         };
     }
