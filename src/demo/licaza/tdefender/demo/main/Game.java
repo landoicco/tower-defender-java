@@ -29,7 +29,7 @@ public class Game extends
 
     public Game() {
         // from parent 'Game' class
-        super("Cannons... fuck yeah!");
+        super("Age of Aliens");
         super.setIconImage(FAVICON);
 
         setUpdateGameCallback(updateGameCallback);

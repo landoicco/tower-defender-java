@@ -10,7 +10,7 @@ import javax.sound.sampled.*;
 
 import licaza.tdefender.demo.actors.enemies.*;
 import licaza.tdefender.demo.configs.Constants.*;
-import licaza.tdefender.demo.configs.tiles.Tilemap;
+import licaza.tdefender.demo.configs.tiles.*;
 
 import licaza.tdefender.engine.commons.objects.PathPoint;
 import licaza.tdefender.engine.commons.objects.Tile;
@@ -133,26 +133,41 @@ public final class Managers {
         extends licaza.tdefender.engine.core.managers.TileManager {
 
         public final static String TILE_ATLAS_PATH = "default_level";
+        private final static BufferedImage ATLAS = MediaSource.Sprites.GetSprite("GROUNDS");
 
-        private Tilemap tilemap;
+        private SpriteSheet tSand; //, tGrass, tStone, tIce, tChalk;
+        private Map<String, SpriteSheet> tilemap;
 
         public TileManager() {
             super(TILE_ATLAS_PATH);
-            tilemap = new Tilemap();
 
             createTiles();
         }
 
-         public void createTiles() {
-            int id = 0;
-            tiles.addAll(tilemap.getAllTiles());
+        public void createTiles() { // Rename to loadSpritesheet
+            tSand = new Sand(this::getSprite);
+            // tGrass = new Grass(this::getSprite);
+            // tStone = new Stone(this::getSprite);
+            // tIce = new Ice(this::getSprite);
+            // tChalk = new Chalk(this::getSprite);
+
+
+            // By design, tilemap is inmmutable
+            tilemap = Map.of("SAND", tSand);
+
+            System.out.println("Total tiles loaded: " + tilemap
+                               .values()
+                               .stream()
+                               .flatMap(SpriteSheet::tiles)
+                               .count());
         }
 
-        // Getters
-
-        public List<Tile> getSandTiles() {
-            return tilemap.getSandTiles();
+        public Map<String, SpriteSheet> tilemap() {
+            return tilemap;
         }
 
+        private BufferedImage getSprite(Integer x, Integer y) {
+            return ATLAS.getSubimage((x * 32), (y * 32), 32, 32);
+        }
     }
 }
