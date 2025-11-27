@@ -18,7 +18,7 @@ public abstract class TileManager {
         private final String atlasPath;
         private BufferedImage atlas;
 
-        protected final List<Tile> tiles;
+        protected List<Tile> tiles;
 
         public TileManager(String atlasPath) {
                 this.atlasPath = atlasPath;

@@ -8,7 +8,7 @@ import java.util.stream.*;
 /** By design, SpriteSheet should be inmmutable once created! */
 public abstract class SpriteSheet {
 
-    private final Map<String, List<Tile>> spritesheet;
+    private Map<String, List<Tile>> spritesheet;
 
     protected abstract void init();
 

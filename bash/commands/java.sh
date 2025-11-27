@@ -80,6 +80,7 @@ build_engine_tools() {
         ${TOOLS_PATH}/math/**.java \
         ${TOOLS_PATH}/helpers/**.java \
         ${TOOLS_PATH}/gui/**.java \
+        ${TOOLS_PATH}/gui/bar/**.java \
         src/tools/module-info.java 
 
     jar -cvf src/mods/${TOOLS_MODULE}.jar -C src/tools/target .

@@ -4,16 +4,19 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+// import java.util.HashMap;
+// import java.util.Map;
 
 import javax.sound.sampled.Clip;
 
 import licaza.tdefender.engine.tools.helpers.LoadSave;
 import licaza.tdefender.engine.tools.gui.TextButton;
 import licaza.tdefender.engine.tools.gui.MyButton;
+import licaza.tdefender.engine.tools.gui.bar.TileButtonsRow;
+import licaza.tdefender.engine.tools.gui.bar.Panel;
 import licaza.tdefender.engine.commons.objects.Tile;
+import licaza.tdefender.engine.commons.objects.SpriteSheet;
 import licaza.tdefender.engine.commons.misc.ColorPalette;
 import licaza.tdefender.engine.commons.misc.IntPoint2D;
 
@@ -39,6 +42,9 @@ public final class ToolBar extends Bar {
     private static final Font BASE_FONT = Fonts.GetBaseFont();
     private static final Font HEADER_FONT = Fonts.GetHeaderFont();
 
+   // private final List<TileButtonsRow> tileButtonsRows;
+
+    private Panel tbrPanel;
     private TextButton bMenu, bSave;
     private MyButton bPathStart, bPathEnd;
 
@@ -58,8 +64,9 @@ public final class ToolBar extends Bar {
 
         this.editing = editing;
 
-        initPathImages();
-        initButtons();
+        // initPathImages();
+        // initButtons();
+        initTileButtonsPanel();
     }
 
     public void draw(Graphics g) {
@@ -67,8 +74,9 @@ public final class ToolBar extends Bar {
         g.fillRect(x, y, width, height);
 
         drawTileDescriptor(g);
-        drawNewButtons(g);
+        // drawNewButtons(g);
         // drawButtons(g);
+        tbrPanel.draw(g);
     }
 
     public BufferedImage getStartPathImg() {
@@ -201,6 +209,35 @@ public final class ToolBar extends Bar {
         editing.setSelectedTile(selectedTile);
     }
 
+    private final void initTileButtonsPanel() {
+        IntPoint2D pos = GetElementPoint("FIRST_TILE_BTN");
+
+        // get tiles from TileManager
+        Map<String, SpriteSheet> spritesheetMap = editing.getGame().getTileManager().tilemap();
+
+        // init spritesheets
+        SpriteSheet s1 = spritesheetMap.get("SAND");
+
+        // Create tbr's
+        TileButtonsRow tbr = new TileButtonsRow(s1, pos, COLOR_MAP, 32);
+
+        // Build Panel
+        tbrPanel = new Panel.Builder(pos)
+            .setTileButtonsOffsets(20, 20)
+            .addTileButtonsRow(tbr)
+            .build();
+
+        String stats = """
+            TBR
+              defined?: %s
+
+            Panel
+              defined? %s
+            """;
+
+       System.out.printf(stats, tbr, tbrPanel);
+    }
+
     private void initButtons() {
         IntPoint2D pMenuButton = GetElementPoint("MENU_BTN"),
             pSaveButton = GetElementPoint("SAVE_BTN");
@@ -213,107 +250,12 @@ public final class ToolBar extends Bar {
                                buttonsHeight, COLOR_MAP);
 
         // Tile buttons properties
-        int width = 50;
-        int height = 50;
-        int xStart = GetElementPoint("FIRST_TILE_BTN").x();
-        int yStart = GetElementPoint("FIRST_TILE_BTN").y();
-        int xOffset = (int) (width * 1.1f);
-        int id = 0;
-
-        bNewSand = new MyButton("Sand", xStart + xOffset, yStart, width, height, id++);
-        bNewGrass = new MyButton("Grass", xStart + (xOffset * 2), yStart, width, height, id++);
-        bNewStone = new MyButton("Stone", xStart + (xOffset * 3), yStart, width, height, id++);
-        bNewIce = new MyButton("Ice", xStart + (xOffset * 4), yStart, width, height, id++);
-        bNewChalk = new MyButton("Chalk", xStart + (xOffset * 5), yStart, width, height, id++);
-
-        // // Init basic tile buttons
-        // bGrass = new MyButton("Grass", xStart, yStart, width, height, id++);
-        // bWater = new MyButton("Water", xStart + xOffset, yStart, width, height, id++);
-
-        // // Init tile ArrayLists
-        // initMapButtons(bPlainRoads, editing.getGame().getTileManager().getPlainRoads(), xStart, yStart, xOffset, width,
-        //         height, id++);
-        // initMapButtons(bCornerRoads, editing.getGame().getTileManager().getCornerRoads(), xStart, yStart, xOffset,
-        //         width, height, id++);
-        // initMapButtons(bWaterCorners, editing.getGame().getTileManager().getCorners(), xStart, yStart, xOffset, width,
-        //         height, id++);
-        // initMapButtons(bWaterCoasts, editing.getGame().getTileManager().getCoasts(), xStart, yStart, xOffset, width,
-        //         height, id++);
-        // initMapButtons(bWaterIslands, editing.getGame().getTileManager().getIslands(), xStart, yStart, xOffset, width,
-        //         height, id++);
-
-        // // Init path definer buttons
-        // bPathStart = new MyButton("Start", xStart, yStart + xOffset, width, height, id++);
-        // bPathEnd = new MyButton("End", xStart + xOffset, yStart + xOffset, width, height, id++);
-    }
-
-    private void initPathImages() {
-        pathStart = LoadSave.GetSpriteAtlas("spriteatlas_legacy").getSubimage(7 * 32, 2 * 32, 32, 32);
-        pathEnd = LoadSave.GetSpriteAtlas("spriteatlas_legacy").getSubimage(8 * 32, 2 * 32, 32, 32);
-    }
-
-    private void drawNewButtons(Graphics g) {
-        float buttonsSize = GetFloatValue("BTNS_FONT_SIZE");
-        g.setColor(PRIMARY_COLOR);
-        g.setFont(BASE_FONT.deriveFont(buttonsSize));
-        bMenu.draw(g);
-        bSave.draw(g);
-
-        drawBasicTileButtons(g, bNewGrass);
-        drawBasicTileButtons(g, bNewSand);
-        drawBasicTileButtons(g, bNewStone);
-        drawBasicTileButtons(g, bNewIce);
-        drawBasicTileButtons(g, bNewChalk);
-    }
-
-    private void drawButtons(Graphics g) {
-        float buttonsSize = GetFloatValue("BTNS_FONT_SIZE");
-        g.setColor(PRIMARY_COLOR);
-        g.setFont(BASE_FONT.deriveFont(buttonsSize));
-        bMenu.draw(g);
-        bSave.draw(g);
-
-        // Draw basic tile buttons
-        drawBasicTileButtons(g, bGrass);
-        drawBasicTileButtons(g, bWater);
-
-        // Draw Map tile buttons
-        drawMapButtons(g);
-        drawSelectedTile(g);
-
-        // Draw path definer buttons
-        drawPathButton(g, bPathStart, pathStart);
-        drawPathButton(g, bPathEnd, pathEnd);
-    }
-
-    private void drawPathButton(Graphics g, MyButton b, BufferedImage img) {
-        g.drawImage(img, b.x, b.y, b.width, b.height, null);
-        drawButtonFeedback(g, b);
-    }
-
-    private void drawBasicTileButtons(Graphics g, MyButton b) {
-        g.drawImage(getButtonImage(b.id), b.x, b.y, b.width, b.height, null);
-        drawButtonFeedback(g, b);
-    }
-
-    private void drawMapButtons(Graphics g) {
-
-        for (Map.Entry<MyButton, ArrayList<Tile>> entry : tilesMap.entrySet()) {
-            MyButton b = entry.getKey();
-            BufferedImage img = entry.getValue().get(0).getSprite();
-
-            g.drawImage(img, b.x, b.y, b.width, b.height, null);
-
-            drawButtonFeedback(g, b);
-        }
-    }
-
-    private void drawSelectedTile(Graphics g) {
-        if (selectedTile != null) {
-            g.drawImage(selectedTile.getSprite(), 550, 670, 50, 50, null);
-            g.setColor(Color.BLACK);
-            g.drawRect(550, 670, 50, 50);
-        }
+        // int width = 50;
+        // int height = 50;
+        // int xStart = GetElementPoint("FIRST_TILE_BTN").x();
+        // int yStart = GetElementPoint("FIRST_TILE_BTN").y();
+        // int xOffset = (int) (width * 1.1f);
+        // int id = 0;
     }
 
     private void drawTileDescriptor(Graphics g) {
@@ -330,12 +272,6 @@ public final class ToolBar extends Bar {
         g.setFont(HEADER_FONT.deriveFont(fontSize));
         g.setColor(TEXT_COLOR);
         g.drawString("description...", pDescription.x(), pDescription.y());
-    }
-
-    private void initMapButtons(MyButton b, ArrayList<Tile> list, int x, int y, int xOffset, int width, int height,
-            int id) {
-        b = new MyButton("", (x + xOffset * id), y, width, height, id);
-        tilesMap.put(b, list);
     }
 
     private void saveLevel() {

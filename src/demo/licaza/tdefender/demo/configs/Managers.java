@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.function.*;
 import java.util.concurrent.*;
 import java.util.*;
+import java.util.stream.*;
 import java.io.File;
 
 import javax.sound.sampled.*;
@@ -13,6 +14,7 @@ import licaza.tdefender.demo.configs.Constants.*;
 import licaza.tdefender.demo.configs.tiles.*;
 
 import licaza.tdefender.engine.commons.objects.PathPoint;
+import licaza.tdefender.engine.commons.objects.SpriteSheet;
 import licaza.tdefender.engine.commons.objects.Tile;
 import licaza.tdefender.engine.commons.misc.IntArrayProvider;
 import licaza.tdefender.engine.commons.actors.*;
@@ -154,6 +156,7 @@ public final class Managers {
 
             // By design, tilemap is inmmutable
             tilemap = Map.of("SAND", tSand);
+            super.tiles = tSand.tiles().collect(Collectors.toList());
 
             System.out.println("Total tiles loaded: " + tilemap
                                .values()

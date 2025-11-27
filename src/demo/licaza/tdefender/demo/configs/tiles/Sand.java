@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.util.function.BiFunction;
 
 import licaza.tdefender.engine.commons.objects.Tile;
+import licaza.tdefender.engine.commons.objects.SpriteSheet;
 
 public final class Sand extends SpriteSheet {
     private final BiFunction<Integer, Integer, BufferedImage> spriteSource;
