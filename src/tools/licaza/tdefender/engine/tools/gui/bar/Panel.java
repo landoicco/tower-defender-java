@@ -28,11 +28,11 @@ public final class Panel {
     public final Stream<MyButton> tileButtons() {
         List<Stream<MyButton>> list = new ArrayList<>();
 
-        for (var e : b.rows) {
+        for (TileButtonsRow e : b.rows) {
             list.add(e.tileButtons());
         }
 
-       System.out.println("Rows from Panel " + list);
+       System.out.println("Rows from Panel " + list.size());
 
        return list.stream().flatMap(s -> s);
     }

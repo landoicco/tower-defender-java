@@ -36,7 +36,7 @@ public final class Sand extends SpriteSheet {
 
     protected void init() {
         // Add single tile
-        spritesheet.put("PLAIN", List.of(SAND = new Tile(spriteSource.apply(0, 2), id++, 0)));
+        spritesheet.put("PLAIN", List.of(SAND = new Tile(spriteSource.apply(2, 0), id++, 0)));
 
         initCornedTiles();
         initFlatTiles();
