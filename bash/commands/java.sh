@@ -31,6 +31,7 @@ build_demo() {
         --module-path src/mods \
         -d src/demo/target \
         ${DEMO_PATH}/configs/**.java \
+        ${DEMO_PATH}/configs/tiles/**.java \
         ${DEMO_PATH}/actors/enemies/**.java \
         ${DEMO_PATH}/main/**.java \
         ${DEMO_PATH}/scenes/**.java \
@@ -79,6 +80,7 @@ build_engine_tools() {
         ${TOOLS_PATH}/math/**.java \
         ${TOOLS_PATH}/helpers/**.java \
         ${TOOLS_PATH}/gui/**.java \
+        ${TOOLS_PATH}/gui/bar/**.java \
         src/tools/module-info.java 
 
     jar -cvf src/mods/${TOOLS_MODULE}.jar -C src/tools/target .
